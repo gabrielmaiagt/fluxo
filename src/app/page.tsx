@@ -78,8 +78,8 @@ export default function HomePage() {
                 Grupo de Networking &gt;
               </Link>
             </Button>
+            <AnimatedScrollIndicator />
         </AnimatedSection>
-        <AnimatedScrollIndicator />
       </header>
       
       <main>
