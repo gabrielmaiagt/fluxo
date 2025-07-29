@@ -1,3 +1,4 @@
+
 import type {Config} from 'tailwindcss';
 
 export default {
@@ -102,6 +103,7 @@ export default {
       },
       boxShadow: {
         'red-glow': '0 0 20px 0px hsl(var(--destructive) / 0.5)',
+        'blue-glow': '0 0 20px 0px hsl(200 100% 50% / 0.5)',
       },
     },
   },

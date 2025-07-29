@@ -1,3 +1,4 @@
+
 import { AnimatedSection } from '../animated-section';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Check } from 'lucide-react';
@@ -23,9 +24,9 @@ export function ComparisonSection() {
               </CardHeader>
               <CardContent>
                 <ul className="space-y-3">
-                  <CardFeature>Pra quem quer estrutura pronta</CardFeature>
-                  <CardFeature>Rápido de aplicar</CardFeature>
-                  <CardFeature>Ideal pra começar</CardFeature>
+                  <CardFeature>Ideal pra quem quer começar</CardFeature>
+                  <CardFeature>Estrutura pronta</CardFeature>
+                  <CardFeature>Valor acessível</CardFeature>
                 </ul>
               </CardContent>
             </Card>
@@ -37,9 +38,9 @@ export function ComparisonSection() {
               </CardHeader>
               <CardContent>
                 <ul className="space-y-3">
-                    <CardFeature>Pra quem quer escalar com IA</CardFeature>
-                    <CardFeature>Criativos gerados automaticamente</CardFeature>
-                    <CardFeature>Ideal pra campanhas avançadas</CardFeature>
+                    <CardFeature>Ideal pra quem quer escalar com IA</CardFeature>
+                    <CardFeature>Criativos prontos automaticamente</CardFeature>
+                    <CardFeature>Alto nível de profundidade e performance</CardFeature>
                 </ul>
               </CardContent>
             </Card>

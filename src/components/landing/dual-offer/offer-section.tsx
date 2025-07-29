@@ -1,3 +1,4 @@
+
 import { Check } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
@@ -37,12 +38,13 @@ export function OfferSection({
         <AnimatedSection animation="zoom-in" delay={200}>
           <div
             className={cn(
-              'mx-auto max-w-3xl rounded-xl border-2 bg-background/50 p-6 shadow-red-glow md:p-8',
-              borderColor
+              'mx-auto max-w-3xl rounded-xl border-2 bg-background/50 p-6 shadow-lg md:p-8',
+              borderColor,
+              borderColor === 'border-destructive' ? 'shadow-red-glow' : 'shadow-blue-glow'
             )}
           >
             <div className="text-center">
-              <h2 className="mb-4 text-sm font-bold uppercase tracking-widest text-destructive">
+              <h2 className="mb-4 text-sm font-bold uppercase tracking-widest text-white/90">
                 {header}
               </h2>
               <h3 className="text-3xl font-bold text-white"><span className="mr-2">{emoji}</span>{title}</h3>
@@ -55,8 +57,8 @@ export function OfferSection({
             <ul className="mt-8 space-y-3">
               {features.map((feature, index) => (
                 <li key={index} className="flex items-start gap-3">
-                  <Check className="mt-1 h-5 w-5 shrink-0 text-destructive" />
-                  <span className="text-white/90">{feature}</span>
+                  <span className='mt-1'>{feature.split(' ')[0]}</span>
+                  <span className="text-white/90">{feature.substring(feature.indexOf(' ') + 1)}</span>
                 </li>
               ))}
             </ul>

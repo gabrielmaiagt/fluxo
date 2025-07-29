@@ -1,3 +1,4 @@
+
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 
@@ -23,7 +24,7 @@ export function Footer() {
     <footer className="border-t border-border/20 bg-[#0b0b0b] py-8">
       <div className="container mx-auto flex flex-col items-center justify-between px-4 sm:flex-row">
         <div className="text-center text-sm text-white/60 sm:text-left">
-          <p> &copy; {new Date().getFullYear()} AdCraft. Todos os direitos reservados. </p>
+          <p> &copy; {new Date().getFullYear()} Gabriel Maia. Todos os direitos reservados. </p>
           <div className="mt-2 flex justify-center gap-4 sm:justify-start">
             <Link href="#" className="hover:text-white transition-colors">Política de Privacidade</Link>
             <Link href="#" className="hover:text-white transition-colors">Termos de Uso</Link>
@@ -31,17 +32,17 @@ export function Footer() {
         </div>
         <div className="mt-4 flex items-center gap-2 sm:mt-0">
           <Button variant="ghost" size="icon" asChild>
-            <Link href="https://instagram.com/seuperfil" aria-label="Instagram">
+            <Link href="https://instagram.com/gabrielmaiagt" aria-label="Instagram">
               <InstagramIcon className="h-5 w-5 text-white/70 transition-colors hover:text-white" />
             </Link>
           </Button>
           <Button variant="ghost" size="icon" asChild>
-            <Link href="https://tiktok.com/@seuperfil" aria-label="TikTok">
+            <Link href="https://tiktok.com/@gabrielmaiagt" aria-label="TikTok">
               <TikTokIcon className="h-5 w-5 text-white/70 transition-colors hover:text-white" />
             </Link>
           </Button>
           <Button variant="ghost" size="icon" asChild>
-            <Link href="https://wa.me/seunumero" aria-label="WhatsApp">
+            <Link href="https://wa.me/71991511702" aria-label="WhatsApp">
               <WhatsAppIcon className="h-5 w-5 text-white/70 transition-colors hover:text-white" />
             </Link>
           </Button>
