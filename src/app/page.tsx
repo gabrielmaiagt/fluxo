@@ -77,8 +77,11 @@ export default function HomePage() {
                 Grupo de Networking &gt;
               </Link>
             </Button>
+            
+            <div className="mt-6">
+                <AnimatedScrollIndicator />
+            </div>
 
-            <AnimatedScrollIndicator />
         </AnimatedSection>
       </header>
       
@@ -93,18 +96,18 @@ export default function HomePage() {
                 price="R$27"
                 oldPrice="R$197"
                 features={[
-                    "Estrutura testada em campanhas de 6 a 9 dígitos",
-                    "Método validado com criativos de Filamon, Derick, Kobata e gringos",
-                    "Espionagem com palavras exatas que ativam desejo no lead",
-                    "11 ângulos de resposta direta prontos pra copiar",
-                    "Arquivo tático com criativos para TikTok, Ads, VSL e Low Ticket",
-                    "Playbook de Mineração + Modelagem Visual Profissional",
-                    "BÔNUS: Acesso ao grupo privado com criadores e copywriters",
-                    "Garantia: O que entrar de novo, você recebe",
+                    "✅ Estrutura testada em campanhas de 6 a 9 dígitos",
+                    "✅ Método validado com criativos de Filamon, Derick, Kobata e gringos",
+                    "✅ Espionagem com palavras exatas que ativam desejo no lead",
+                    "✅ 11 ângulos de resposta direta prontos pra copiar",
+                    "✅ Arquivo tático com criativos para TikTok, Ads, VSL e Low Ticket",
+                    "✅ Playbook de Mineração + Modelagem Visual Profissional",
+                    "✅ BÔNUS: Acesso ao grupo privado com criadores e copywriters",
+                    "🛡️ Garantia: O que entrar de novo, você recebe",
                 ]}
                 ctaText="🚀 Comprar por R$27"
                 ctaLink="#"
-                emoji="✅"
+                emoji=""
                 borderColor="border-destructive"
             />
         </AnimatedSection>
@@ -119,16 +122,16 @@ export default function HomePage() {
                 price="R$147"
                 oldPrice="R$697"
                 features={[
-                    "IA com estrutura testada em funis 9D",
-                    "Criativos validados de Derick, Filamon, Kobata e gringos",
-                    "Geração automática com tensão emocional",
-                    "Atualizações com criativos que estão rodando no mercado agora",
-                    "Grupo fechado pra quem opera com o MAIA",
-                    "PDF Receita Avançada + Aula Tática de Copy",
+                    "🤖 IA com estrutura testada em funis 9D",
+                    "🧠 Criativos validados de Derick, Filamon, Kobata e gringos",
+                    "🎯 Geração automática com tensão emocional",
+                    "📈 Atualizações com criativos que estão rodando no mercado agora",
+                    "🔒 Grupo fechado pra quem opera com o MAIA",
+                    "🧾 PDF Receita Avançada + Aula Tática de Copy",
                 ]}
                 ctaText="🚀 Quero o MAIA.DRX Agora"
                 ctaLink="#"
-                emoji="🤖"
+                emoji=""
                 borderColor="border-destructive"
             />
         </AnimatedSection>

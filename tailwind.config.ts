@@ -102,7 +102,7 @@ export default {
         'accordion-up': 'accordion-up 0.2s ease-out',
       },
       boxShadow: {
-        'red-glow': '0 0 20px 0px hsl(var(--destructive) / 0.5)',
+        'red-glow': '0 0 12px 0px hsl(var(--destructive) / 0.6)',
         'blue-glow': '0 0 20px 0px hsl(200 100% 50% / 0.5)',
       },
     },

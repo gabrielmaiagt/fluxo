@@ -1,3 +1,4 @@
+
 "use client";
 
 import { type ReactNode, useEffect, useRef, useState } from 'react';
@@ -60,7 +61,7 @@ export function AnimatedSection({ children, className, animation = 'fade-up', de
     <div
       ref={ref}
       className={cn(
-        'transition-all duration-700 ease-out',
+        'transition-all duration-600 ease-out',
         isVisible ? visibleClasses[animation] : animationClasses[animation],
         className
       )}

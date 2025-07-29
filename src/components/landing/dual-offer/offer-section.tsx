@@ -37,9 +37,9 @@ export function OfferSection({
       <div className="container mx-auto px-4">
           <div
             className={cn(
-              'mx-auto max-w-3xl rounded-xl border-2 bg-background/50 p-6 shadow-lg md:p-8',
+              'mx-auto max-w-3xl rounded-lg border-2 bg-gradient-to-b from-[#0b0b0b] to-[#111111] p-6 shadow-lg md:p-8 transition-all duration-300',
               borderColor,
-              borderColor === 'border-destructive' ? 'shadow-red-glow' : 'shadow-blue-glow'
+              borderColor === 'border-destructive' ? 'shadow-red-glow hover:shadow-red-500/80' : 'shadow-blue-glow hover:shadow-blue-500/80'
             )}
           >
             <div className="text-center">
@@ -54,19 +54,23 @@ export function OfferSection({
               </div>
             </div>
             <ul className="mt-8 space-y-3">
-              {features.map((feature, index) => (
-                <li key={index} className="flex items-start gap-3">
-                  <span className='mt-1'>{feature.split(' ')[0]}</span>
-                  <span className="text-white/90">{feature.substring(feature.indexOf(' ') + 1)}</span>
-                </li>
-              ))}
+              {features.map((feature, index) => {
+                const icon = feature.split(' ')[0];
+                const text = feature.substring(feature.indexOf(' ') + 1);
+                return (
+                  <li key={index} className="flex items-start gap-3">
+                    <span className="mt-1 text-green-400">{icon}</span>
+                    <span className="text-white/90">{text}</span>
+                  </li>
+                );
+              })}
             </ul>
             <div className="mt-10 text-center">
               <Button
                 asChild
                 size="lg"
                 variant="destructive"
-                className="h-16 w-full max-w-md text-xl font-bold"
+                className="h-16 w-full max-w-md text-xl font-bold shadow-[inset_0_-2px_4px_rgba(0,0,0,0.4)]"
               >
                 <Link href={ctaLink}>{ctaText}</Link>
               </Button>
