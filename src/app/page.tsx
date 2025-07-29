@@ -96,14 +96,13 @@ export default function HomePage() {
                 price="R$27"
                 oldPrice="R$197"
                 features={[
-                    "✅ Estrutura testada em campanhas de 6 a 9 dígitos",
-                    "✅ Método validado com criativos de Filamon, Derick, Kobata e gringos",
-                    "✅ Espionagem com palavras exatas que ativam desejo no lead",
-                    "✅ 11 ângulos de resposta direta prontos pra copiar",
-                    "✅ Arquivo tático com criativos para TikTok, Ads, VSL e Low Ticket",
-                    "✅ Playbook de Mineração + Modelagem Visual Profissional",
-                    "✅ BÔNUS: Acesso ao grupo privado com criadores e copywriters",
-                    "🛡️ Garantia: O que entrar de novo, você recebe",
+                  "✅ Aprenda a validar criativos em 24 horas, criados do zero ou modelados",
+                  "✅ Estrutura de criativos validados de Filemon, Derick, Kobata e Anthony (Copywritters de 9 Digitos)",
+                  "✅ Material pronto pra escalar",
+                  "✅ Arquivo com ângulos + anúncios prontos pra modelar",
+                  "✅ Video Aula explicando como fazer o criativo minimo viavel",
+                  "✅ Suporte no whatsapp para tirar suas dúvidas",
+                  "✅ Acesso ao grupo privado + garantia vitalícia"
                 ]}
                 ctaText="🚀 Comprar por R$27"
                 ctaLink="https://pay.cakto.com.br/u4zrtit_469894"
