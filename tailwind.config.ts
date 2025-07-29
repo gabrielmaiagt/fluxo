@@ -8,6 +8,13 @@ export default {
     './src/app/**/*.{js,ts,jsx,tsx,mdx}',
   ],
   theme: {
+    container: {
+      center: true,
+      padding: "2rem",
+      screens: {
+        "2xl": "1400px",
+      },
+    },
     extend: {
       fontFamily: {
         body: ['Inter', 'sans-serif'],
@@ -95,7 +102,6 @@ export default {
       },
       boxShadow: {
         'red-glow': '0 0 20px 0px hsl(var(--destructive) / 0.5)',
-        'blue-glow': '0 0 25px 0px hsl(var(--primary) / 0.3)',
       },
     },
   },
