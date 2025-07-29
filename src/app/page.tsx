@@ -38,7 +38,7 @@ const AnimatedScrollIndicator = () => {
     if (!isVisible) return null;
 
     return (
-        <div className="absolute bottom-10 left-1/2 -translate-x-1/2 animate-bounce">
+        <div className="animate-bounce">
             <p style={{ fontFamily: "'VT323', monospace", color: '#fede8d' }} className="text-lg">
                 Role para ver mais ↓
             </p>
@@ -55,13 +55,13 @@ export default function HomePage() {
       
       {/* 1. PRIMEIRA DOBRA – Branding */}
       <header className="relative flex min-h-screen flex-col items-center justify-center p-4 text-center">
-        <AnimatedSection className="flex flex-col items-center justify-center gap-y-8">
-            <div>
+        <AnimatedSection className="flex flex-col items-center justify-center">
+            <div className="mb-6">
               <h1 className="text-4xl font-bold md:text-5xl">Gabriel Maia</h1>
               <p className="mt-2 text-lg text-white/80">Tráfego Direto, Criativos e IA</p>
             </div>
 
-            <div className="flex items-center gap-4">
+            <div className="mb-8 flex items-center gap-4">
               <Link href="https://instagram.com/gabrielmaiagt" aria-label="Instagram" target="_blank" rel="noopener noreferrer">
                 <InstagramIcon className="h-6 w-6 text-white/80 transition-colors hover:text-white" />
               </Link>
@@ -73,11 +73,12 @@ export default function HomePage() {
               </Link>
             </div>
           
-            <Button asChild size="lg" variant="destructive" className="w-full max-w-xs text-base font-bold">
+            <Button asChild size="lg" variant="destructive" className="w-full max-w-xs text-base font-bold mb-6">
               <Link href="https://chat.whatsapp.com/Khh4Ulvu9elLgZvHjGWItX" target="_blank" rel="noopener noreferrer">
                 Grupo de Networking &gt;
               </Link>
             </Button>
+
             <AnimatedScrollIndicator />
         </AnimatedSection>
       </header>
