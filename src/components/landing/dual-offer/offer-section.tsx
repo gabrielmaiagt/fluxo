@@ -35,7 +35,6 @@ export function OfferSection({
   return (
     <section id={id} className="py-12 md:py-16">
       <div className="container mx-auto px-4">
-        <AnimatedSection animation="zoom-in" delay={200}>
           <div
             className={cn(
               'mx-auto max-w-3xl rounded-xl border-2 bg-background/50 p-6 shadow-lg md:p-8',
@@ -73,7 +72,6 @@ export function OfferSection({
               </Button>
             </div>
           </div>
-        </AnimatedSection>
       </div>
     </section>
   );

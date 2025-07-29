@@ -4,7 +4,6 @@
 import { AnimatedSection } from '@/components/landing/animated-section';
 import { Button } from '@/components/ui/button';
 import { ComparisonSection } from '@/components/landing/dual-offer/comparison';
-import { DualHero } from '@/components/landing/dual-offer/dual-hero';
 import { Footer } from '@/components/landing/dual-offer/footer';
 import { OfferSection } from '@/components/landing/dual-offer/offer-section';
 import Link from 'next/link';
@@ -83,55 +82,56 @@ export default function HomePage() {
         </AnimatedSection>
       </header>
       
-      <main>
-        {/* 2. DOBRA DE INTRODUÇÃO – Headline Geral */}
-        <DualHero />
-
+      <main className="pt-8">
         {/* 3. BLOCO 1 — Receita de Criativos */}
-        <OfferSection
-            id="receita"
-            header="🔥 Mais baixado essa semana"
-            title="Receita de Criativos"
-            subtitle="Acesso vitalício + atualizações incluídas"
-            price="R$27"
-            oldPrice="R$197"
-            features={[
-                "Estrutura testada em campanhas de 6 a 9 dígitos",
-                "Método validado com criativos de Filamon, Derick, Kobata e gringos",
-                "Espionagem com palavras exatas que ativam desejo no lead",
-                "11 ângulos de resposta direta prontos pra copiar",
-                "Arquivo tático com criativos para TikTok, Ads, VSL e Low Ticket",
-                "Playbook de Mineração + Modelagem Visual Profissional",
-                "BÔNUS: Acesso ao grupo privado com criadores e copywriters",
-                "Garantia: O que entrar de novo, você recebe",
-            ]}
-            ctaText="🚀 Comprar por R$27"
-            ctaLink="#"
-            emoji="✅"
-            borderColor="border-destructive"
-        />
+        <AnimatedSection animation="zoom-in" delay={0}>
+            <OfferSection
+                id="receita"
+                header="🔥 Mais baixado essa semana"
+                title="Receita de Criativos"
+                subtitle="Acesso vitalício + atualizações incluídas"
+                price="R$27"
+                oldPrice="R$197"
+                features={[
+                    "Estrutura testada em campanhas de 6 a 9 dígitos",
+                    "Método validado com criativos de Filamon, Derick, Kobata e gringos",
+                    "Espionagem com palavras exatas que ativam desejo no lead",
+                    "11 ângulos de resposta direta prontos pra copiar",
+                    "Arquivo tático com criativos para TikTok, Ads, VSL e Low Ticket",
+                    "Playbook de Mineração + Modelagem Visual Profissional",
+                    "BÔNUS: Acesso ao grupo privado com criadores e copywriters",
+                    "Garantia: O que entrar de novo, você recebe",
+                ]}
+                ctaText="🚀 Comprar por R$27"
+                ctaLink="#"
+                emoji="✅"
+                borderColor="border-destructive"
+            />
+        </AnimatedSection>
 
         {/* 4. BLOCO 2 — MAIA.DRX */}
-        <OfferSection
-            id="maia"
-            header="💡 MAIA.DRX — IA + Copy que Gente Fria Compra"
-            title="MAIA.DRX"
-            subtitle="Sistema mais rápido do Brasil pra criar criativos que vendem com IA, usado em funis que escalaram múltiplos 9 dígitos."
-            price="R$147"
-            oldPrice="R$697"
-            features={[
-                "IA com estrutura testada em funis 9D",
-                "Criativos validados de Derick, Filamon, Kobata e gringos",
-                "Geração automática com tensão emocional",
-                "Atualizações com criativos que estão rodando no mercado agora",
-                "Grupo fechado pra quem opera com o MAIA",
-                "PDF Receita Avançada + Aula Tática de Copy",
-            ]}
-            ctaText="🚀 Quero o MAIA.DRX Agora"
-            ctaLink="#"
-            emoji="🤖"
-            borderColor="border-blue-400"
-        />
+        <AnimatedSection animation="zoom-in" delay={200}>
+            <OfferSection
+                id="maia"
+                header="💡 MAIA.DRX — IA + Copy que Gente Fria Compra"
+                title="MAIA.DRX"
+                subtitle="Sistema mais rápido do Brasil pra criar criativos que vendem com IA, usado em funis que escalaram múltiplos 9 dígitos."
+                price="R$147"
+                oldPrice="R$697"
+                features={[
+                    "IA com estrutura testada em funis 9D",
+                    "Criativos validados de Derick, Filamon, Kobata e gringos",
+                    "Geração automática com tensão emocional",
+                    "Atualizações com criativos que estão rodando no mercado agora",
+                    "Grupo fechado pra quem opera com o MAIA",
+                    "PDF Receita Avançada + Aula Tática de Copy",
+                ]}
+                ctaText="🚀 Quero o MAIA.DRX Agora"
+                ctaLink="#"
+                emoji="🤖"
+                borderColor="border-blue-400"
+            />
+        </AnimatedSection>
 
         {/* 5. COMPARATIVO */}
         <ComparisonSection />
