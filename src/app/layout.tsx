@@ -4,8 +4,8 @@ import { Toaster } from '@/components/ui/toaster';
 import { cn } from '@/lib/utils';
 
 export const metadata: Metadata = {
-  title: 'AdCraft Blueprint',
-  description: 'O manual prático que validou criativos em campanhas de até 9 dígitos.',
+  title: 'MAIA.DRX — IA + Copy que Gente Fria Compra',
+  description: 'O sistema mais rápido do Brasil pra criar criativos que vendem em tráfego direto, validado com funis que escalaram múltiplos 9 dígitos.',
 };
 
 export default function RootLayout({
