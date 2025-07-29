@@ -53,8 +53,8 @@ export function TestimonialsSection() {
             />
             <TestimonialCard
                 imageUrl="https://i.postimg.cc/V61hTFSx/Captura-de-tela-2025-07-29-192509.png"
-                caption="A IA montou a copy, só precisei narrar. Bateu 1.7 de ROAS no primeiro dia."
-                author="— @brunoleads (Afiliado)"
+                caption="Testado e aprovado para Copy"
+                author="— @eugustavosextaro (Consultor)"
                 delay={200}
             />
         </div>
