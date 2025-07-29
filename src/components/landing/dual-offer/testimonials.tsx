@@ -2,7 +2,9 @@
 'use client';
 
 import Image from 'next/image';
+import Link from 'next/link';
 import { AnimatedSection } from '../animated-section';
+import { Button } from '@/components/ui/button';
 
 const TestimonialCard = ({
   imageUrl,
@@ -58,6 +60,21 @@ export function TestimonialsSection() {
                 delay={200}
             />
         </div>
+
+        <AnimatedSection animation="fade-up" delay={300}>
+            <div className="mt-12 text-center text-white">
+                <p className="text-xl font-semibold">👀 Quer ver mais provas reais?</p>
+                <p className="mx-auto mt-2 max-w-lg text-white/80">
+                    Abre meu Instagram e confere os bastidores, stories salvos e resultados de quem aplicou a estrutura.
+                </p>
+                <Button asChild variant="link" className="mt-4 text-lg text-destructive hover:text-destructive/80">
+                    <Link href="https://instagram.com/gabrielmaiagt" target="_blank" rel="noopener noreferrer">
+                        Ver mais no Instagram
+                    </Link>
+                </Button>
+            </div>
+        </AnimatedSection>
+
       </div>
     </section>
   );
