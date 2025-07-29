@@ -33,7 +33,7 @@ export function OfferSection({
   borderColor = 'border-destructive',
 }: OfferSectionProps) {
   return (
-    <section id={id} className="py-12 md:py-16">
+    <section id={id} className="py-6 md:py-8">
       <div className="container mx-auto px-4">
           <div
             className={cn(

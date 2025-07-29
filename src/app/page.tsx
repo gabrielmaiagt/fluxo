@@ -82,9 +82,9 @@ export default function HomePage() {
         </AnimatedSection>
       </header>
       
-      <main className="pt-8">
+      <main className="pt-4 md:pt-6">
         {/* 3. BLOCO 1 — Receita de Criativos */}
-        <AnimatedSection animation="zoom-in" delay={0}>
+        <AnimatedSection animation="fade-up" delay={0}>
             <OfferSection
                 id="receita"
                 header="🔥 Mais baixado essa semana"
@@ -110,7 +110,7 @@ export default function HomePage() {
         </AnimatedSection>
 
         {/* 4. BLOCO 2 — MAIA.DRX */}
-        <AnimatedSection animation="zoom-in" delay={200}>
+        <AnimatedSection animation="fade-up" delay={200}>
             <OfferSection
                 id="maia"
                 header="💡 MAIA.DRX — IA + Copy que Gente Fria Compra"
@@ -129,7 +129,7 @@ export default function HomePage() {
                 ctaText="🚀 Quero o MAIA.DRX Agora"
                 ctaLink="#"
                 emoji="🤖"
-                borderColor="border-blue-400"
+                borderColor="border-destructive"
             />
         </AnimatedSection>
 
