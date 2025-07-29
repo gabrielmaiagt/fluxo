@@ -106,7 +106,7 @@ export default function HomePage() {
                     "🛡️ Garantia: O que entrar de novo, você recebe",
                 ]}
                 ctaText="🚀 Comprar por R$27"
-                ctaLink="#"
+                ctaLink="https://pay.cakto.com.br/u4zrtit_469894"
                 emoji=""
                 borderColor="border-destructive"
             />
@@ -130,7 +130,7 @@ export default function HomePage() {
                     "🧾 PDF Receita Avançada + Aula Tática de Copy",
                 ]}
                 ctaText="🚀 Quero o MAIA.DRX Agora"
-                ctaLink="#"
+                ctaLink="https://pay.cakto.com.br/ei8mtjd_469930"
                 emoji=""
                 borderColor="border-destructive"
             />
