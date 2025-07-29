@@ -6,6 +6,7 @@ import { Button } from '@/components/ui/button';
 import { ComparisonSection } from '@/components/landing/dual-offer/comparison';
 import { Footer } from '@/components/landing/dual-offer/footer';
 import { OfferSection } from '@/components/landing/dual-offer/offer-section';
+import { TestimonialsSection } from '@/components/landing/dual-offer/testimonials';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
 
@@ -137,6 +138,10 @@ export default function HomePage() {
 
         {/* 5. COMPARATIVO */}
         <ComparisonSection />
+
+        {/* Depoimentos */}
+        <TestimonialsSection />
+
       </main>
 
       {/* 6. RODAPÉ */}
