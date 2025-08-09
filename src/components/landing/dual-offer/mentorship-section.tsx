@@ -57,7 +57,7 @@ export function MentorshipSection() {
   return (
     <section className="py-12 md:py-24">
       <div className="container mx-auto px-4">
-        <div className="grid grid-cols-1 gap-8 md:grid-cols-2">
+        <div className="grid grid-cols-1 gap-8 md:grid-cols-3">
           <MentorshipCard
             icon="👥"
             title="Mentoria em Grupo"
@@ -87,6 +87,21 @@ export function MentorshipSection() {
             ]}
             ctaText="Quero a Mentoria Individual"
             ctaLink="https://api.whatsapp.com/send/?phone=71991511702&text&type=phone_number&app_absent=0"
+            delay={100}
+          />
+           <MentorshipCard
+            icon="🎯"
+            title="Workshop de X1"
+            subtitle="Aprenda a operar ofertas X1 do zero ao avançado."
+            price="R$50"
+            features={[
+              '• Grupo de networking do Workshop de X1',
+              '• Call mensal',
+              '• Área de membros com conteúdo de X1',
+              '• Acesso à call gravada',
+            ]}
+            ctaText="Quero entrar no Workshop de X1"
+            ctaLink="#"
             delay={200}
           />
         </div>
