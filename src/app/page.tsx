@@ -5,6 +5,7 @@ import { AnimatedSection } from '@/components/landing/animated-section';
 import { Button } from '@/components/ui/button';
 import { ComparisonSection } from '@/components/landing/dual-offer/comparison';
 import { Footer } from '@/components/landing/dual-offer/footer';
+import { MentorshipSection } from '@/components/landing/dual-offer/mentorship-section';
 import { OfferSection } from '@/components/landing/dual-offer/offer-section';
 import { TestimonialsSection } from '@/components/landing/dual-offer/testimonials';
 import Link from 'next/link';
@@ -138,6 +139,9 @@ export default function HomePage() {
 
         {/* 5. COMPARATIVO */}
         <ComparisonSection />
+
+        {/* Mentoria */}
+        <MentorshipSection />
 
         {/* Depoimentos */}
         <TestimonialsSection />
