@@ -46,7 +46,7 @@ const MentorshipCard = ({
       </ul>
       <div className="mt-6 text-center">
         <Button asChild size="lg" variant="destructive" className="w-full">
-          <Link href={ctaLink}>{ctaText}</Link>
+          <Link href={ctaLink} target="_blank" rel="noopener noreferrer">{ctaText}</Link>
         </Button>
       </div>
     </div>
@@ -70,7 +70,7 @@ export function MentorshipSection() {
               '• Grupo fechado no WhatsApp',
             ]}
             ctaText="Quero entrar na Mentoria em Grupo"
-            ctaLink="#"
+            ctaLink="https://api.whatsapp.com/send/?phone=71991511702&text&type=phone_number&app_absent=0"
             delay={0}
           />
           <MentorshipCard
@@ -86,7 +86,7 @@ export function MentorshipSection() {
               '• Acesso prioritário para tirar dúvidas',
             ]}
             ctaText="Quero a Mentoria Individual"
-            ctaLink="#"
+            ctaLink="https://api.whatsapp.com/send/?phone=71991511702&text&type=phone_number&app_absent=0"
             delay={200}
           />
         </div>
