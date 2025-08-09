@@ -5,7 +5,7 @@ import { AnimatedSection } from '@/components/landing/animated-section';
 import { Button } from '@/components/ui/button';
 import { ComparisonSection } from '@/components/landing/dual-offer/comparison';
 import { Footer } from '@/components/landing/dual-offer/footer';
-import { MentorshipSection } from '@/components/landing/dual-offer/mentorship-section';
+import { MentorshipCard } from '@/components/landing/dual-offer/mentorship-section';
 import { OfferSection } from '@/components/landing/dual-offer/offer-section';
 import { TestimonialsSection } from '@/components/landing/dual-offer/testimonials';
 import Link from 'next/link';
@@ -87,61 +87,112 @@ export default function HomePage() {
         </AnimatedSection>
       </header>
       
-      <main className="pt-4 md:pt-6">
-        {/* 3. BLOCO 1 — Receita de Criativos */}
-        <AnimatedSection animation="fade-up" delay={0}>
-            <OfferSection
-                id="receita"
-                header="🔥 Mais baixado essa semana"
-                title="Receita de Criativos"
-                subtitle="Acesso vitalício + atualizações incluídas"
-                price="R$27"
-                oldPrice="R$197"
-                features={[
-                  "✅ Aprenda a validar criativos em 24 horas, criados do zero ou modelados",
-                  "✅ Estrutura de criativos validados de Filemon, Derick, Kobata e Anthony (Copywritters de 9 Digitos)",
-                  "✅ Material pronto pra escalar",
-                  "✅ Arquivo com ângulos + anúncios prontos pra modelar",
-                  "✅ Video Aula explicando como fazer o criativo minimo viavel",
-                  "✅ Suporte no whatsapp para tirar suas dúvidas",
-                  "✅ Acesso ao grupo privado + garantia vitalícia"
-                ]}
-                ctaText="🚀 Comprar por R$27"
-                ctaLink="https://pay.cakto.com.br/u4zrtit_469894"
-                emoji=""
-                borderColor="border-destructive"
-            />
-        </AnimatedSection>
+      <main className="flex flex-col gap-4 pt-4 md:pt-6">
+        
+        {/* ORDERED OFFERS */}
 
-        {/* 4. BLOCO 2 — MAIA.DRX */}
-        <AnimatedSection animation="fade-up" delay={200}>
-            <OfferSection
-                id="maia"
-                header="💡 MAIA.DRX — IA + Copy que Gente Fria Compra"
-                title="MAIA.DRX"
-                subtitle="Sistema mais rápido do Brasil pra criar criativos que vendem com IA, usado em funis que escalaram múltiplos 9 dígitos."
-                price="R$147"
-                oldPrice="R$697"
-                features={[
-                    "🤖 IA com estrutura testada em funis 9D",
-                    "🧠 Criativos validados de Derick, Filamon, Kobata e gringos",
-                    "🎯 Geração automática com tensão emocional",
-                    "📈 Atualizações com criativos que estão rodando no mercado agora",
-                    "🔒 Grupo fechado pra quem opera com o MAIA",
-                    "🧾 PDF Receita Avançada + Aula Tática de Copy",
-                ]}
-                ctaText="🚀 Quero o MAIA.DRX Agora"
-                ctaLink="https://pay.cakto.com.br/ei8mtjd_469930"
-                emoji=""
-                borderColor="border-destructive"
-            />
-        </AnimatedSection>
+        <OfferSection
+            id="receita"
+            header="🔥 Mais baixado essa semana"
+            title="Receita de Criativos"
+            subtitle="Acesso vitalício + atualizações incluídas"
+            price="R$27"
+            oldPrice="R$197"
+            features={[
+              "✅ Aprenda a validar criativos em 24 horas, criados do zero ou modelados",
+              "✅ Estrutura de criativos validados de Filemon, Derick, Kobata e Anthony (Copywritters de 9 Digitos)",
+              "✅ Material pronto pra escalar",
+              "✅ Arquivo com ângulos + anúncios prontos pra modelar",
+              "✅ Video Aula explicando como fazer o criativo minimo viavel",
+              "✅ Suporte no whatsapp para tirar suas dúvidas",
+              "✅ Acesso ao grupo privado + garantia vitalícia"
+            ]}
+            ctaText="🚀 Comprar por R$27"
+            ctaLink="https://pay.cakto.com.br/u4zrtit_469894"
+            emoji=""
+            borderColor="border-destructive"
+        />
+
+        <div className="container mx-auto px-4">
+            <div className="mx-auto max-w-3xl">
+                <MentorshipCard
+                    icon="🎯"
+                    title="Workshop de X1"
+                    subtitle="Aprenda a operar ofertas X1 do zero ao avançado."
+                    price="R$50"
+                    features={[
+                    '• Grupo de networking do Workshop de X1',
+                    '• Call mensal',
+                    '• Área de membros com conteúdo de X1',
+                    '• Acesso à call gravada',
+                    ]}
+                    ctaText="Quero entrar no Workshop de X1"
+                    ctaLink="#"
+                    delay={100}
+                />
+            </div>
+        </div>
+        
+        <OfferSection
+            id="maia"
+            header="💡 MAIA.DRX — IA + Copy que Gente Fria Compra"
+            title="MAIA.DRX"
+            subtitle="Sistema mais rápido do Brasil pra criar criativos que vendem com IA, usado em funis que escalaram múltiplos 9 dígitos."
+            price="R$147"
+            oldPrice="R$697"
+            features={[
+                "🤖 IA com estrutura testada em funis 9D",
+                "🧠 Criativos validados de Derick, Filamon, Kobata e gringos",
+                "🎯 Geração automática com tensão emocional",
+                "📈 Atualizações com criativos que estão rodando no mercado agora",
+                "🔒 Grupo fechado pra quem opera com o MAIA",
+                "🧾 PDF Receita Avançada + Aula Tática de Copy",
+            ]}
+            ctaText="🚀 Quero o MAIA.DRX Agora"
+            ctaLink="https://pay.cakto.com.br/ei8mtjd_469930"
+            emoji=""
+            borderColor="border-destructive"
+        />
+        
+        <div className="container mx-auto px-4">
+            <div className="grid grid-cols-1 gap-8 md:grid-cols-2">
+                <MentorshipCard
+                    icon="👥"
+                    title="Mentoria em Grupo"
+                    subtitle="Aprenda e evolua junto com outros profissionais de tráfego."
+                    price="R$497/ano"
+                    features={[
+                    '• 1 encontro semanal ao vivo',
+                    '• Area de membros com conteudo sobre mineração, modelagem, teste e escala.',
+                    '• Suporte no whatsapp e ligação.',
+                    '• Grupo fechado no WhatsApp',
+                    ]}
+                    ctaText="Quero entrar na Mentoria em Grupo"
+                    ctaLink="https://api.whatsapp.com/send/?phone=71991511702&text&type=phone_number&app_absent=0"
+                    delay={0}
+                />
+                <MentorshipCard
+                    icon="🎯"
+                    title="Mentoria Individual"
+                    subtitle="Acompanhamento 1 a 1 para resultados mais rápidos."
+                    price="R$1297/vitalicio"
+                    features={[
+                    '• Tudo da mentoria em grupo, e mais.',
+                    '• 2 calls semanais 1 a 1 por semana',
+                    '• Do 0 a escala com você',
+                    '• Diagnóstico de criativos e funil',
+                    '• Acesso prioritário para tirar dúvidas',
+                    ]}
+                    ctaText="Quero a Mentoria Individual"
+                    ctaLink="https://api.whatsapp.com/send/?phone=71991511702&text&type=phone_number&app_absent=0"
+                    delay={100}
+                />
+            </div>
+        </div>
+
 
         {/* 5. COMPARATIVO */}
         <ComparisonSection />
-
-        {/* Mentoria */}
-        <MentorshipSection />
 
         {/* Depoimentos */}
         <TestimonialsSection />
