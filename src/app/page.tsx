@@ -132,6 +132,44 @@ export default function HomePage() {
                 />
             </div>
         </div>
+
+        <div className="container mx-auto px-4">
+            <div className="mx-auto max-w-3xl">
+                <AnimatedSection animation="fade-up" delay={0}>
+                  <div className="flex h-full flex-col gap-4 rounded-lg border-2 border-destructive bg-gradient-to-b from-[#0b0b0b] to-[#111111] p-6 shadow-lg shadow-red-glow transition-all duration-300 hover:shadow-red-500/80">
+                    <div className="text-center">
+                      <div className="mb-4 text-4xl">🚀</div>
+                      <h3 className="text-2xl font-bold text-white">Workshop de Tráfego Direto</h3>
+                      <p className="mt-2 text-white/80">Estratégias práticas para criar, lançar e escalar ofertas em tráfego direto.</p>
+                      <p className="my-4 text-3xl font-bold text-white">R$97</p>
+                    </div>
+                    <ul className="flex-grow space-y-3">
+                        <li className="flex items-start gap-3">
+                            <span className="mt-1 text-green-400">•</span>
+                            <span className="text-white/90">Aulas práticas de estrutura de funil</span>
+                        </li>
+                        <li className="flex items-start gap-3">
+                            <span className="mt-1 text-green-400">•</span>
+                            <span className="text-white/90">Modelagem de páginas e criativos</span>
+                        </li>
+                        <li className="flex items-start gap-3">
+                            <span className="mt-1 text-green-400">•</span>
+                            <span className="text-white/90">Estratégia de lançamento para baixo orçamento</span>
+                        </li>
+                        <li className="flex items-start gap-3">
+                            <span className="mt-1 text-green-400">•</span>
+                            <span className="text-white/90">Análises de campanhas reais</span>
+                        </li>
+                    </ul>
+                    <div className="mt-6 text-center">
+                      <Button size="lg" disabled className="w-full bg-gray-600 text-white hover:bg-gray-500">
+                        Em breve
+                      </Button>
+                    </div>
+                  </div>
+                </AnimatedSection>
+            </div>
+        </div>
         
         <OfferSection
             id="maia"
