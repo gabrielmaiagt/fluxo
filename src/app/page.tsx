@@ -41,11 +41,6 @@ export default function LinkInBioPage() {
                 className="w-full h-auto object-cover transition-transform duration-300 hover:scale-105"
               />
             </Link>
-            <Button asChild variant="primary" className="mt-auto w-full font-semibold">
-              <Link href="#">
-                Acessar o Método
-              </Link>
-            </Button>
           </div>
 
           {/* Info Card */}
