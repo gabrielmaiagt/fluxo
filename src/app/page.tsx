@@ -62,8 +62,14 @@ export default function LinkInBioPage() {
               O JOGO É DIFERENTE PRA QUEM ESTÁ ONLINE E CONECTADO
             </h2>
             <div className="flex flex-col gap-3 mt-4">
-              <Link href="#" className="block text-center text-white font-semibold py-2 border border-neutral-700 rounded-lg hover:bg-neutral-800 transition-colors">
-                Grupo de Networking no Whatsapp
+              <Link href="#" className="block rounded-lg overflow-hidden transition-transform duration-300 hover:scale-105">
+                <Image 
+                  src="https://i.postimg.cc/CKSHrMHb/Chat-GPT-Image-21-de-ago-de-2025-15-14-13.png"
+                  alt="Grupo de Networking no Whatsapp"
+                  width={400}
+                  height={100}
+                  className="w-full h-auto object-cover"
+                />
               </Link>
               <Link href="#" className="block rounded-lg overflow-hidden transition-transform duration-300 hover:scale-105">
                 <Image 
