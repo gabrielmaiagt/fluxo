@@ -43,19 +43,6 @@ export default function LinkInBioPage() {
             </Link>
           </div>
 
-          {/* Info Card */}
-          <div className="bg-[#111] border border-neutral-800 rounded-xl p-4 w-full">
-            <h2 className="text-xs font-semibold text-white uppercase tracking-wider">
-              INFOS
-            </h2>
-            <p className="text-neutral-300 mt-2 text-sm leading-relaxed">
-              Minha estrutura validada para rodar ofertas de tráfego direto e manter caixa constante.
-            </p>
-            <Link href="#" className="block text-sm text-neutral-400 font-semibold py-2 mt-2">
-              [ Ver detalhes ]
-            </Link>
-          </div>
-
           {/* Community Card */}
           <div className="bg-[#111] border border-neutral-800 rounded-xl p-4 w-full">
             <h2 className="text-xs font-semibold text-white uppercase tracking-wider">
