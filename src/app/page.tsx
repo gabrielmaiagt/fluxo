@@ -48,10 +48,234 @@ const AnimatedScrollIndicator = () => {
 };
 
 export default function HomePage() {
+
+  useEffect(() => {
+    const card = document.querySelector('.fc-offer');
+    const bumpCheckbox = document.querySelector('.fc-bump input');
+
+    if (card && bumpCheckbox) {
+      const handleCheckboxChange = () => {
+        card.classList.toggle('has-bump', (bumpCheckbox as HTMLInputElement).checked);
+      };
+
+      bumpCheckbox.addEventListener('change', handleCheckboxChange);
+
+      return () => {
+        bumpCheckbox.removeEventListener('change', handleCheckboxChange);
+      };
+    }
+  }, []);
+
+
   return (
     <div className="flex min-h-screen flex-col bg-[#0b0b0b] text-white overflow-x-hidden">
        <style jsx global>{`
         @import url('https://fonts.googleapis.com/css2?family=VT323&display=swap');
+
+        :root {
+          --fc-bg: #0C0F0D;
+          --fc-border: rgba(37, 211, 102, 0.2);
+          --fc-border-hover: rgba(37, 211, 102, 0.4);
+          --fc-text: #FFFFFF;
+          --fc-muted: #C9D1D9;
+          --fc-green: #25D366;
+          --fc-green-hover: #22BF5B;
+          --fc-red: rgba(255, 90, 90, 0.7);
+        }
+        
+        .fc-offer-container {
+            padding: 2rem 1rem;
+        }
+
+        .fc-offer {
+          position: relative;
+          background-color: var(--fc-bg);
+          border: 1px solid var(--fc-border);
+          border-radius: 16px;
+          padding: 2rem;
+          max-width: 520px;
+          margin: 0 auto;
+          box-shadow: 0 10px 40px rgba(0,0,0,0.2), 0 0 0 1px var(--fc-border);
+          transition: box-shadow 0.3s ease;
+          overflow: hidden;
+        }
+        
+        .fc-offer:hover {
+          box-shadow: 0 10px 40px rgba(0,0,0,0.2), 0 0 20px var(--fc-border-hover), 0 0 0 1px var(--fc-border-hover);
+        }
+
+        .fc-badge {
+          display: inline-block;
+          background-color: rgba(255, 90, 90, 0.1);
+          color: #FF8A8A;
+          border: 1px solid rgba(255, 90, 90, 0.2);
+          padding: 6px 12px;
+          border-radius: 999px;
+          font-size: 11px;
+          font-weight: 700;
+          text-transform: uppercase;
+          letter-spacing: 0.5px;
+          margin-bottom: 1rem;
+        }
+
+        .fc-title {
+          color: var(--fc-text);
+          font-size: clamp(28px, 5vw, 32px);
+          font-weight: 800;
+          line-height: 1.1;
+          margin: 0;
+        }
+        
+        .fc-sub {
+          color: var(--fc-muted);
+          font-size: 16px;
+          margin: 0.5rem 0 1.5rem;
+        }
+
+        .fc-price {
+          display: flex;
+          align-items: baseline;
+          gap: 1rem;
+          margin-bottom: 2rem;
+        }
+        
+        .fc-price .now {
+          font-size: clamp(40px, 10vw, 56px);
+          font-weight: 900;
+          color: var(--fc-text);
+          line-height: 1;
+        }
+
+        .fc-price .old {
+          font-size: clamp(20px, 5vw, 24px);
+          color: var(--fc-red);
+          text-decoration: line-through;
+        }
+        
+        .fc-bullets {
+          list-style: none;
+          padding: 0;
+          margin: 0 0 2rem;
+          display: flex;
+          flex-direction: column;
+          gap: 1rem;
+        }
+
+        .fc-bullets li {
+          position: relative;
+          padding-left: 28px;
+          color: var(--fc-muted);
+          font-size: 15px;
+          line-height: 1.5;
+        }
+        
+        .fc-bullets li::before {
+          content: '✅';
+          position: absolute;
+          left: 0;
+          top: 0;
+          color: var(--fc-green);
+        }
+
+        .fc-cta {
+          display: block;
+          width: 100%;
+          background-color: var(--fc-green);
+          color: #0C0F0D;
+          text-align: center;
+          padding: 1rem;
+          border-radius: 12px;
+          font-size: 18px;
+          font-weight: 800;
+          text-decoration: none;
+          box-shadow: 0 4px 15px rgba(37, 211, 102, 0.2);
+          transition: all 0.2s ease;
+        }
+
+        .fc-cta:hover {
+          background-color: var(--fc-green-hover);
+          transform: scale(1.02);
+          box-shadow: 0 8px 25px rgba(37, 211, 102, 0.3);
+        }
+        
+        .fc-cta:active {
+          transform: scale(0.99);
+        }
+        
+        .fc-guarantee {
+          text-align: center;
+          font-size: 14px;
+          color: var(--fc-muted);
+          background-color: rgba(255, 255, 255, 0.05);
+          padding: 0.75rem;
+          border-radius: 12px;
+          margin-top: 1.5rem;
+        }
+        
+        .fc-guarantee strong {
+          color: var(--fc-text);
+        }
+
+        .fc-bump {
+          display: flex;
+          align-items: center;
+          gap: 12px;
+          background-color: rgba(227, 167, 0, 0.1);
+          border: 1px solid rgba(227, 167, 0, 0.2);
+          padding: 1rem;
+          border-radius: 12px;
+          margin-top: 1.5rem;
+          cursor: pointer;
+          transition: border-color 0.2s;
+        }
+        
+        .fc-bump:hover {
+          border-color: rgba(227, 167, 0, 0.4);
+        }
+
+        .fc-bump input {
+          appearance: none;
+          width: 20px;
+          height: 20px;
+          border: 2px solid rgba(255,255,255,0.3);
+          border-radius: 6px;
+          background-color: transparent;
+          cursor: pointer;
+          position: relative;
+          flex-shrink: 0;
+        }
+        
+        .fc-bump input:checked {
+          background-color: var(--fc-green);
+          border-color: var(--fc-green);
+        }
+
+        .fc-bump input:checked::before {
+          content: '✔';
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%);
+          font-size: 14px;
+          color: #0C0F0D;
+        }
+        
+        .fc-bump span {
+          color: var(--fc-muted);
+          font-size: 14px;
+          line-height: 1.4;
+        }
+        
+        .fc-bump span > span { /* For +R$19,90 part */
+            color: #E3A700;
+            font-weight: 600;
+        }
+
+        .fc-offer.has-bump .fc-cta {
+            background: linear-gradient(90deg, #E3A700, #FFC700);
+            color: #111;
+        }
+
       `}</style>
       
       {/* 1. PRIMEIRA DOBRA – Branding */}
@@ -235,6 +459,39 @@ export default function HomePage() {
             </div>
         </div>
 
+        <div className="fc-offer-container">
+            <div className="fc-offer" role="region" aria-label="Oferta Método Fluxo de Caixa">
+              <div className="fc-badge">🔥 MAIS BAIXADO ESSA SEMANA</div>
+              <h2 className="fc-title">Método Fluxo de Caixa</h2>
+              <p className="fc-sub">Acesso vitalício + atualizações incluídas</p>
+
+              <div className="fc-price">
+                <span className="now">R$67</span>
+                <span className="old">R$197</span>
+              </div>
+
+              <ul className="fc-bullets">
+                <li>Valide ofertas de X1 no WhatsApp em 24–48h</li>
+                <li>Estrutura de criativos e páginas prontas para modelar</li>
+                <li>Facebook Ads na prática para tráfego direto</li>
+                <li>Scripts de conversa e fechamento no X1</li>
+                <li>Checklists e modelos para copiar e escalar</li>
+                <li>Comunidade + networking com suporte</li>
+              </ul>
+
+              <a href="#checkout" className="fc-cta">🔒 Garantir acesso por R$67</a>
+
+              <div className="fc-guarantee">
+                <strong>Garantia incondicional de 7 dias</strong><br/>
+                Acesso imediato e vitalício
+              </div>
+
+              <label className="fc-bump">
+                <input type="checkbox"/>
+                <span>⭐ Close Friends no Insta — <span>Ouro diário sem filtro (+ R$19,90)</span></span>
+              </label>
+            </div>
+        </div>
 
         {/* 5. COMPARATIVO */}
         <ComparisonSection />
@@ -249,3 +506,5 @@ export default function HomePage() {
     </div>
   );
 }
+
+    
