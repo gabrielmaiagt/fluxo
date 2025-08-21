@@ -13,11 +13,11 @@ export default function LinkInBioPage() {
         {/* Header */}
         <header className="flex flex-col items-center text-center py-8">
           <Image
-            src="https://placehold.co/120x120.png"
+            src="https://i.postimg.cc/JzPWt0nh/480825870-1360183581682280-6687349343385500519-n.jpg"
             alt="Foto de perfil de Gabriel Maia"
             width={96}
             height={96}
-            className="rounded-full border-2 border-neutral-800"
+            className="rounded-full border-2 border-neutral-800 object-cover"
             data-ai-hint="profile picture"
           />
           <h1 className="text-2xl font-bold mt-4">Gabriel Maia</h1>
