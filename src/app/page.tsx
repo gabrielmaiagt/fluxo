@@ -3,6 +3,7 @@
 
 import Image from 'next/image';
 import Link from 'next/link';
+import { Button } from '@/components/ui/button';
 
 export default function LinkInBioPage() {
   return (
@@ -27,7 +28,7 @@ export default function LinkInBioPage() {
         <main className="w-full flex flex-col gap-4">
           
           {/* Main Program Card */}
-          <div className="bg-[#111] border border-neutral-800 rounded-xl p-4 w-full">
+          <div className="bg-[#111] border border-neutral-800 rounded-xl p-4 w-full flex flex-col">
             <h2 className="text-xs font-semibold text-neutral-400 uppercase tracking-wider">
               PROGRAMA PRINCIPAL: MÉTODO FLUXO DE CAIXA
             </h2>
@@ -40,9 +41,11 @@ export default function LinkInBioPage() {
                 className="w-full h-auto object-cover"
               />
             </div>
-            <Link href="#" className="block text-center text-white font-semibold py-2">
-              [ Acessar o Método ]
-            </Link>
+            <Button asChild variant="primary" className="mt-auto w-full font-semibold">
+              <Link href="#">
+                Acessar o Método
+              </Link>
+            </Button>
           </div>
 
           {/* Info Card */}
