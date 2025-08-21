@@ -59,7 +59,7 @@ export default function LinkInBioPage() {
           {/* Community Card */}
           <div className="bg-[#111] border border-neutral-800 rounded-xl p-4 w-full">
             <h2 className="text-xs font-semibold text-white uppercase tracking-wider">
-              COMUNIDADE
+              O JOGO É DIFERENTE PRA QUEM ESTÁ ONLINE E CONECTADO
             </h2>
             <div className="flex flex-col gap-3 mt-4">
               <Link href="#" className="block text-center text-white font-semibold py-2 border border-neutral-700 rounded-lg hover:bg-neutral-800 transition-colors">
