@@ -4,7 +4,7 @@
 
 @layer base {
   :root {
-    --background: 0 0% 4%;
+    --background: 0 0% 0%; /* Black background */
     --foreground: 0 0% 98%;
     --card: 0 0% 4%;
     --card-foreground: 0 0% 98%;
@@ -27,7 +27,7 @@
   }
  
   .dark {
-    --background: 0 0% 4%;
+    --background: 0 0% 0%; /* Black background */
     --foreground: 0 0% 98%;
     --card: 0 0% 4%;
     --card-foreground: 0 0% 98%;
@@ -57,7 +57,7 @@
     @apply bg-background text-foreground;
   }
   html, body, #__next {
-    background-color: #0b0b0b;
+    background-color: #000000;
   }
 }
 
