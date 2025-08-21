@@ -31,8 +31,14 @@ export default function LinkInBioPage() {
             <h2 className="text-xs font-semibold text-neutral-400 uppercase tracking-wider">
               PROGRAMA PRINCIPAL: MÉTODO FLUXO DE CAIXA
             </h2>
-            <div className="my-4 flex items-center justify-center bg-neutral-900 h-24 rounded-lg">
-                <span className="text-lg font-bold text-neutral-300">Fluxo de Caixa</span>
+            <div className="my-4 overflow-hidden rounded-lg">
+              <Image
+                src="https://i.postimg.cc/rp6JLCGX/Chat-GPT-Image-21-de-ago-de-2025-14-56-44.png"
+                alt="Fluxo de Caixa"
+                width={400}
+                height={200}
+                className="w-full h-auto object-cover"
+              />
             </div>
             <Link href="#" className="block text-center text-white font-semibold py-2">
               [ Acessar o Método ]
