@@ -74,11 +74,18 @@ export default function HomePage() {
               </Link>
             </div>
           
-            <Button asChild size="lg" variant="destructive" className="w-full max-w-xs text-base font-bold mb-6">
-              <Link href="https://chat.whatsapp.com/Khh4Ulvu9elLgZvHjGWItX" target="_blank" rel="noopener noreferrer">
-                Grupo de Networking &gt;
-              </Link>
-            </Button>
+            <div className="flex w-full max-w-xs flex-col gap-4">
+                <Button asChild size="lg" variant="destructive" className="text-base font-bold">
+                  <Link href="https://chat.whatsapp.com/Khh4Ulvu9elLgZvHjGWItX" target="_blank" rel="noopener noreferrer">
+                    Grupo de Networking no Whatsapp &gt;
+                  </Link>
+                </Button>
+                <Button asChild size="lg" variant="secondary" className="text-base font-bold">
+                  <Link href="#" target="_blank" rel="noopener noreferrer">
+                    Grupo de Networking no Discord &gt;
+                  </Link>
+                </Button>
+            </div>
             
             <div className="mt-6">
                 <AnimatedScrollIndicator />
