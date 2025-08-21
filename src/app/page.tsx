@@ -70,6 +70,17 @@ export default function LinkInBioPage() {
             </div>
           </div>
 
+          {/* Instagram Button */}
+          <Link href="#" className="block rounded-lg overflow-hidden transition-transform duration-300 hover:scale-105 w-full">
+            <Image 
+              src="https://i.postimg.cc/635qyqC6/Chat-GPT-Image-21-de-ago-de-2025-16-30-38.png"
+              alt="Perfil no Instagram"
+              width={400}
+              height={100}
+              className="w-full h-auto object-cover"
+            />
+          </Link>
+
         </main>
 
         {/* Footer */}
