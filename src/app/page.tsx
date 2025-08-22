@@ -21,7 +21,7 @@ export default function LinkInBioPage() {
             data-ai-hint="profile picture"
           />
           <h1 className="text-2xl font-bold mt-4">⥁ gabrielmaia'gt</h1>
-          <p className="text-white mt-1">atrás do lucro</p>
+          <p className="text-white mt-1">Todo mundo vende alguma coisa. Só alguns sabem LUCRAR TODO DIA.</p>
         </header>
 
         {/* Main Content */}
