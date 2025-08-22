@@ -46,7 +46,7 @@ export default function LinkInBioPage() {
           {/* Community Card */}
           <div className="bg-[#111] border border-neutral-800 rounded-xl p-4 w-full">
             <h2 className="text-xs font-semibold text-white uppercase tracking-wider">
-              O JOGO É DIFERENTE PRA QUEM ESTÁ ONLINE E CONECTADO
+              Quem não está online… já está FORA DO JOGO.
             </h2>
             <div className="flex flex-col gap-3 mt-4">
               <Link href="https://chat.whatsapp.com/Khh4Ulvu9elLgZvHjGWItX" target="_blank" rel="noopener noreferrer" className="block rounded-lg overflow-hidden transition-transform duration-300 hover:scale-105">
