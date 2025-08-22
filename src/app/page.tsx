@@ -32,7 +32,7 @@ export default function LinkInBioPage() {
             <h2 className="text-xs font-semibold text-neutral-400 uppercase tracking-wider">
               PROGRAMA PRINCIPAL: MÉTODO FLUXO DE CAIXA
             </h2>
-            <Link href="#" target="_blank" rel="noopener noreferrer" className="my-4 block overflow-hidden rounded-lg">
+            <Link href="https://fluxodeoferta.site/fluxo" target="_blank" rel="noopener noreferrer" className="my-4 block overflow-hidden rounded-lg">
               <Image
                 src="https://i.postimg.cc/rp6JLCGX/Chat-GPT-Image-21-de-ago-de-2025-14-56-44.png"
                 alt="Fluxo de Caixa"
@@ -49,7 +49,7 @@ export default function LinkInBioPage() {
               O JOGO É DIFERENTE PRA QUEM ESTÁ ONLINE E CONECTADO
             </h2>
             <div className="flex flex-col gap-3 mt-4">
-              <Link href="#" className="block rounded-lg overflow-hidden transition-transform duration-300 hover:scale-105">
+              <Link href="https://chat.whatsapp.com/Khh4Ulvu9elLgZvHjGWItX" target="_blank" rel="noopener noreferrer" className="block rounded-lg overflow-hidden transition-transform duration-300 hover:scale-105">
                 <Image 
                   src="https://i.postimg.cc/CKSHrMHb/Chat-GPT-Image-21-de-ago-de-2025-15-14-13.png"
                   alt="Grupo de Networking no Whatsapp"
@@ -58,7 +58,7 @@ export default function LinkInBioPage() {
                   className="w-full h-auto object-cover"
                 />
               </Link>
-              <Link href="#" className="block rounded-lg overflow-hidden transition-transform duration-300 hover:scale-105">
+              <Link href="https://discord.gg/N22CvMkpUV" target="_blank" rel="noopener noreferrer" className="block rounded-lg overflow-hidden transition-transform duration-300 hover:scale-105">
                 <Image 
                   src="https://i.postimg.cc/kXRcBpgR/Chat-GPT-Image-21-de-ago-de-2025-15-20-07.png"
                   alt="Grupo de Networking no Discord"
@@ -67,7 +67,7 @@ export default function LinkInBioPage() {
                   className="w-full h-auto object-cover"
                 />
               </Link>
-              <Link href="#" className="block rounded-lg overflow-hidden transition-transform duration-300 hover:scale-105 w-full">
+              <Link href="https://www.instagram.com/gabrielmaiagt/" target="_blank" rel="noopener noreferrer" className="block rounded-lg overflow-hidden transition-transform duration-300 hover:scale-105 w-full">
                 <Image 
                   src="https://i.postimg.cc/xdY8YRQr/Chat-GPT-Image-22-de-ago-de-2025-01-05-59.png"
                   alt="Perfil no Instagram"
