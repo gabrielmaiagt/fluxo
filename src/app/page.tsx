@@ -20,7 +20,7 @@ export default function LinkInBioPage() {
             className="rounded-full border-2 border-neutral-800 object-cover"
             data-ai-hint="profile picture"
           />
-          <h1 className="text-2xl font-bold mt-4">Gabriel Maia</h1>
+          <h1 className="text-2xl font-bold mt-4">⥁ gabrielmaia'gt</h1>
           <p className="text-neutral-400 mt-1">atrás do lucro</p>
         </header>
 
