@@ -6,14 +6,17 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { useToast } from '@/hooks/use-toast';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
-import { AreaChart, BellRing, Check, Clock, Info, List, Loader2, RefreshCw, Pointer, Eye } from 'lucide-react';
+import { AreaChart, BellRing, Check, Clock, Info, List, Loader2, RefreshCw, Pointer, Eye, Calendar as CalendarIcon } from 'lucide-react';
 import { db } from '@/lib/firebase';
 import { collection, onSnapshot, query, where, Timestamp, orderBy, limit, getDocs } from 'firebase/firestore';
-import { format, subDays, startOfDay, eachDayOfInterval, endOfDay } from 'date-fns';
+import { format, subDays, startOfDay, eachDayOfInterval, endOfDay, addDays } from 'date-fns';
 import { formatDistanceToNow } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
 import { Area, XAxis, YAxis, ResponsiveContainer, Tooltip, AreaChart as RechartsAreaChart, CartesianGrid } from 'recharts';
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
+import { Calendar } from '@/components/ui/calendar';
+import type { DateRange } from 'react-day-picker';
 
 
 interface ClickData {
@@ -43,12 +46,16 @@ interface ChartData {
     [key: string]: number | string; // Each key is a button label
 }
 
-type TimeRange = '7d' | '30d' | 'all';
+type TimeRange = '7d' | '30d' | 'all' | 'custom';
 
 function ClicksChart() {
     const [allClicks, setAllClicks] = useState<ClickData[] | null>(null);
     const [chartData, setChartData] = useState<ChartData[]>([]);
     const [timeRange, setTimeRange] = useState<TimeRange>('7d');
+    const [dateRange, setDateRange] = useState<DateRange | undefined>({
+      from: subDays(new Date(), 6),
+      to: new Date(),
+    });
     const [isLoading, setIsLoading] = useState(true);
     const { toast } = useToast();
 
@@ -72,23 +79,25 @@ function ClicksChart() {
 
         return () => unsubscribe();
     }, [toast]);
-
+    
     useEffect(() => {
-        if (isLoading || allClicks === null) return;
+        if (!timeRange) return;
 
         const now = new Date();
-        const getStartDate = (range: TimeRange) => {
-            if (range === '7d') return startOfDay(subDays(now, 6));
-            if (range === '30d') return startOfDay(subDays(now, 29));
-            if (allClicks.length > 0) {
-                const firstClickDate = allClicks[0].timestamp.toDate();
-                return startOfDay(firstClickDate);
-            }
-            return startOfDay(now);
-        };
-        
-        const startDate = getStartDate(timeRange);
-        const endDate = endOfDay(now);
+        if (timeRange === '7d') {
+            setDateRange({ from: subDays(now, 6), to: now });
+        } else if (timeRange === '30d') {
+            setDateRange({ from: subDays(now, 29), to: now });
+        } else if (timeRange === 'all') {
+            setDateRange({ from: allClicks?.[0]?.timestamp.toDate() ?? now, to: now });
+        }
+    }, [timeRange, allClicks]);
+
+    useEffect(() => {
+        if (isLoading || allClicks === null || !dateRange?.from) return;
+
+        const startDate = startOfDay(dateRange.from);
+        const endDate = dateRange.to ? endOfDay(dateRange.to) : endOfDay(dateRange.from);
 
         if (startDate > endDate) {
              setChartData([]);
@@ -121,7 +130,12 @@ function ClicksChart() {
 
         setChartData(dataForChart);
 
-    }, [timeRange, allClicks, isLoading]);
+    }, [dateRange, allClicks, isLoading]);
+    
+    const handleDateRangeChange = (range: DateRange | undefined) => {
+        setTimeRange('custom');
+        setDateRange(range);
+    }
     
     return (
         <Card className="w-full bg-card">
@@ -131,13 +145,48 @@ function ClicksChart() {
                         <CardTitle>Visão Geral de Cliques</CardTitle>
                         <CardDescription>Quantidade de cliques por dia, por botão.</CardDescription>
                     </div>
-                     <Tabs value={timeRange} onValueChange={(value) => setTimeRange(value as TimeRange)} className="w-full sm:w-auto">
-                        <TabsList className="grid w-full grid-cols-3 h-9">
-                            <TabsTrigger value="7d" className="text-xs px-2">7 dias</TabsTrigger>
-                            <TabsTrigger value="30d" className="text-xs px-2">30 dias</TabsTrigger>
-                            <TabsTrigger value="all" className="text-xs px-2">Tudo</TabsTrigger>
-                        </TabsList>
-                    </Tabs>
+                     <div className="flex items-center gap-2">
+                         <Tabs value={timeRange} onValueChange={(value) => setTimeRange(value as TimeRange)} className="w-full sm:w-auto">
+                            <TabsList className="grid w-full grid-cols-3 h-9">
+                                <TabsTrigger value="7d" className="text-xs px-2">7 dias</TabsTrigger>
+                                <TabsTrigger value="30d" className="text-xs px-2">30 dias</TabsTrigger>
+                                <TabsTrigger value="all" className="text-xs px-2">Tudo</TabsTrigger>
+                            </TabsList>
+                        </Tabs>
+                        <Popover>
+                            <PopoverTrigger asChild>
+                                <Button
+                                  id="date"
+                                  variant={"outline"}
+                                  className={`h-9 w-[180px] justify-start text-left font-normal ${timeRange !== 'custom' && 'text-muted-foreground'}`}
+                                >
+                                  <CalendarIcon className="mr-2 h-4 w-4" />
+                                  {dateRange?.from ? (
+                                    dateRange.to ? (
+                                      <>
+                                        {format(dateRange.from, "LLL dd, y")} -{" "}
+                                        {format(dateRange.to, "LLL dd, y")}
+                                      </>
+                                    ) : (
+                                      format(dateRange.from, "LLL dd, y")
+                                    )
+                                  ) : (
+                                    <span>Selecione a data</span>
+                                  )}
+                                </Button>
+                            </PopoverTrigger>
+                            <PopoverContent className="w-auto p-0" align="end">
+                                <Calendar
+                                  initialFocus
+                                  mode="range"
+                                  defaultMonth={dateRange?.from}
+                                  selected={dateRange}
+                                  onSelect={handleDateRangeChange}
+                                  numberOfMonths={2}
+                                />
+                            </PopoverContent>
+                        </Popover>
+                     </div>
                 </div>
             </CardHeader>
             <CardContent>
