@@ -54,14 +54,28 @@ const notifyOwnerFlow = ai.defineFlow(
     try {
       const app = initializeFirebaseAdmin();
       if (!app) {
-        console.error("Admin SDK não inicializado, não é possível enviar notificação.");
+        console.error("Admin SDK não inicializado, não é possível enviar notificação ou registrar clique.");
         return { success: false };
       }
       
       const firestore = admin.firestore();
       const messaging = admin.messaging();
 
-      // 1. Buscar todos os tokens dos administradores
+      // Tarefa 1: Incrementar o contador de cliques
+      const clickDocRef = firestore.collection('clickCounts').doc(input.label);
+      try {
+        await clickDocRef.set({
+          count: admin.firestore.FieldValue.increment(1),
+          label: input.label, // Garante que o rótulo esteja no documento
+          lastClicked: admin.firestore.FieldValue.serverTimestamp()
+        }, { merge: true });
+        console.log(`Clique no botão "${input.label}" registrado com sucesso.`);
+      } catch (firestoreError) {
+        console.error("Erro ao registrar clique no Firestore:", firestoreError);
+        // Continua para enviar a notificação mesmo se o registro do clique falhar
+      }
+      
+      // Tarefa 2: Enviar a notificação push
       const tokensSnapshot = await firestore.collection('adminPushTokens').get();
       if (tokensSnapshot.empty) {
         console.log('Nenhum token de administrador encontrado para enviar notificação.');
@@ -70,16 +84,14 @@ const notifyOwnerFlow = ai.defineFlow(
 
       const tokens = tokensSnapshot.docs.map(doc => doc.data().token);
 
-      // 2. Montar a mensagem da notificação
       const message: admin.messaging.MulticastMessage = {
         tokens: tokens,
         notification: {
-          title: '🔔 Nova Ação no Site!',
+          title: '🔔 Novo Clique no Site!',
           body: `Um usuário clicou em: ${input.label}`,
         },
         webpush: {
           fcmOptions: {
-            // Link para abrir quando a notificação é clicada
             link: '/admin', 
           },
           notification: {
@@ -88,11 +100,9 @@ const notifyOwnerFlow = ai.defineFlow(
         },
       };
 
-      // 3. Enviar a mensagem para todos os tokens
       const batchResponse = await messaging.sendEachForMulticast(message);
       console.log(`${batchResponse.successCount} mensagens enviadas com sucesso.`);
 
-      // 4. (Opcional) Limpar tokens inválidos
       if (batchResponse.failureCount > 0) {
         const failedTokens: string[] = [];
         batchResponse.responses.forEach((resp, idx) => {
@@ -101,7 +111,6 @@ const notifyOwnerFlow = ai.defineFlow(
           }
         });
         console.log('Tokens que falharam:', failedTokens);
-        // Aqui você poderia adicionar uma lógica para remover esses tokens do Firestore
       }
 
       return { success: true };
