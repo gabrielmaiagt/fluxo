@@ -5,13 +5,13 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
-import { Check, Phone, User, X, Instagram } from 'lucide-react';
+import { Check, X } from 'lucide-react';
 import { Dashboard } from '@/components/landing/dashboard';
 import { Typewriter } from '@/components/landing/typewriter';
 import { useToast } from '@/hooks/use-toast';
 import { AnimatedSection } from '@/components/landing/animated-section';
 import { db } from '@/lib/firebase';
-import { doc, setDoc, serverTimestamp, increment, collection, writeBatch } from 'firebase/firestore';
+import { doc, writeBatch, increment, serverTimestamp, collection } from 'firebase/firestore';
 
 
 export default function LinkInBioPage() {
@@ -271,5 +271,3 @@ export default function LinkInBioPage() {
     </div>
   );
 }
-
-    

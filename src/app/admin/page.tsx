@@ -1,15 +1,15 @@
 
 'use client';
 
-import { useEffect, useState, useRef, useMemo } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { useToast } from '@/hooks/use-toast';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
-import { AreaChart, BellRing, Check, Clock, Info, List, Loader2, RefreshCw, Pointer, Eye, Calendar as CalendarIcon, Trash2 } from 'lucide-react';
+import { AreaChart, BellRing, Check, Clock, Info, List, Loader2, Pointer, Eye, Calendar as CalendarIcon, Trash2 } from 'lucide-react';
 import { db } from '@/lib/firebase';
 import { collection, onSnapshot, query, where, Timestamp, orderBy, limit } from 'firebase/firestore';
-import { format, subDays, startOfDay, eachDayOfInterval, endOfDay, addDays, startOfMonth, endOfMonth } from 'date-fns';
+import { format, subDays, startOfDay, eachDayOfInterval, endOfDay, startOfMonth } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
 import { Area, XAxis, YAxis, ResponsiveContainer, Tooltip, AreaChart as RechartsAreaChart, CartesianGrid } from 'recharts';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
@@ -403,17 +403,17 @@ function LiveNotificationsCard() {
     }
   };
   
-  const isButtonDisabled = permission === 'granted' || permission === 'denied';
+  if (permission === 'granted') {
+    return null;
+  }
+  
+  const isButtonDisabled = permission === 'denied';
 
   const getButtonText = () => {
     if (permission === 'granted') return <><Check className="mr-2 h-4 w-4" /> Notificações Ativadas</>;
     if (permission === 'denied') return 'Permissão Negada';
     return 'Ativar Notificações';
   };
-  
-  if (permission === 'granted') {
-    return null;
-  }
 
   return (
     <Card className="w-full bg-card">
@@ -708,5 +708,3 @@ export default function AdminPage() {
     </div>
   );
 }
-
-    
