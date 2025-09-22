@@ -40,15 +40,35 @@ export default function LinkInBioPage() {
             <h2 className="text-xs font-semibold text-white uppercase tracking-wider text-center">
               PRÉ-VENDA METODO FLUXO DE CAIXA
             </h2>
-            <Link href="https://fluxodeoferta.site/fluxo" target="_blank" rel="noopener noreferrer" className="my-4 block overflow-hidden rounded-lg shadow-red-glow transition-shadow duration-300 hover:shadow-destructive/80">
-              <Image
-                src="https://i.postimg.cc/rp6JLCGX/Chat-GPT-Image-21-de-ago-de-2025-14-56-44.png"
-                alt="Fluxo de Caixa"
-                width={400}
-                height={200}
-                className="w-full h-auto object-cover transition-transform duration-300 hover:scale-105"
-              />
-            </Link>
+            <Dialog>
+              <DialogTrigger asChild>
+                <div className="my-4 block overflow-hidden rounded-lg shadow-red-glow transition-shadow duration-300 hover:shadow-destructive/80 cursor-pointer">
+                    <Image
+                      src="https://i.postimg.cc/rp6JLCGX/Chat-GPT-Image-21-de-ago-de-2025-14-56-44.png"
+                      alt="Fluxo de Caixa"
+                      width={400}
+                      height={200}
+                      className="w-full h-auto object-cover transition-transform duration-300 hover:scale-105"
+                    />
+                </div>
+              </DialogTrigger>
+              <DialogContent className="bg-white/10 backdrop-blur-lg border-white/20 text-white w-[90vw] max-w-sm rounded-2xl">
+                  <DialogHeader>
+                    <DialogTitle className="text-center text-2xl font-bold">🚀 Lançamento à Vista!</DialogTitle>
+                    <DialogDescription className="text-center text-white/80 pt-2 space-y-2">
+                      <p>O <span className="font-bold text-white">Método Fluxo de Caixa</span> está chegando. Domine o tráfego direto e as automações de X1 no WhatsApp para nunca mais passar um dia sem vender.</p>
+                      <p>As vagas serão limitadas. Entre no grupo VIP de pré-venda para garantir a sua e receber todas as informações em primeira mão.</p>
+                    </DialogDescription>
+                  </DialogHeader>
+                  <div className="flex justify-center pt-4">
+                    <Button asChild variant="destructive">
+                      <Link href="https://fluxodeoferta.site/fluxo" target="_blank" rel="noopener noreferrer">
+                        Entrar no Grupo de Pré-venda
+                      </Link>
+                    </Button>
+                  </div>
+              </DialogContent>
+            </Dialog>
           </div>
 
           {/* Community Card */}
