@@ -51,7 +51,7 @@ export default function LinkInBioPage() {
             <div className="flex flex-col gap-3 mt-4">
               <Link href="https://chat.whatsapp.com/Khh4Ulvu9elLgZvHjGWItX" target="_blank" rel="noopener noreferrer" className="block rounded-lg overflow-hidden transition-transform duration-300 hover:scale-105">
                 <Image 
-                  src="https://i.postimg.cc/CKSHrMHb/Chat-GPT-Image-21-de-ago-de-2025-15-14-13.png"
+                  src="https://i.postimg.cc/VLCtKv1T/Design-sem-nome-2.png"
                   alt="Grupo de Networking no Whatsapp"
                   width={400}
                   height={100}
