@@ -7,8 +7,15 @@ import { Button } from '@/components/ui/button';
 
 export default function LinkInBioPage() {
   return (
-    <div className="flex min-h-screen flex-col items-center bg-black text-white font-sans p-4">
-      <div className="w-full max-w-sm mx-auto flex flex-col items-center">
+    <div className="relative flex min-h-screen flex-col items-center bg-black text-white font-sans p-4 overflow-hidden">
+      
+      {/* Background Glows */}
+      <div className="absolute top-0 left-0 w-96 h-96 bg-purple-500/30 rounded-full filter blur-3xl opacity-50 animate-blob"></div>
+      <div className="absolute top-0 right-0 w-96 h-96 bg-sky-500/30 rounded-full filter blur-3xl opacity-50 animate-blob animation-delay-2000"></div>
+      <div className="absolute bottom-0 left-1/2 w-96 h-96 bg-pink-500/30 rounded-full filter blur-3xl opacity-50 animate-blob animation-delay-4000"></div>
+
+
+      <div className="w-full max-w-sm mx-auto flex flex-col items-center z-10">
         
         {/* Header */}
         <header className="flex flex-col items-center text-center py-8">
@@ -17,7 +24,7 @@ export default function LinkInBioPage() {
             alt="Foto de perfil de Gabriel Maia"
             width={96}
             height={96}
-            className="rounded-full border-2 border-neutral-800 object-cover"
+            className="rounded-full border-2 border-white/30 object-cover"
             data-ai-hint="profile picture"
           />
           <h1 className="text-2xl font-bold mt-4">⥁ gabrielmaia'gt</h1>
@@ -28,7 +35,7 @@ export default function LinkInBioPage() {
         <main className="w-full flex flex-col gap-4">
           
           {/* Main Program Card */}
-          <div className="bg-[#111] border border-neutral-800 rounded-xl p-4 w-full flex flex-col">
+          <div className="bg-white/10 backdrop-blur-md border border-white/20 rounded-xl p-4 w-full flex flex-col shadow-lg">
             <h2 className="text-xs font-semibold text-white uppercase tracking-wider">
               PROGRAMA PRINCIPAL: MÉTODO FLUXO DE CAIXA
             </h2>
@@ -44,7 +51,7 @@ export default function LinkInBioPage() {
           </div>
 
           {/* Community Card */}
-          <div className="bg-[#111] border border-neutral-800 rounded-xl p-4 w-full">
+          <div className="bg-white/10 backdrop-blur-md border border-white/20 rounded-xl p-4 w-full shadow-lg">
             <h2 className="text-xs font-semibold text-white uppercase tracking-wider">
               Quem não está online… já está FORA DO JOGO.
             </h2>
@@ -83,7 +90,7 @@ export default function LinkInBioPage() {
 
         {/* Footer */}
         <footer className="py-8 mt-4">
-          <p className="text-xs text-neutral-500">
+          <p className="text-xs text-neutral-400">
             © {new Date().getFullYear()} Gabriel Maia — Todos os direitos reservados.
           </p>
         </footer>
