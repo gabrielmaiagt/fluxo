@@ -1,14 +1,26 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { enableAdminPush } from '@/lib/push';
 import { useToast } from '@/hooks/use-toast';
+import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
+import { BellRing, Terminal } from 'lucide-react';
 
 export default function AdminPage() {
   const [isLoading, setIsLoading] = useState(false);
+  const [isSupported, setIsSupported] = useState<boolean | null>(null);
   const { toast } = useToast();
+
+  useEffect(() => {
+    // Verifica o suporte apenas no lado do cliente
+    setIsSupported(
+      typeof window !== 'undefined' &&
+        'serviceWorker' in navigator &&
+        'Notification' in window
+    );
+  }, []);
 
   const handleEnablePush = async () => {
     setIsLoading(true);
@@ -51,19 +63,31 @@ export default function AdminPage() {
           </CardDescription>
         </CardHeader>
         <CardContent>
-          <div className="space-y-4">
-            <p className="text-sm text-muted-foreground">
-              Clique no botão abaixo para permitir que este navegador receba notificações
-              push quando os usuários realizarem ações importantes no site.
-            </p>
-            <Button 
-              onClick={handleEnablePush} 
-              disabled={isLoading}
-              className="w-full"
-            >
-              {isLoading ? 'Ativando...' : 'Ativar Notificações'}
-            </Button>
-          </div>
+          {isSupported === false && (
+             <Alert variant="destructive">
+                <BellRing className="h-4 w-4" />
+                <AlertTitle>Navegador não compatível!</AlertTitle>
+                <AlertDescription>
+                    Seu navegador atual não suporta notificações push. Por favor, tente com outro navegador como Chrome ou Firefox em um desktop.
+                </AlertDescription>
+            </Alert>
+          )}
+
+          {isSupported && (
+            <div className="space-y-4">
+              <p className="text-sm text-muted-foreground">
+                Clique no botão abaixo para permitir que este navegador receba notificações
+                push quando os usuários realizarem ações importantes no site.
+              </p>
+              <Button 
+                onClick={handleEnablePush} 
+                disabled={isLoading}
+                className="w-full"
+              >
+                {isLoading ? 'Ativando...' : 'Ativar Notificações'}
+              </Button>
+            </div>
+          )}
         </CardContent>
       </Card>
     </div>

@@ -7,7 +7,7 @@ import { app, db } from "./firebase";
 const vapidKey = "BMA4boknocWY3_LTEvHIP69zsOU7ipULcG_3PcOJahW8qNNfSsI8XjAuyRr40u-B76QRBvm_zdei5NUBugsk2zs";
 
 export async function enableAdminPush(uid: string) {
-    if (typeof window === 'undefined' || !('serviceWorker' in navigator)) {
+    if (typeof window === 'undefined' || !('serviceWorker' in navigator) || !window.Notification) {
         throw new Error("Este navegador não suporta notificações push.");
     }
     if (!vapidKey || vapidKey === 'YOUR_VAPID_KEY') {
@@ -21,7 +21,7 @@ export async function enableAdminPush(uid: string) {
     try {
         await navigator.serviceWorker.register("/firebase-messaging-sw.js");
 
-        const perm = await Notification.requestPermission();
+        const perm = await window.Notification.requestPermission();
         if (perm !== "granted") {
             throw new Error("Permissão para notificações foi negada.");
         }
@@ -44,7 +44,7 @@ export async function enableAdminPush(uid: string) {
             onMessage(messaging, (payload) => {
                 console.log("Mensagem recebida em foreground: ", payload);
                 const { title, body } = payload.notification || {};
-                new Notification(title || "Novo Evento", { body: body || "Você tem um novo alerta." });
+                new window.Notification(title || "Novo Evento", { body: body || "Você tem um novo alerta." });
             });
             
             return token;
