@@ -6,12 +6,12 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { useToast } from '@/hooks/use-toast';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
-import { BarChart, BellRing, Check, Clock, Info, List, Loader2, RefreshCw } from 'lucide-react';
+import { BarChart as BarChartIcon, BellRing, Check, Clock, Info, List, Loader2, RefreshCw } from 'lucide-react';
 import { db } from '@/lib/firebase';
 import { collection, onSnapshot, query, where, Timestamp, orderBy, limit, getDocs } from 'firebase/firestore';
 import { formatDistanceToNow } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
-import { Bar, XAxis, YAxis, ResponsiveContainer, Tooltip } from 'recharts';
+import { Bar, XAxis, YAxis, ResponsiveContainer, Tooltip, BarChart } from 'recharts';
 
 interface ClickCount {
     label: string;
@@ -53,7 +53,7 @@ function ClicksDashboard() {
     });
 
     return () => unsubscribe();
-  }, []);
+  }, [toast]);
 
   return (
     <Card className="w-full bg-card">
@@ -123,7 +123,7 @@ function ClicksDashboard() {
           </ResponsiveContainer>
         ) : (
             <div className="flex flex-col items-center justify-center h-48 text-center">
-                <BarChart className="h-10 w-10 text-muted-foreground" />
+                <BarChartIcon className="h-10 w-10 text-muted-foreground" />
                 <p className="mt-4 text-sm text-muted-foreground">Nenhum dado de clique encontrado ainda.</p>
                 <p className="text-xs text-muted-foreground">Compartilhe sua página para começar.</p>
             </div>
@@ -311,5 +311,3 @@ export default function AdminPage() {
     </div>
   );
 }
-
-    
