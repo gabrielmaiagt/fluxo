@@ -6,7 +6,7 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { useToast } from '@/hooks/use-toast';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
-import { AreaChart, BarChart as BarChartIcon, BellRing, Check, Clock, Info, List, Loader2, RefreshCw } from 'lucide-react';
+import { AreaChart, BarChart as BarChartIcon, BellRing, Check, Clock, Info, List, Loader2, RefreshCw, Pointer } from 'lucide-react';
 import { db } from '@/lib/firebase';
 import { collection, onSnapshot, query, where, Timestamp, orderBy, limit, getDocs } from 'firebase/firestore';
 import { format, subDays, startOfDay, eachDayOfInterval, endOfDay } from 'date-fns';
@@ -297,6 +297,67 @@ function LiveNotificationsCard() {
   );
 }
 
+// Componente para exibir contagem de cliques por botão
+function ClickCountsList() {
+    const [counts, setCounts] = useState<{ id: string; label: string; count: number }[]>([]);
+    const [isLoading, setIsLoading] = useState(true);
+
+    useEffect(() => {
+        const q = query(collection(db, "clickCounts"), orderBy('count', 'desc'));
+
+        const unsubscribe = onSnapshot(q, (snapshot) => {
+            const clickCounts = snapshot.docs.map(doc => {
+                const data = doc.data();
+                return {
+                    id: doc.id,
+                    label: data.label || 'Link desconhecido',
+                    count: data.count || 0,
+                };
+            });
+            setCounts(clickCounts);
+            setIsLoading(false);
+        }, (error) => {
+            console.error("Erro ao buscar contagem de cliques:", error);
+            setIsLoading(false);
+        });
+
+        return () => unsubscribe();
+    }, []);
+
+    return (
+        <Card className="w-full bg-card">
+            <CardHeader>
+                <CardTitle>Contagem de Cliques por Link</CardTitle>
+                <CardDescription>Total de cliques registrados para cada botão.</CardDescription>
+            </CardHeader>
+            <CardContent>
+                {isLoading ? (
+                    <div className="flex items-center justify-center h-40">
+                        <Loader2 className="h-8 w-8 animate-spin text-muted-foreground" />
+                    </div>
+                ) : counts.length > 0 ? (
+                    <div className="space-y-4">
+                        {counts.map((item) => (
+                            <div key={item.id} className="flex items-center justify-between">
+                                <p className="text-sm font-medium">{item.label}</p>
+                                <div className="flex items-center text-sm font-bold text-primary">
+                                    <Pointer className="mr-2 h-4 w-4 text-muted-foreground" />
+                                    {item.count}
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+                ) : (
+                    <div className="flex flex-col items-center justify-center h-40 text-center">
+                        <Pointer className="h-10 w-10 text-muted-foreground" />
+                        <p className="mt-4 text-sm text-muted-foreground">Nenhum clique contabilizado ainda.</p>
+                    </div>
+                )}
+            </CardContent>
+        </Card>
+    );
+}
+
 // Componente de Log de Cliques Recentes
 function RecentClicksLog() {
   const [clicks, setClicks] = useState<{ id: string; label: string; timestamp: Date }[]>([]);
@@ -371,6 +432,7 @@ export default function AdminPage() {
       <div className="w-full max-w-4xl space-y-8">
         <LiveNotificationsCard />
         <ClicksChart />
+        <ClickCountsList />
         <RecentClicksLog />
       </div>
     </div>
