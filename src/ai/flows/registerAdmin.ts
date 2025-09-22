@@ -1,7 +1,7 @@
 
 'use server';
 /**
- * @fileOverview A flow to securely register an admin's push notification token.
+ * @fileOverview A flow to securely register an admin's push notification token for local notifications.
  *
  * - registerAdmin - A function that saves the admin's push token to Firestore.
  */
@@ -13,8 +13,8 @@ import * as admin from 'firebase-admin';
 function initializeFirebaseAdmin() {
     if (admin.apps.length === 0) {
       if (!process.env.FIREBASE_PROJECT_ID || !process.env.FIREBASE_CLIENT_EMAIL || !process.env.FIREBASE_PRIVATE_KEY) {
-        console.error('As variáveis de ambiente do Firebase não estão definidas. Verifique seu arquivo .env');
-        throw new Error('As variáveis de ambiente do Firebase não estão definidas. Verifique seu arquivo .env');
+        console.warn('As variáveis de ambiente do Firebase não estão definidas. O registro pode não funcionar no servidor.');
+        return null;
       }
       try {
           admin.initializeApp({
@@ -27,7 +27,7 @@ function initializeFirebaseAdmin() {
           console.log("Firebase Admin SDK initialized successfully (registerAdmin).");
       } catch(e: any) {
           console.error("Error initializing Firebase Admin SDK (registerAdmin):", e.message);
-          throw new Error(`Firebase Admin initialization failed: ${e.message}`);
+          return null;
       }
     }
     return admin.app();
@@ -36,7 +36,7 @@ function initializeFirebaseAdmin() {
 
 const RegisterAdminInputSchema = z.object({
   uid: z.string().describe('The unique ID for the admin user.'),
-  token: z.string().describe('The push notification token to register.'),
+  token: z.string().describe('A generic token or identifier for the browser session.'),
 });
 
 export type RegisterAdminInput = z.infer<typeof RegisterAdminInputSchema>;
@@ -53,15 +53,20 @@ const registerAdminFlow = ai.defineFlow(
   },
   async ({ uid, token }) => {
     try {
-      initializeFirebaseAdmin();
+      const app = initializeFirebaseAdmin();
+       if (!app) {
+        return { success: false };
+      }
       const firestore = admin.firestore();
       
-      await firestore.collection('adminPushTokens').doc(uid).set({
-        token,
-        updatedAt: Date.now(),
+      // We are not using push tokens anymore, but we can save a generic identifier if needed.
+      // For now, this just confirms the server-side flow can be called.
+      await firestore.collection('adminActiveSessions').doc(uid).set({
+        lastSeen: Date.now(),
+        dummyToken: token, // Not a real push token
       });
       
-      console.log(`Admin token for UID ${uid} saved to Firestore.`);
+      console.log(`Admin active session for UID ${uid} registered.`);
       return { success: true };
 
     } catch (error) {

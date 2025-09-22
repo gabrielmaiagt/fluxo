@@ -6,6 +6,8 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { useToast } from '@/hooks/use-toast';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { BellRing, Info } from 'lucide-react';
+import { db } from '@/lib/firebase';
+import { collection, onSnapshot, query, where, Timestamp } from 'firebase/firestore';
 
 export default function AdminPage() {
   const [isLoading, setIsLoading] = useState(false);
@@ -21,6 +23,37 @@ export default function AdminPage() {
       setPermission(Notification.permission);
     }
   }, []);
+  
+  // Firestore listener
+  useEffect(() => {
+    if (permission !== 'granted') return;
+
+    const fiveMinutesAgo = Timestamp.fromMillis(Date.now() - 5 * 60 * 1000);
+    const q = query(collection(db, "userActions"), where("timestamp", ">=", fiveMinutesAgo));
+
+    const unsubscribe = onSnapshot(q, (snapshot) => {
+      snapshot.docChanges().forEach((change) => {
+        if (change.type === "added") {
+          const action = change.doc.data();
+          new Notification('🔔 Nova Ação no Site', {
+            body: `Um usuário clicou em: ${action.label}`,
+            icon: '/favicon.ico' // Você pode mudar este ícone
+          });
+        }
+      });
+    }, (error) => {
+        console.error("Erro ao ouvir o Firestore:", error);
+        toast({
+          title: "Erro de Conexão",
+          description: "Não foi possível ouvir as atualizações do servidor.",
+          variant: "destructive",
+        });
+    });
+
+    // Cleanup listener on component unmount
+    return () => unsubscribe();
+  }, [permission, toast]);
+
 
   const handleRequestPermission = async () => {
     if (!isSupported) return;
@@ -33,11 +66,11 @@ export default function AdminPage() {
       if (currentPermission === 'granted') {
         toast({
           title: "Sucesso!",
-          description: "As notificações nativas do navegador foram ativadas.",
+          description: "As notificações locais foram ativadas para esta sessão.",
           variant: "default",
         });
         new Notification("Notificações Ativadas", {
-          body: "Você receberá alertas locais neste navegador.",
+          body: "Você receberá alertas enquanto esta página estiver aberta.",
           icon: "/favicon.ico"
         });
       } else {
@@ -70,7 +103,7 @@ export default function AdminPage() {
         <CardHeader>
           <CardTitle>Painel de Administrador</CardTitle>
           <CardDescription>
-            Gerenciar notificações e outras configurações do site.
+            Ative as notificações para receber alertas em tempo real.
           </CardDescription>
         </CardHeader>
         <CardContent>
@@ -86,18 +119,13 @@ export default function AdminPage() {
 
           {isSupported && (
             <div className="space-y-4">
-              <Alert variant="default" className="border-primary text-primary-foreground">
-                  <Info className="h-4 w-4 !text-primary" />
-                  <AlertTitle>Notificações Nativas do Navegador</AlertTitle>
-                  <AlertDescription>
-                    <p>Esta funcionalidade usa a API nativa do navegador para exibir notificações. Ela não usa Firebase Cloud Messaging ou chaves VAPID.</p>
-                    <p className="mt-2 text-xs">Os alertas só aparecerão se esta página ou o site estiverem abertos em alguma aba.</p>
-                  </AlertDescription>
+                <Alert variant="default" className="border-primary/50 text-primary-foreground">
+                    <Info className="h-4 w-4 !text-primary" />
+                    <AlertTitle>Como funciona?</AlertTitle>
+                    <AlertDescription>
+                        <p>Ao ativar, seu navegador passará a receber notificações de novos cliques de usuários. Para que isso funcione, <strong>esta página de admin deve permanecer aberta</strong> em uma aba.</p>
+                    </AlertDescription>
                 </Alert>
-              
-              <p className="text-sm text-muted-foreground">
-                Clique no botão abaixo para permitir que este navegador exiba notificações nativas.
-              </p>
               <Button 
                 onClick={handleRequestPermission} 
                 disabled={isLoading || permission === 'granted' || permission === 'denied'}
