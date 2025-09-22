@@ -11,14 +11,6 @@ import { z } from 'zod';
 import * as admin from 'firebase-admin';
 import { firebaseConfig } from '@/lib/firebase';
 
-// Inicialize o Firebase Admin SDK apenas uma vez
-if (!admin.apps.length) {
-  admin.initializeApp({
-    credential: admin.credential.applicationDefault(),
-    databaseURL: `https://${firebaseConfig.projectId}.firebaseio.com`
-  });
-}
-
 const NotifyOwnerInputSchema = z.object({
   label: z.string().describe('Um rótulo para a ação que acionou a notificação.'),
 });
@@ -36,6 +28,14 @@ const notifyOwnerFlow = ai.defineFlow(
     outputSchema: z.object({ success: z.boolean() }),
   },
   async (input) => {
+    // Inicialize o Firebase Admin SDK apenas uma vez, dentro do fluxo
+    if (!admin.apps.length) {
+      admin.initializeApp({
+        credential: admin.credential.applicationDefault(),
+        databaseURL: `https://${firebaseConfig.projectId}.firebaseio.com`
+      });
+    }
+
     try {
       const tokensSnapshot = await admin.firestore().collection('adminPushTokens').get();
       if (tokensSnapshot.empty) {
