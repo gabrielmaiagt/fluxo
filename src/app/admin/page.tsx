@@ -1,7 +1,7 @@
 
 'use client';
 
-import { useEffect, useState, useRef } from 'react';
+import { useEffect, useState, useRef, useMemo } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { useToast } from '@/hooks/use-toast';
@@ -298,14 +298,14 @@ function LiveNotificationsCard() {
     }
   };
   
+  const isButtonDisabled = permission === 'granted' || permission === 'denied';
+
   const getButtonText = () => {
     if (permission === 'granted') return <><Check className="mr-2 h-4 w-4" /> Notificações Ativadas</>;
     if (permission === 'denied') return 'Permissão Negada';
     return 'Ativar Notificações';
   };
   
-  const isButtonDisabled = permission === 'granted' || permission === 'denied';
-
   if (permission === 'granted') {
     return null;
   }
@@ -337,6 +337,46 @@ function LiveNotificationsCard() {
       </CardContent>
     </Card>
   );
+}
+
+function SiteVisitsCard() {
+    const [visitCount, setVisitCount] = useState<number>(0);
+    const [isLoading, setIsLoading] = useState(true);
+
+    useEffect(() => {
+        const q = query(collection(db, "visits"));
+
+        const unsubscribe = onSnapshot(q, (snapshot) => {
+            setVisitCount(snapshot.size);
+            setIsLoading(false);
+        }, (error) => {
+            console.error("Erro ao buscar contagem de visitas:", error);
+            setIsLoading(false);
+        });
+
+        return () => unsubscribe();
+    }, []);
+
+    return (
+        <Card className="w-full bg-card">
+            <CardHeader className="flex flex-row items-center justify-between pb-2">
+                <CardTitle className="text-sm font-medium">Visitas no Site</CardTitle>
+                <Eye className="h-4 w-4 text-muted-foreground" />
+            </CardHeader>
+            <CardContent>
+                {isLoading ? (
+                     <div className="flex items-center justify-center h-10">
+                        <Loader2 className="h-6 w-6 animate-spin text-muted-foreground" />
+                    </div>
+                ) : (
+                    <div className="text-2xl font-bold">{visitCount}</div>
+                )}
+                <p className="text-xs text-muted-foreground">
+                    Total de visitas únicas diárias
+                </p>
+            </CardContent>
+        </Card>
+    );
 }
 
 function ClickCountsList() {
@@ -483,6 +523,10 @@ export default function AdminPage() {
     <div className="flex min-h-screen flex-col items-center bg-background p-4 sm:p-6 md:p-8">
       <div className="w-full max-w-4xl space-y-8">
         <LiveNotificationsCard />
+        <div className="grid gap-8 md:grid-cols-2">
+            <SiteVisitsCard />
+            {/* Placeholder for another card if needed */}
+        </div>
         <ClicksChart />
         <ClickCountsList />
         <RecentClicksLog />
