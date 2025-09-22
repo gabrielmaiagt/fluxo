@@ -32,7 +32,7 @@ export default function LinkInBioPage() {
             className="rounded-full border-2 border-white/30 object-cover"
             data-ai-hint="profile picture"
           />
-          <h1 className="text-2xl font-bold mt-4">⥁ gabrielmaia'gt</h1>
+          <h1 className="text-2xl font-bold mt-4">Gabriel Maia</h1>
           <Typewriter text="Aprenda a lucrar todo dia." className="text-white mt-1 h-6" />
         </header>
 
@@ -273,7 +273,7 @@ export default function LinkInBioPage() {
         {/* Footer */}
         <footer className="py-8 mt-4">
           <p className="text-xs text-neutral-400">
-            © {new Date().getFullYear()} ⥁ gabrielmaia'gt — Todos os direitos reservados.
+            © {new Date().getFullYear()} Gabriel Maia — Todos os direitos reservados.
           </p>
         </footer>
       </div>
@@ -281,4 +281,5 @@ export default function LinkInBioPage() {
   );
 }
 
+    
     
