@@ -5,9 +5,8 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { useToast } from '@/hooks/use-toast';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
-import { BellRing, Info } from 'lucide-react';
-import { db } from '@/lib/firebase';
-import { collection, onSnapshot, query, where, Timestamp } from 'firebase/firestore';
+import { BellRing, Check, Info } from 'lucide-react';
+import { enablePushNotifications } from '@/lib/push';
 
 export default function AdminPage() {
   const [isLoading, setIsLoading] = useState(false);
@@ -17,74 +16,47 @@ export default function AdminPage() {
 
   useEffect(() => {
     const isClient = typeof window !== 'undefined';
-    const supported = isClient && 'Notification' in window;
+    // O suporte a Push é mais complexo, envolve 'Notification', 'serviceWorker' e 'PushManager'
+    const supported = isClient && 'Notification' in window && 'serviceWorker' in navigator && 'PushManager' in window;
     setIsSupported(supported);
     if (supported) {
       setPermission(Notification.permission);
     }
   }, []);
-  
-  // Firestore listener
-  useEffect(() => {
-    if (permission !== 'granted') return;
-
-    const fiveMinutesAgo = Timestamp.fromMillis(Date.now() - 5 * 60 * 1000);
-    const q = query(collection(db, "userActions"), where("timestamp", ">=", fiveMinutesAgo));
-
-    const unsubscribe = onSnapshot(q, (snapshot) => {
-      snapshot.docChanges().forEach((change) => {
-        if (change.type === "added") {
-          const action = change.doc.data();
-          new Notification('🔔 Nova Ação no Site', {
-            body: `Um usuário clicou em: ${action.label}`,
-            icon: '/favicon.ico' // Você pode mudar este ícone
-          });
-        }
-      });
-    }, (error) => {
-        console.error("Erro ao ouvir o Firestore:", error);
-        toast({
-          title: "Erro de Conexão",
-          description: "Não foi possível ouvir as atualizações do servidor.",
-          variant: "destructive",
-        });
-    });
-
-    // Cleanup listener on component unmount
-    return () => unsubscribe();
-  }, [permission, toast]);
-
 
   const handleRequestPermission = async () => {
     if (!isSupported) return;
 
     setIsLoading(true);
     try {
-      const currentPermission = await Notification.requestPermission();
-      setPermission(currentPermission);
+      await enablePushNotifications();
+      
+      setPermission('granted'); // Atualiza o estado da permissão na UI
+      
+      toast({
+        title: "Sucesso!",
+        description: "Você agora receberá notificações push sobre as ações dos usuários.",
+        variant: "default",
+      });
 
-      if (currentPermission === 'granted') {
-        toast({
-          title: "Sucesso!",
-          description: "As notificações locais foram ativadas para esta sessão.",
-          variant: "default",
-        });
-        new Notification("Notificações Ativadas", {
-          body: "Você receberá alertas enquanto esta página estiver aberta.",
-          icon: "/favicon.ico"
-        });
-      } else {
-        throw new Error("A permissão para notificações foi negada.");
-      }
+      // Notificação de confirmação
+      new Notification("Notificações Ativadas", {
+        body: "Tudo pronto para receber alertas em tempo real!",
+        icon: "/favicon.ico"
+      });
 
     } catch (error: any) {
-      console.error("Erro ao pedir permissão:", error);
+      console.error("Erro ao ativar notificações:", error);
       toast({
         title: "Erro ao ativar notificações",
         description: `Detalhes: ${error.message}`,
         variant: "destructive",
         duration: 9000,
       });
+      // Se o erro foi de permissão, atualiza o estado da UI
+      if (error.message.includes('negada')) {
+        setPermission('denied');
+      }
     } finally {
       setIsLoading(false);
     }
@@ -92,9 +64,9 @@ export default function AdminPage() {
   
   const getButtonText = () => {
     if(isLoading) return 'Ativando...';
-    if(permission === 'granted') return 'Notificações Ativadas';
+    if(permission === 'granted') return ( <><Check className="mr-2 h-4 w-4" /> Notificações Ativadas</> );
     if(permission === 'denied') return 'Permissão Negada';
-    return 'Ativar Notificações Locais';
+    return 'Ativar Notificações Push';
   }
 
   return (
@@ -103,7 +75,7 @@ export default function AdminPage() {
         <CardHeader>
           <CardTitle>Painel de Administrador</CardTitle>
           <CardDescription>
-            Ative as notificações para receber alertas em tempo real.
+            Receba notificações push em tempo real sobre a atividade dos usuários.
           </CardDescription>
         </CardHeader>
         <CardContent>
@@ -112,7 +84,7 @@ export default function AdminPage() {
                 <BellRing className="h-4 w-4" />
                 <AlertTitle>Navegador não compatível!</AlertTitle>
                 <AlertDescription>
-                    Seu navegador atual não suporta a API de Notificações.
+                    Seu navegador atual não suporta a API de Notificações Push.
                 </AlertDescription>
             </Alert>
           )}
@@ -123,7 +95,7 @@ export default function AdminPage() {
                     <Info className="h-4 w-4 !text-primary" />
                     <AlertTitle>Como funciona?</AlertTitle>
                     <AlertDescription>
-                        <p>Ao ativar, seu navegador passará a receber notificações de novos cliques de usuários. Para que isso funcione, <strong>esta página de admin deve permanecer aberta</strong> em uma aba.</p>
+                        <p>Clique no botão abaixo para permitir as notificações. Uma vez ativado, você receberá um alerta no seu dispositivo sempre que um usuário clicar em um link importante, mesmo com esta página fechada.</p>
                     </AlertDescription>
                 </Alert>
               <Button 

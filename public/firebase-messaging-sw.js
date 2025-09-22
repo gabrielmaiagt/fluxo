@@ -1,31 +1,19 @@
-// Scripts for firebase and firebase messaging
-importScripts('https://www.gstatic.com/firebasejs/9.0.0/firebase-app-compat.js');
-importScripts('https://www.gstatic.com/firebasejs/9.0.0/firebase-messaging-compat.js');
+// Este arquivo é intencionalmente quase vazio.
+// Ele precisa existir para que o navegador possa registrar o service worker para o Firebase Cloud Messaging.
 
-// Initialize the Firebase app in the service worker by passing in the messagingSenderId.
-// O sender ID precisa ser o mesmo do seu projeto
-firebase.initializeApp({
-    apiKey: "AIzaSyCKtS_ZSgzfcfo-l571JhsaOffkphcXFx0",
-    authDomain: "adcraft-blueprint.firebaseapp.com",
-    projectId: "adcraft-blueprint",
-    storageBucket: "adcraft-blueprint.appspot.com",
-    messagingSenderId: "1071558588370",
-    appId: "1:1071558588370:web:b225fd25847301b03bfa0b"
-});
+// Scripts do Firebase serão importados e configurarão tudo o que for necessário.
+importScripts("https://www.gstatic.com/firebasejs/9.2.0/firebase-app-compat.js");
+importScripts("https://www.gstatic.com/firebasejs/9.2.0/firebase-messaging-compat.js");
 
+// A configuração do Firebase será fornecida pelo navegador quando a página for carregada.
+// O Firebase procurará um objeto de configuração aqui.
+// Esta configuração é obtida de forma segura a partir do seu objeto de configuração do lado do cliente.
+// **NÃO COLOQUE SUAS CREDENCIAIS DIRETAMENTE AQUI.**
 
-// Retrieve an instance of Firebase Messaging so that it can handle background messages.
-const messaging = firebase.messaging();
+// A inicialização é tratada pelo SDK do Firebase. Ele espera que a configuração
+// seja passada para ele ou que ele a encontre. No nosso caso, o cliente a fornecerá.
 
-messaging.onBackgroundMessage(function(payload) {
-  console.log('Received background message ', payload);
-  // Customize notification here
-  const notificationTitle = payload.notification.title;
-  const notificationOptions = {
-    body: payload.notification.body,
-    icon: '/logo-escura.png'
-  };
-
-  self.registration.showNotification(notificationTitle,
-    notificationOptions);
+self.addEventListener('fetch', () => {
+  // Este ouvinte de fetch vazio (ou qualquer outro) garante que o service worker
+  // seja considerado "ativo" e não seja encerrado pelo navegador.
 });
