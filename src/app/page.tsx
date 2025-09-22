@@ -111,20 +111,47 @@ export default function LinkInBioPage() {
                   />
                 </div>
               </DialogTrigger>
-              <DialogContent className="bg-white/10 backdrop-blur-lg border-white/20 text-white w-[90vw] max-w-sm rounded-2xl">
+              <DialogContent className="bg-white/10 backdrop-blur-lg border-white/20 text-white w-[90vw] max-w-md rounded-2xl p-6">
                 <DialogHeader>
-                  <DialogTitle className="text-center text-2xl font-bold">Mentoria Individual</DialogTitle>
-                  <DialogDescription asChild>
-                    <div className="text-center text-white/80 pt-2 space-y-3">
-                      <p>Receba acompanhamento individual e personalizado para acelerar seus resultados. Vamos analisar seu negócio, otimizar suas campanhas e escalar suas vendas juntos.</p>
-                      <p className="text-white font-bold text-lg">Valor: R$997</p>
-                    </div>
-                  </DialogDescription>
+                  <DialogTitle className="text-center text-2xl font-bold">Mentoria Individual 1:1</DialogTitle>
                 </DialogHeader>
+                <div className="text-white/90 space-y-4 pt-2 text-sm">
+                  <p className="text-center italic">Se você investe e não volta o gasto diário, tem algo errado no sistema — e eu corrijo com você.</p>
+                  <p>No 1:1 a gente ajusta oferta, funil, criativos e mídia, define um plano de ação e executa.</p>
+                  
+                  <div>
+                    <h4 className="font-semibold text-white">O que rola na prática (ensino + correção):</h4>
+                    <ul className="mt-2 space-y-1.5 list-disc list-inside text-white/80">
+                      <li>Diagnóstico completo de oferta, funil e tráfego</li>
+                      <li>Ajuste de criativos (angulações, hooks, copy e variações)</li>
+                      <li>Plano de mídia direto/X1 com metas e orçamento</li>
+                      <li>Checklist de execução + rotina semanal</li>
+                      <li>Follow-up para dúvidas e correção de rota</li>
+                    </ul>
+                  </div>
+
+                  <div>
+                    <h4 className="font-semibold text-white">Para quem é:</h4>
+                    <ul className="mt-2 space-y-1.5 list-disc list-inside text-white/80">
+                      <li>Quer girar caixa agora e escalar com previsibilidade</li>
+                      <li>Tem (ou vai colocar) oferta/produto rodando</li>
+                      <li>Topa executar entre as sessões</li>
+                    </ul>
+                  </div>
+
+                  <p className="text-center font-semibold pt-2">Sem promessa vazia. Trabalho conjunto, entrega e cobrança.</p>
+                </div>
                 <div className="flex flex-col items-center gap-4 pt-4">
-                  <Button asChild variant="destructive">
+                    <div className="text-center">
+                        <p className="text-sm text-white/80">Investimento (lote atual):</p>
+                        <div className="flex items-baseline justify-center gap-2">
+                           <span className="text-sm text-muted-foreground line-through">De R$2.997</span>
+                           <span className="text-2xl font-bold text-white">por R$997</span>
+                        </div>
+                    </div>
+                  <Button asChild variant="destructive" className="w-full font-bold">
                     <Link href="https://wa.link/3xmzej" target="_blank" rel="noopener noreferrer">
-                      Quero a Mentoria Individual
+                      Quero a Mentoria 1:1
                     </Link>
                   </Button>
                 </div>
@@ -237,3 +264,5 @@ export default function LinkInBioPage() {
     </div>
   );
 }
+
+    
