@@ -37,7 +37,7 @@ export default function LinkInBioPage() {
           {/* Main Program Card */}
           <div className="bg-white/10 backdrop-blur-md border border-white/20 rounded-xl p-4 w-full flex flex-col">
             <h2 className="text-xs font-semibold text-white uppercase tracking-wider text-center">
-              ⚡ Vagas limitadas na pré-venda do Método Fluxo de Caixa.<br/>👥 Detalhes só no grupo do WhatsApp.
+              PRÉ-VENDA METODO FLUXO DE CAIXA
             </h2>
             <Link href="https://fluxodeoferta.site/fluxo" target="_blank" rel="noopener noreferrer" className="my-4 block overflow-hidden rounded-lg shadow-red-glow transition-shadow duration-300 hover:shadow-destructive/80">
               <Image
