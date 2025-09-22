@@ -8,17 +8,19 @@
 import { ai } from '@/ai/genkit';
 import { z } from 'zod';
 import * as admin from 'firebase-admin';
-import { firebaseConfig } from '@/lib/firebase'; // Importa a configuração
 
 // Helper para inicializar o Firebase Admin de forma segura (uma única vez)
 function initializeFirebaseAdmin() {
   if (admin.apps.length === 0) {
+    if (!process.env.FIREBASE_PROJECT_ID || !process.env.FIREBASE_CLIENT_EMAIL || !process.env.FIREBASE_PRIVATE_KEY) {
+      throw new Error('As variáveis de ambiente do Firebase não estão definidas. Verifique seu arquivo .env');
+    }
     try {
         admin.initializeApp({
             credential: admin.credential.cert({
-              projectId: firebaseConfig.projectId,
+              projectId: process.env.FIREBASE_PROJECT_ID,
               clientEmail: process.env.FIREBASE_CLIENT_EMAIL,
-              privateKey: process.env.FIREBASE_PRIVATE_KEY?.replace(/\\n/g, '\n'),
+              privateKey: process.env.FIREBASE_PRIVATE_KEY.replace(/\\n/g, '\n'),
             }),
         });
         console.log("Firebase Admin SDK inicializado com sucesso (notifyOwner).");
