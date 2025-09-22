@@ -35,7 +35,7 @@ export default function LinkInBioPage() {
         <main className="w-full flex flex-col gap-4">
           
           {/* Main Program Card */}
-          <div className="bg-white/10 backdrop-blur-md border border-white/20 rounded-xl p-4 w-full flex flex-col shadow-lg">
+          <div className="bg-white/10 backdrop-blur-md border border-white/20 rounded-xl p-4 w-full flex flex-col shadow-lg shadow-red-glow transition-shadow duration-300 hover:shadow-destructive/80">
             <h2 className="text-xs font-semibold text-white uppercase tracking-wider">
               PROGRAMA PRINCIPAL: MÉTODO FLUXO DE CAIXA
             </h2>
@@ -51,7 +51,7 @@ export default function LinkInBioPage() {
           </div>
 
           {/* Community Card */}
-          <div className="bg-white/10 backdrop-blur-md border border-white/20 rounded-xl p-4 w-full shadow-lg">
+          <div className="bg-white/10 backdrop-blur-md border border-white/20 rounded-xl p-4 w-full shadow-lg shadow-red-glow transition-shadow duration-300 hover:shadow-destructive/80">
             <h2 className="text-xs font-semibold text-white uppercase tracking-wider">
               Quem não está online… já está FORA DO JOGO.
             </h2>
