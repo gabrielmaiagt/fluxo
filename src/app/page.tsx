@@ -77,136 +77,126 @@ export default function LinkInBioPage() {
         {/* Main Content */}
         <main className="w-full flex flex-col gap-4">
           
-          {/* Main Program Card */}
-          <div className="bg-white/10 backdrop-blur-md border border-white/20 rounded-xl p-4 w-full">
-            <h2 className="text-xs font-semibold text-white uppercase tracking-wider text-center">
-              PRÉ-VENDA METODO FLUXO DE CAIXA
-            </h2>
-            <div 
-              className="my-4 block overflow-hidden rounded-lg shadow-red-glow transition-shadow duration-300 hover:shadow-destructive/80 cursor-pointer"
-              onClick={() => handleNotificationClick('https://chat.whatsapp.com/HRRGV0rKCVI2h3unF10m9f', 'Grupo Pré-venda Fluxo de Caixa')}
-            >
-                <Image
-                  src="https://i.postimg.cc/rp6JLCGX/Chat-GPT-Image-21-de-ago-de-2025-14-56-44.png"
-                  alt="Fluxo de Caixa"
-                  width={400}
-                  height={200}
-                  className="w-full h-auto object-cover"
-                />
-            </div>
-             <Dialog>
+          <Dialog>
+            <div className="bg-white/10 backdrop-blur-md border border-white/20 rounded-xl p-4 w-full space-y-4">
+              <h2 className="text-xs font-semibold text-white uppercase tracking-wider text-center">
+                PRÉ-VENDA METODO FLUXO DE CAIXA
+              </h2>
               <DialogTrigger asChild>
-                <Button variant="outline" className="w-full bg-transparent border-white/30 text-white/80 hover:bg-white/20 hover:text-white">
-                  Ver Detalhes
-                </Button>
+                <div 
+                  className="block overflow-hidden rounded-lg shadow-red-glow transition-shadow duration-300 hover:shadow-destructive/80 cursor-pointer"
+                >
+                    <Image
+                      src="https://i.postimg.cc/rp6JLCGX/Chat-GPT-Image-21-de-ago-de-2025-14-56-44.png"
+                      alt="Fluxo de Caixa"
+                      width={400}
+                      height={200}
+                      className="w-full h-auto object-cover"
+                    />
+                </div>
               </DialogTrigger>
               <DialogContent className="bg-white/10 backdrop-blur-lg border-white/20 text-white w-[90vw] max-w-md rounded-2xl p-6">
-                <DialogHeader>
-                  <DialogTitle className="text-center text-lg font-bold uppercase tracking-wider text-destructive">PRÉ-VENDA</DialogTitle>
-                  <DialogDescription asChild>
-                    <div className="text-center">
-                      <h3 className="text-2xl font-bold text-white mt-1">MÉTODO · FLUXO DE CAIXA</h3>
-                      <p className="text-white/80 mt-2">Aprenda a validar e escalar oferta de X1 e tráfego direto.</p>
+                  <DialogHeader>
+                    <DialogTitle className="text-center text-lg font-bold uppercase tracking-wider text-destructive">PRÉ-VENDA</DialogTitle>
+                    <DialogDescription asChild>
+                      <div className="text-center">
+                        <h3 className="text-2xl font-bold text-white mt-1">MÉTODO · FLUXO DE CAIXA</h3>
+                        <p className="text-white/80 mt-2">Aprenda a validar e escalar oferta de X1 e tráfego direto.</p>
+                      </div>
+                    </DialogDescription>
+                  </DialogHeader>
+                  <div className="space-y-4 text-left pt-4">
+                    <div>
+                      <h4 className="font-semibold text-white text-md">Pra você que quer aprender:</h4>
+                      <ul className="mt-2 space-y-2 text-white/80 text-sm">
+                        <li className="flex items-start"><Check className="h-4 w-4 mr-2 mt-0.5 text-green-500 flex-shrink-0" /> Espionagem Avançada</li>
+                        <li className="flex items-start"><Check className="h-4 w-4 mr-2 mt-0.5 text-green-500 flex-shrink-0" /> Criativos de Alta Conversão</li>
+                        <li className="flex items-start"><Check className="h-4 w-4 mr-2 mt-0.5 text-green-500 flex-shrink-0" /> Funis Completos</li>
+                        <li className="flex items-start"><Check className="h-4 w-4 mr-2 mt-0.5 text-green-500 flex-shrink-0" /> E muito mais...</li>
+                      </ul>
                     </div>
-                  </DialogDescription>
-                </DialogHeader>
-                <div className="space-y-4 text-left pt-4">
-                  <div>
-                    <h4 className="font-semibold text-white text-md">Pra você que quer aprender:</h4>
-                    <ul className="mt-2 space-y-2 text-white/80 text-sm">
-                      <li className="flex items-start"><Check className="h-4 w-4 mr-2 mt-0.5 text-green-500 flex-shrink-0" /> Espionagem Avançada</li>
-                      <li className="flex items-start"><Check className="h-4 w-4 mr-2 mt-0.5 text-green-500 flex-shrink-0" /> Criativos de Alta Conversão</li>
-                      <li className="flex items-start"><Check className="h-4 w-4 mr-2 mt-0.5 text-green-500 flex-shrink-0" /> Funis Completos</li>
-                      <li className="flex items-start"><Check className="h-4 w-4 mr-2 mt-0.5 text-green-500 flex-shrink-0" /> E muito mais...</li>
-                    </ul>
+                    <div>
+                      <h4 className="font-semibold text-white text-md">Não é para:</h4>
+                      <ul className="mt-2 space-y-2 text-white/80 text-sm">
+                        <li className="flex items-start"><X className="h-4 w-4 mr-2 mt-0.5 text-destructive flex-shrink-0" /> quem busca “atalho” sem executar.</li>
+                      </ul>
+                    </div>
                   </div>
-                  <div>
-                    <h4 className="font-semibold text-white text-md">Não é para:</h4>
-                    <ul className="mt-2 space-y-2 text-white/80 text-sm">
-                      <li className="flex items-start"><X className="h-4 w-4 mr-2 mt-0.5 text-destructive flex-shrink-0" /> quem busca “atalho” sem executar.</li>
-                    </ul>
+                  <div className="flex flex-col items-center gap-4 pt-4">
+                     <Button variant="destructive" className="w-full font-bold animate-breathing" onClick={() => handleNotificationClick('https://chat.whatsapp.com/HRRGV0rKCVI2h3unF10m9f', 'Grupo Pré-venda Fluxo de Caixa')}>
+                        Entrar no Grupo
+                    </Button>
+                    <p className="text-xs text-center text-white/70 px-4">
+                      Desconto e bônus especiais para as primeiras 50 pessoas.
+                    </p>
                   </div>
-                </div>
-                <div className="flex flex-col items-center gap-4 pt-4">
-                   <Button variant="destructive" className="w-full font-bold animate-breathing" onClick={() => handleNotificationClick('https://chat.whatsapp.com/HRRGV0rKCVI2h3unF10m9f', 'Grupo Pré-venda Fluxo de Caixa')}>
-                      Entrar no Grupo
-                  </Button>
-                  <p className="text-xs text-center text-white/70 px-4">
-                    Desconto e bônus especiais para as primeiras 50 pessoas.
-                  </p>
-                </div>
-              </DialogContent>
-            </Dialog>
-          </div>
-
-          {/* Advanced Mentorship Card */}
-          <div className="bg-white/10 backdrop-blur-md border border-white/20 rounded-xl p-4 w-full">
-            <h2 className="text-xs font-semibold text-white uppercase tracking-wider text-center">
-              AVANÇADO
-            </h2>
-            <div 
-              className="my-4 block overflow-hidden rounded-lg shadow-red-glow transition-shadow duration-300 hover:shadow-destructive/80 cursor-pointer"
-              onClick={() => handleNotificationClick('https://wa.link/3xmzej', 'Mentoria 1:1')}
-            >
-              <Image
-                src="https://i.postimg.cc/cC3tDxP0/Chat-GPT-Image-22-de-set-de-2025-04-56-32.png"
-                alt="Mentoria Individual Avançada"
-                width={400}
-                height={200}
-                className="w-full h-auto object-cover"
-              />
+                </DialogContent>
             </div>
-            <Dialog>
-              <DialogTrigger asChild>
-                <Button variant="outline" className="w-full bg-transparent border-white/30 text-white/80 hover:bg-white/20 hover:text-white">
-                  Ver Detalhes
-                </Button>
+          </Dialog>
+
+          <Dialog>
+            <div className="bg-white/10 backdrop-blur-md border border-white/20 rounded-xl p-4 w-full space-y-4">
+              <h2 className="text-xs font-semibold text-white uppercase tracking-wider text-center">
+                AVANÇADO
+              </h2>
+               <DialogTrigger asChild>
+                  <div 
+                    className="block overflow-hidden rounded-lg shadow-red-glow transition-shadow duration-300 hover:shadow-destructive/80 cursor-pointer"
+                  >
+                    <Image
+                      src="https://i.postimg.cc/cC3tDxP0/Chat-GPT-Image-22-de-set-de-2025-04-56-32.png"
+                      alt="Mentoria Individual Avançada"
+                      width={400}
+                      height={200}
+                      className="w-full h-auto object-cover"
+                    />
+                  </div>
               </DialogTrigger>
               <DialogContent className="bg-white/10 backdrop-blur-lg border-white/20 text-white w-[90vw] max-w-md rounded-2xl p-6">
-                <DialogHeader>
-                  <DialogTitle className="text-center text-2xl font-bold">Mentoria Individual 1:1</DialogTitle>
-                </DialogHeader>
-                <div className="text-white/90 space-y-4 pt-2 text-sm">
-                  <p className="text-center italic">Se você investe e não volta o gasto diário, tem algo errado no sistema — e eu corrijo com você.</p>
-                  <p>No 1:1 a gente ajusta oferta, funil, criativos e mídia, define um plano de ação e executa.</p>
-                  
-                  <div>
-                    <h4 className="font-semibold text-white">O que rola na prática (ensino + correção):</h4>
-                    <ul className="mt-2 space-y-1.5 list-disc list-inside text-white/80">
-                      <li>Diagnóstico completo de oferta, funil e tráfego</li>
-                      <li>Ajuste de criativos (angulações, hooks, copy e variações)</li>
-                      <li>Plano de mídia direto/X1 com metas e orçamento</li>
-                      <li>Checklist de execução + rotina semanal</li>
-                      <li>Follow-up para dúvidas e correção de rota</li>
-                    </ul>
-                  </div>
-
-                  <div>
-                    <h4 className="font-semibold text-white">Para quem é:</h4>
-                    <ul className="mt-2 space-y-1.5 list-disc list-inside text-white/80">
-                      <li>Quer girar caixa agora e escalar com previsibilidade</li>
-                      <li>Tem (ou vai colocar) oferta/produto rodando</li>
-                      <li>Topa executar entre as sessões</li>
-                    </ul>
-                  </div>
-
-                  <p className="text-center font-semibold pt-2">Sem promessa vazia. Trabalho conjunto, entrega e cobrança.</p>
-                </div>
-                <div className="flex flex-col items-center gap-4 pt-4">
-                    <div className="text-center">
-                        <p className="text-sm text-white/80">Investimento (lote atual):</p>
-                        <div className="flex items-baseline justify-center gap-2">
-                           <span className="text-sm text-muted-foreground line-through">De R$2.997</span>
-                           <span className="text-2xl font-bold text-white">por R$997</span>
-                        </div>
+                  <DialogHeader>
+                    <DialogTitle className="text-center text-2xl font-bold">Mentoria Individual 1:1</DialogTitle>
+                  </DialogHeader>
+                  <div className="text-white/90 space-y-4 pt-2 text-sm">
+                    <p className="text-center italic">Se você investe e não volta o gasto diário, tem algo errado no sistema — e eu corrijo com você.</p>
+                    <p>No 1:1 a gente ajusta oferta, funil, criativos e mídia, define um plano de ação e executa.</p>
+                    
+                    <div>
+                      <h4 className="font-semibold text-white">O que rola na prática (ensino + correção):</h4>
+                      <ul className="mt-2 space-y-1.5 list-disc list-inside text-white/80">
+                        <li>Diagnóstico completo de oferta, funil e tráfego</li>
+                        <li>Ajuste de criativos (angulações, hooks, copy e variações)</li>
+                        <li>Plano de mídia direto/X1 com metas e orçamento</li>
+                        <li>Checklist de execução + rotina semanal</li>
+                        <li>Follow-up para dúvidas e correção de rota</li>
+                      </ul>
                     </div>
-                  <Button variant="destructive" className="w-full font-bold animate-breathing" onClick={() => handleNotificationClick('https://wa.link/3xmzej', 'Mentoria 1:1')}>
-                      Quero a Mentoria 1:1
-                  </Button>
-                </div>
+
+                    <div>
+                      <h4 className="font-semibold text-white">Para quem é:</h4>
+                      <ul className="mt-2 space-y-1.5 list-disc list-inside text-white/80">
+                        <li>Quer girar caixa agora e escalar com previsibilidade</li>
+                        <li>Tem (ou vai colocar) oferta/produto rodando</li>
+                        <li>Topa executar entre as sessões</li>
+                      </ul>
+                    </div>
+
+                    <p className="text-center font-semibold pt-2">Sem promessa vazia. Trabalho conjunto, entrega e cobrança.</p>
+                  </div>
+                  <div className="flex flex-col items-center gap-4 pt-4">
+                      <div className="text-center">
+                          <p className="text-sm text-white/80">Investimento (lote atual):</p>
+                          <div className="flex items-baseline justify-center gap-2">
+                             <span className="text-sm text-muted-foreground line-through">De R$2.997</span>
+                             <span className="text-2xl font-bold text-white">por R$997</span>
+                          </div>
+                      </div>
+                    <Button variant="destructive" className="w-full font-bold animate-breathing" onClick={() => handleNotificationClick('https://wa.link/3xmzej', 'Mentoria 1:1')}>
+                        Quero a Mentoria 1:1
+                    </Button>
+                  </div>
               </DialogContent>
-            </Dialog>
-          </div>
+            </div>
+          </Dialog>
 
           {/* Community Card */}
           <div className="bg-white/10 backdrop-blur-md border border-white/20 rounded-xl p-4 w-full">
@@ -271,3 +261,5 @@ export default function LinkInBioPage() {
     </div>
   );
 }
+
+    
