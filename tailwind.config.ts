@@ -112,10 +112,10 @@ export default {
         },
         'pulse-shadow': {
           '0%, 100%': {
-            boxShadow: '0 0 12px 0px hsl(var(--destructive) / 0.6)',
+            boxShadow: '0 0 15px 0px hsl(var(--destructive) / 0.7)',
           },
           '50%': {
-            boxShadow: '0 0 24px 4px hsl(var(--destructive) / 0.8)',
+            boxShadow: '0 0 30px 5px hsl(var(--destructive) / 0.9)',
           },
         },
       },
@@ -123,7 +123,7 @@ export default {
         'accordion-down': 'accordion-down 0.2s ease-out',
         'accordion-up': 'accordion-up 0.2s ease-out',
         blob: 'blob 7s infinite',
-        'pulse-shadow': 'pulse-shadow 2.5s infinite',
+        'pulse-shadow': 'pulse-shadow 4s infinite',
       },
       boxShadow: {
         'red-glow': '0 0 12px 0px hsl(var(--destructive) / 0.6)',
