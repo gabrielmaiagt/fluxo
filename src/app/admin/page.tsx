@@ -8,7 +8,7 @@ import { useToast } from '@/hooks/use-toast';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { AreaChart, BellRing, Check, Clock, Info, List, Loader2, RefreshCw, Pointer, Eye, Calendar as CalendarIcon, Trash2 } from 'lucide-react';
 import { db } from '@/lib/firebase';
-import { collection, onSnapshot, query, where, Timestamp, orderBy, limit, getDocs, writeBatch } from 'firebase/firestore';
+import { collection, onSnapshot, query, where, Timestamp, orderBy, limit } from 'firebase/firestore';
 import { format, subDays, startOfDay, eachDayOfInterval, endOfDay, addDays, startOfMonth, endOfMonth } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
 import { Area, XAxis, YAxis, ResponsiveContainer, Tooltip, AreaChart as RechartsAreaChart, CartesianGrid } from 'recharts';
@@ -27,29 +27,7 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog"
-
-async function clearAllAnalytics(): Promise<{ success: boolean; error?: string }> {
-  'use server';
-  try {
-    const batch = writeBatch(db);
-
-    const collectionsToClear = ['visits', 'live_notifications', 'clickCounts'];
-
-    for (const collectionName of collectionsToClear) {
-      const collectionRef = collection(db, collectionName);
-      const snapshot = await getDocs(collectionRef);
-      snapshot.docs.forEach(doc => {
-        batch.delete(doc.ref);
-      });
-    }
-
-    await batch.commit();
-    return { success: true };
-  } catch (error: any) {
-    console.error("Erro ao limpar dados de análise:", error);
-    return { success: false, error: error.message };
-  }
-}
+import { clearAllAnalytics } from '@/actions/analytics';
 
 
 interface ClickData {
