@@ -5,7 +5,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
-import { Check, X } from 'lucide-react';
+import { Check, Phone, X } from 'lucide-react';
 import { useEffect, useRef } from 'react';
 
 export default function LinkInBioPage() {
@@ -15,7 +15,9 @@ export default function LinkInBioPage() {
 
   useEffect(() => {
     const handleScroll = () => {
-      const scrollY = window.scrollY;
+      // The scrollY value is divided to create a subtle parallax effect.
+      // Adjust the divisor to make the effect more or less pronounced.
+      const scrollY = window.scrollY / 1.5; 
       if (glow1Ref.current) {
         glow1Ref.current.style.transform = `translateY(${scrollY}px)`;
       }
@@ -203,19 +205,23 @@ export default function LinkInBioPage() {
                     />
                   </div>
                 </DialogTrigger>
-                <DialogContent className="bg-white/10 backdrop-blur-lg border-white/20 text-white w-[90vw] max-w-xs rounded-2xl">
-                  <DialogHeader>
-                    <DialogTitle className="text-center text-2xl font-bold">71 99151-1702</DialogTitle>
+                <DialogContent className="bg-white/10 backdrop-blur-lg border-white/20 text-white w-[90vw] max-w-xs rounded-2xl p-6">
+                  <DialogHeader className="items-center">
+                    <DialogTitle className="text-center text-2xl font-bold">Networking no WhatsApp (GRÁTIS)</DialogTitle>
                     <DialogDescription className="text-center text-white/80 pt-2">
-                      Este é o meu número pessoal. O botão abaixo leva para o grupo de networking no WhatsApp.
+                      Networking diário, dicas e resenha.
                     </DialogDescription>
                   </DialogHeader>
-                  <div className="flex justify-center pt-4">
-                    <Button asChild variant="destructive">
+                  <div className="flex flex-col items-center gap-4 pt-4">
+                    <Button asChild variant="destructive" className="w-full font-bold">
                       <Link href="https://chat.whatsapp.com/Khh4Ulvu9elLgZvHjGWItX" target="_blank" rel="noopener noreferrer">
-                        Entrar no Grupo
+                        Entrar no grupo
                       </Link>
                     </Button>
+                    <div className="inline-flex items-center gap-2 rounded-full bg-black/30 px-3 py-1 text-xs text-white/60">
+                      <Phone className="h-3 w-3" />
+                      <span>+55 71 99151-1702</span>
+                    </div>
                   </div>
                 </DialogContent>
               </Dialog>
@@ -290,5 +296,3 @@ export default function LinkInBioPage() {
     </div>
   );
 }
-
-    
