@@ -8,23 +8,45 @@ import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, Di
 import { Check, Phone, User, X, Instagram } from 'lucide-react';
 import { Dashboard } from '@/components/landing/dashboard';
 import { Typewriter } from '@/components/landing/typewriter';
-import { notifyOwner } from '@/ai/flows/notifyOwner';
 import { useToast } from '@/hooks/use-toast';
 import { AnimatedSection } from '@/components/landing/animated-section';
+import { db } from '@/lib/firebase';
+import { doc, setDoc, serverTimestamp, increment, collection, writeBatch } from 'firebase/firestore';
 
 
 export default function LinkInBioPage() {
   const { toast } = useToast();
 
-  const handleNotificationClick = (url: string, label: string) => {
+  const handleNotificationClick = async (url: string, label: string) => {
     // Abre a URL imediatamente para evitar bloqueadores de pop-up em navegadores móveis.
     window.open(url, '_blank', 'noopener,noreferrer');
     
-    // Envia a notificação em segundo plano, sem aguardar (fire and forget).
-    notifyOwner({ label }).catch(error => {
-      console.error("Erro ao enviar notificação:", error);
-      // Opcional: exibir um toast de erro para o admin, se útil
-    });
+    try {
+        const batch = writeBatch(db);
+
+        // Tarefa 1: Incrementar o contador de cliques para o dashboard
+        const clickDocRef = doc(db, 'clickCounts', label);
+        batch.set(clickDocRef, {
+            count: increment(1),
+            label: label,
+            lastClicked: serverTimestamp()
+        }, { merge: true });
+
+        // Tarefa 2: Criar um documento gatilho para a notificação ao vivo na página de admin
+        const liveNotificationRef = doc(collection(db, 'live_notifications'));
+        batch.set(liveNotificationRef, {
+            label: label,
+            timestamp: serverTimestamp(),
+            read: false
+        });
+        
+        // Commita as duas operações atomicamente
+        await batch.commit();
+
+      } catch (error) {
+        console.error("Erro ao registrar clique no Firestore:", error);
+        // Opcional: Adicionar algum feedback de erro para o usuário/admin se necessário
+      }
   };
 
   return (
@@ -236,5 +258,7 @@ export default function LinkInBioPage() {
       </div>
     </div>
   );
+
+    
 
     

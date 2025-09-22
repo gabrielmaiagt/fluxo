@@ -7,15 +7,16 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { useToast } from '@/hooks/use-toast';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { BarChart, BellRing, Check, Clock, Info, List, Loader2, RefreshCw } from 'lucide-react';
-import { getClickCounts, type ClickCount } from '@/ai/flows/getClickCounts';
 import { db } from '@/lib/firebase';
-import { collection, onSnapshot, query, where, Timestamp, orderBy, limit } from 'firebase/firestore';
+import { collection, onSnapshot, query, where, Timestamp, orderBy, limit, getDocs } from 'firebase/firestore';
 import { formatDistanceToNow } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
-
-
 import { Bar, XAxis, YAxis, ResponsiveContainer, Tooltip } from 'recharts';
 
+interface ClickCount {
+    label: string;
+    count: number;
+}
 
 // Componente do Dashboard de Cliques
 function ClicksDashboard() {
@@ -26,8 +27,10 @@ function ClicksDashboard() {
   const fetchClickData = async () => {
     setIsLoading(true);
     try {
-      const clickData = await getClickCounts();
-      setData(clickData);
+        const q = query(collection(db, "clickCounts"), orderBy('count', 'desc'));
+        const querySnapshot = await getDocs(q);
+        const clickData = querySnapshot.docs.map(doc => doc.data() as ClickCount);
+        setData(clickData);
     } catch (error) {
       console.error("Erro ao buscar dados de cliques:", error);
       toast({
@@ -42,6 +45,14 @@ function ClicksDashboard() {
 
   useEffect(() => {
     fetchClickData();
+    // Adiciona um listener para atualizações em tempo real
+    const q = query(collection(db, "clickCounts"));
+    const unsubscribe = onSnapshot(q, (snapshot) => {
+        const clickData = snapshot.docs.map(doc => doc.data() as ClickCount).sort((a, b) => b.count - a.count);
+        setData(clickData);
+    });
+
+    return () => unsubscribe();
   }, []);
 
   return (
@@ -300,3 +311,5 @@ export default function AdminPage() {
     </div>
   );
 }
+
+    
