@@ -6,133 +6,184 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { useToast } from '@/hooks/use-toast';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
-import { BarChart as BarChartIcon, BellRing, Check, Clock, Info, List, Loader2, RefreshCw } from 'lucide-react';
+import { AreaChart, BarChart as BarChartIcon, BellRing, Check, Clock, Info, List, Loader2, RefreshCw } from 'lucide-react';
 import { db } from '@/lib/firebase';
 import { collection, onSnapshot, query, where, Timestamp, orderBy, limit, getDocs } from 'firebase/firestore';
+import { format, subDays, startOfDay } from 'date-fns';
 import { formatDistanceToNow } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
-import { Bar, XAxis, YAxis, ResponsiveContainer, Tooltip, BarChart } from 'recharts';
+import { Area, XAxis, YAxis, ResponsiveContainer, Tooltip, AreaChart as RechartsAreaChart, CartesianGrid } from 'recharts';
+import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
 
-interface ClickCount {
+
+interface ClickData {
+    timestamp: Timestamp;
     label: string;
-    count: number;
 }
 
-// Componente do Dashboard de Cliques
-function ClicksDashboard() {
-  const [data, setData] = useState<ClickCount[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
-  const { toast } = useToast();
-
-  const fetchClickData = async () => {
-    setIsLoading(true);
-    try {
-        const q = query(collection(db, "clickCounts"), orderBy('count', 'desc'));
-        const querySnapshot = await getDocs(q);
-        const clickData = querySnapshot.docs.map(doc => doc.data() as ClickCount);
-        setData(clickData);
-    } catch (error) {
-      console.error("Erro ao buscar dados de cliques:", error);
-      toast({
-        title: "Erro ao carregar dashboard",
-        description: "Não foi possível buscar os dados de contagem de cliques.",
-        variant: "destructive",
-      });
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
-  useEffect(() => {
-    fetchClickData();
-    // Adiciona um listener para atualizações em tempo real
-    const q = query(collection(db, "clickCounts"));
-    const unsubscribe = onSnapshot(q, (snapshot) => {
-        const clickData = snapshot.docs.map(doc => doc.data() as ClickCount).sort((a, b) => b.count - a.count);
-        setData(clickData);
-    });
-
-    return () => unsubscribe();
-  }, [toast]);
-
-  return (
-    <Card className="w-full bg-card">
-      <CardHeader className="flex flex-row items-center justify-between space-y-0">
-        <div className="grid gap-2">
-            <CardTitle>Dashboard de Cliques</CardTitle>
-            <CardDescription>
-                Quantidade de cliques em cada botão.
-            </CardDescription>
-        </div>
-        <Button variant="outline" size="icon" onClick={fetchClickData} disabled={isLoading}>
-            {isLoading ? <Loader2 className="h-4 w-4 animate-spin" /> : <RefreshCw className="h-4 w-4" />}
-            <span className="sr-only">Atualizar</span>
-        </Button>
-      </CardHeader>
-      <CardContent>
-        {isLoading && !data.length ? (
-            <div className="flex items-center justify-center h-48">
-                <Loader2 className="h-8 w-8 animate-spin text-muted-foreground" />
-            </div>
-        ) : data.length > 0 ? (
-          <ResponsiveContainer width="100%" height={300}>
-            <BarChart data={data} layout="vertical" margin={{ left: 100 }}>
-              <XAxis type="number" hide />
-              <YAxis 
-                dataKey="label" 
-                type="category" 
-                stroke="hsl(var(--foreground))" 
-                fontSize={12} 
-                tickLine={false} 
-                axisLine={false}
-                width={200}
-                interval={0}
-              />
-              <Tooltip
-                cursor={{ fill: 'hsl(var(--accent))' }}
-                content={({ active, payload }) => {
-                  if (active && payload && payload.length) {
-                    return (
-                      <div className="rounded-lg border bg-background p-2 shadow-sm">
-                        <div className="grid grid-cols-2 gap-2">
-                          <div className="flex flex-col">
-                            <span className="text-[0.70rem] uppercase text-muted-foreground">
-                              Botão
-                            </span>
-                            <span className="font-bold text-foreground">
-                              {payload[0].payload.label}
-                            </span>
-                          </div>
-                          <div className="flex flex-col">
-                            <span className="text-[0.70rem] uppercase text-muted-foreground">
-                              Cliques
-                            </span>
-                            <span className="font-bold text-foreground">
-                              {payload[0].value}
-                            </span>
-                          </div>
-                        </div>
-                      </div>
-                    );
-                  }
-                  return null;
-                }}
-              />
-              <Bar dataKey="count" fill="hsl(var(--primary))" radius={[0, 4, 4, 0]} />
-            </BarChart>
-          </ResponsiveContainer>
-        ) : (
-            <div className="flex flex-col items-center justify-center h-48 text-center">
-                <BarChartIcon className="h-10 w-10 text-muted-foreground" />
-                <p className="mt-4 text-sm text-muted-foreground">Nenhum dado de clique encontrado ainda.</p>
-                <p className="text-xs text-muted-foreground">Compartilhe sua página para começar.</p>
-            </div>
-        )}
-      </CardContent>
-    </Card>
-  );
+interface ChartData {
+    date: string;
+    clicks: number;
 }
 
+type TimeRange = '7d' | '30d' | 'all';
+
+function ClicksChart() {
+    const [allClicks, setAllClicks] = useState<ClickData[]>([]);
+    const [chartData, setChartData] = useState<ChartData[]>([]);
+    const [timeRange, setTimeRange] = useState<TimeRange>('7d');
+    const [isLoading, setIsLoading] = useState(true);
+    const { toast } = useToast();
+
+    // 1. Fetch all data once
+    useEffect(() => {
+        setIsLoading(true);
+        const q = query(collection(db, "live_notifications"), orderBy('timestamp', 'asc'));
+
+        const unsubscribe = onSnapshot(q, (snapshot) => {
+            const clicks = snapshot.docs.map(doc => doc.data() as ClickData);
+            setAllClicks(clicks);
+            setIsLoading(false);
+        }, (error) => {
+            console.error("Erro ao buscar dados de cliques:", error);
+            toast({
+                title: "Erro ao carregar dados",
+                description: "Não foi possível buscar o histórico de cliques.",
+                variant: "destructive",
+            });
+            setIsLoading(false);
+        });
+
+        return () => unsubscribe();
+    }, [toast]);
+
+    // 2. Process data when timeRange or allClicks changes
+    useEffect(() => {
+        if (isLoading) return;
+
+        const now = new Date();
+        const filterDate = 
+            timeRange === '7d' ? subDays(now, 7) :
+            timeRange === '30d' ? subDays(now, 30) :
+            null;
+
+        const filteredClicks = filterDate 
+            ? allClicks.filter(click => click.timestamp.toDate() >= filterDate)
+            : allClicks;
+
+        const clicksByDay = filteredClicks.reduce((acc, click) => {
+            const day = format(click.timestamp.toDate(), 'yyyy-MM-dd');
+            acc[day] = (acc[day] || 0) + 1;
+            return acc;
+        }, {} as { [key: string]: number });
+        
+        const dataForChart = Object.keys(clicksByDay).map(day => ({
+            date: format(new Date(day), 'dd/MM'),
+            clicks: clicksByDay[day],
+        }));
+
+        setChartData(dataForChart);
+
+    }, [timeRange, allClicks, isLoading]);
+    
+    return (
+        <Card className="w-full bg-card">
+            <CardHeader>
+                <div className="flex sm:flex-row flex-col sm:items-center justify-between gap-4">
+                    <div>
+                        <CardTitle>Visão Geral de Cliques</CardTitle>
+                        <CardDescription>Quantidade de cliques por dia.</CardDescription>
+                    </div>
+                     <Tabs value={timeRange} onValueChange={(value) => setTimeRange(value as TimeRange)} className="w-full sm:w-auto">
+                        <TabsList className="grid w-full grid-cols-3 h-9">
+                            <TabsTrigger value="7d" className="text-xs px-2">7 dias</TabsTrigger>
+                            <TabsTrigger value="30d" className="text-xs px-2">30 dias</TabsTrigger>
+                            <TabsTrigger value="all" className="text-xs px-2">Tudo</TabsTrigger>
+                        </TabsList>
+                    </Tabs>
+                </div>
+            </CardHeader>
+            <CardContent>
+                {isLoading ? (
+                    <div className="flex items-center justify-center h-48">
+                        <Loader2 className="h-8 w-8 animate-spin text-muted-foreground" />
+                    </div>
+                ) : chartData.length > 0 ? (
+                    <ResponsiveContainer width="100%" height={300}>
+                         <RechartsAreaChart data={chartData} margin={{ top: 5, right: 20, left: -20, bottom: 5 }}>
+                             <defs>
+                                <linearGradient id="gradient" x1="0" y1="0" x2="0" y2="1">
+                                <stop offset="5%" stopColor="hsl(var(--primary))" stopOpacity={0.8}/>
+                                <stop offset="95%" stopColor="hsl(var(--primary))" stopOpacity={0.1}/>
+                                </linearGradient>
+                            </defs>
+                            <XAxis 
+                                dataKey="date" 
+                                stroke="hsl(var(--foreground))"
+                                fontSize={12}
+                                tickLine={false}
+                                axisLine={false}
+                                tickMargin={10}
+                            />
+                            <YAxis 
+                                stroke="hsl(var(--foreground))"
+                                fontSize={12}
+                                tickLine={false}
+                                axisLine={false}
+                                tickMargin={10}
+                                tickFormatter={(value) => `${value}`}
+                             />
+                            <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border) / 0.5)" vertical={false} />
+                            <Tooltip
+                                 content={({ active, payload, label }) => {
+                                    if (active && payload && payload.length) {
+                                      return (
+                                        <div className="rounded-lg border bg-background p-2 shadow-sm">
+                                          <div className="grid grid-cols-1 gap-2">
+                                            <div className="flex flex-col">
+                                              <span className="text-[0.70rem] uppercase text-muted-foreground">
+                                                Data
+                                              </span>
+                                              <span className="font-bold text-foreground">
+                                                {label}
+                                              </span>
+                                            </div>
+                                            <div className="flex flex-col">
+                                              <span className="text-[0.70rem] uppercase text-muted-foreground">
+                                                Cliques
+                                              </span>
+                                              <span className="font-bold text-foreground">
+                                                {payload[0].value}
+                                              </span>
+                                            </div>
+                                          </div>
+                                        </div>
+                                      );
+                                    }
+                                    return null;
+                                  }}
+                                  cursor={{ fill: 'hsl(var(--accent))' }}
+                            />
+                            <Area 
+                                type="natural" 
+                                dataKey="clicks" 
+                                stroke="hsl(var(--primary))" 
+                                fill="url(#gradient)" 
+                                strokeWidth={2}
+                            />
+                        </RechartsAreaChart>
+                    </ResponsiveContainer>
+                ) : (
+                    <div className="flex flex-col items-center justify-center h-48 text-center">
+                        <AreaChart className="h-10 w-10 text-muted-foreground" />
+                        <p className="mt-4 text-sm text-muted-foreground">Nenhum dado de clique encontrado ainda.</p>
+                        <p className="text-xs text-muted-foreground">Compartilhe sua página para começar.</p>
+                    </div>
+                )}
+            </CardContent>
+        </Card>
+    );
+}
 
 // Componente de Ativação de Notificações
 function LiveNotificationsCard() {
@@ -303,11 +354,13 @@ function RecentClicksLog() {
 export default function AdminPage() {
   return (
     <div className="flex min-h-screen flex-col items-center bg-background p-4 sm:p-6 md:p-8">
-      <div className="w-full max-w-2xl space-y-8">
+      <div className="w-full max-w-4xl space-y-8">
         <LiveNotificationsCard />
+        <ClicksChart />
         <RecentClicksLog />
-        <ClicksDashboard />
       </div>
     </div>
   );
 }
+
+    
