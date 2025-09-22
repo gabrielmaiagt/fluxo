@@ -110,11 +110,20 @@ export default {
             transform: 'translate(0px, 0px) scale(1)',
           },
         },
+        'pulse-shadow': {
+          '0%, 100%': {
+            boxShadow: '0 0 12px 0px hsl(var(--destructive) / 0.6)',
+          },
+          '50%': {
+            boxShadow: '0 0 24px 4px hsl(var(--destructive) / 0.8)',
+          },
+        },
       },
       animation: {
         'accordion-down': 'accordion-down 0.2s ease-out',
         'accordion-up': 'accordion-up 0.2s ease-out',
         blob: 'blob 7s infinite',
+        'pulse-shadow': 'pulse-shadow 2.5s infinite',
       },
       boxShadow: {
         'red-glow': '0 0 12px 0px hsl(var(--destructive) / 0.6)',
