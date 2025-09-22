@@ -32,7 +32,7 @@ export async function notifyOwner(input: NotifyOwnerInput): Promise<{ success: b
 const notifyOwnerFlow = ai.defineFlow(
   {
     name: 'notifyOwnerFlow',
-    inputSchema: NotifyOwnerinputSchema,
+    inputSchema: NotifyOwnerInputSchema,
     outputSchema: z.object({ success: z.boolean() }),
   },
   async (input) => {
