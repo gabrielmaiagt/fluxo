@@ -99,7 +99,7 @@ export default function LinkInBioPage() {
                   </div>
                 </div>
                 <div className="flex flex-col items-center gap-4 pt-4">
-                   <Button variant="destructive" className="w-full font-bold animate-breathing" onClick={() => handleNotificationClick('https://fluxodeoferta.site/fluxo', 'Grupo Pré-venda Fluxo de Caixa')}>
+                   <Button variant="destructive" className="w-full font-bold animate-breathing" onClick={() => handleNotificationClick('https://chat.whatsapp.com/HRRGV0rKCVI2h3unF10m9f', 'Grupo Pré-venda Fluxo de Caixa')}>
                       Entrar no Grupo
                   </Button>
                   <p className="text-xs text-center text-white/70 px-4">
@@ -288,6 +288,8 @@ export default function LinkInBioPage() {
     </div>
   );
 }
+
+    
 
     
 
