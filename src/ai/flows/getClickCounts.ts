@@ -50,7 +50,6 @@ export async function getClickCounts(): Promise<ClickCount[]> {
 const getClickCountsFlow = ai.defineFlow(
   {
     name: 'getClickCountsFlow',
-    inputSchema: z.undefined(),
     outputSchema: GetClickCountsOutputSchema,
   },
   async () => {
