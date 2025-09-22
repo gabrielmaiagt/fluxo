@@ -9,7 +9,7 @@ import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { AreaChart, BarChart as BarChartIcon, BellRing, Check, Clock, Info, List, Loader2, RefreshCw } from 'lucide-react';
 import { db } from '@/lib/firebase';
 import { collection, onSnapshot, query, where, Timestamp, orderBy, limit, getDocs } from 'firebase/firestore';
-import { format, subDays, startOfDay } from 'date-fns';
+import { format, subDays, startOfDay, eachDayOfInterval, endOfDay } from 'date-fns';
 import { formatDistanceToNow } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
 import { Area, XAxis, YAxis, ResponsiveContainer, Tooltip, AreaChart as RechartsAreaChart, CartesianGrid } from 'recharts';
@@ -62,25 +62,38 @@ function ClicksChart() {
         if (isLoading) return;
 
         const now = new Date();
-        const filterDate = 
-            timeRange === '7d' ? subDays(now, 7) :
-            timeRange === '30d' ? subDays(now, 30) :
-            null;
+        const getStartDate = (range: TimeRange) => {
+            if (range === '7d') return subDays(now, 6); // inclusive today
+            if (range === '30d') return subDays(now, 29); // inclusive today
+            if (allClicks.length > 0) {
+                // For 'all', find the earliest click date
+                const firstClickDate = allClicks.reduce((earliest, click) => {
+                    const clickDate = click.timestamp.toDate();
+                    return clickDate < earliest ? clickDate : earliest;
+                }, now);
+                return startOfDay(firstClickDate);
+            }
+            return startOfDay(now); // Default if no clicks
+        };
+        
+        const startDate = getStartDate(timeRange);
+        const endDate = endOfDay(now);
 
-        const filteredClicks = filterDate 
-            ? allClicks.filter(click => click.timestamp.toDate() >= filterDate)
-            : allClicks;
+        const dateInterval = eachDayOfInterval({ start: startDate, end: endDate });
 
-        const clicksByDay = filteredClicks.reduce((acc, click) => {
+        const clicksByDay = allClicks.reduce((acc, click) => {
             const day = format(click.timestamp.toDate(), 'yyyy-MM-dd');
             acc[day] = (acc[day] || 0) + 1;
             return acc;
         }, {} as { [key: string]: number });
-        
-        const dataForChart = Object.keys(clicksByDay).map(day => ({
-            date: format(new Date(day), 'dd/MM'),
-            clicks: clicksByDay[day],
-        }));
+
+        const dataForChart = dateInterval.map(date => {
+            const formattedDay = format(date, 'yyyy-MM-dd');
+            return {
+                date: format(date, 'dd/MM'),
+                clicks: clicksByDay[formattedDay] || 0,
+            };
+        });
 
         setChartData(dataForChart);
 
@@ -108,7 +121,7 @@ function ClicksChart() {
                     <div className="flex items-center justify-center h-48">
                         <Loader2 className="h-8 w-8 animate-spin text-muted-foreground" />
                     </div>
-                ) : chartData.length > 0 ? (
+                ) : chartData.length > 1 ? ( // Show chart if more than 1 day
                     <ResponsiveContainer width="100%" height={300}>
                          <RechartsAreaChart data={chartData} margin={{ top: 5, right: 20, left: -20, bottom: 5 }}>
                              <defs>
@@ -132,6 +145,7 @@ function ClicksChart() {
                                 axisLine={false}
                                 tickMargin={10}
                                 tickFormatter={(value) => `${value}`}
+                                allowDecimals={false}
                              />
                             <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border) / 0.5)" vertical={false} />
                             <Tooltip
@@ -177,7 +191,7 @@ function ClicksChart() {
                     <div className="flex flex-col items-center justify-center h-48 text-center">
                         <AreaChart className="h-10 w-10 text-muted-foreground" />
                         <p className="mt-4 text-sm text-muted-foreground">Nenhum dado de clique encontrado ainda.</p>
-                        <p className="text-xs text-muted-foreground">Compartilhe sua página para começar.</p>
+                        <p className="text-xs text-muted-foreground">Compartilhe sua página para começar a coletar dados.</p>
                     </div>
                 )}
             </CardContent>
@@ -362,5 +376,3 @@ export default function AdminPage() {
     </div>
   );
 }
-
-    
