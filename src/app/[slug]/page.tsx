@@ -16,6 +16,7 @@ export default async function TrafficSourcePage({ params }: TrafficSourcePagePro
   const validSlugs: { [key: string]: string } = {
     'insta': 'Instagram',
     'tiktok': 'TikTok',
+    'zap': 'WhatsApp',
   };
 
   const source = validSlugs[slug.toLowerCase()];

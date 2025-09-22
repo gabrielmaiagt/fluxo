@@ -486,8 +486,8 @@ function TrafficSourceCard() {
   const ICONS: { [key: string]: JSX.Element } = {
     'Instagram': <Users className="h-4 w-4 text-muted-foreground" />,
     'TikTok': <Globe className="h-4 w-4 text-muted-foreground" />,
-    'Direct': <LinkIcon className="h-4 w-4 text-muted-foreground" />,
     'WhatsApp': <MessageCircle className="h-4 w-4 text-muted-foreground" />,
+    'Direct': <LinkIcon className="h-4 w-4 text-muted-foreground" />,
     'Outro': <Users className="h-4 w-4 text-muted-foreground" />,
   };
   
