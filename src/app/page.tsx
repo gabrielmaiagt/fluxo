@@ -56,7 +56,7 @@ export default function LinkInBioPage() {
     navigator.clipboard.writeText(text).then(() => {
       toast({
         title: "Link copiado!",
-        description: "O link do grupo foi copiado para sua área de transferência.",
+        description: "O link foi copiado para sua área de transferência.",
       });
     }, (err) => {
       console.error('Could not copy text: ', err);
@@ -299,20 +299,44 @@ export default function LinkInBioPage() {
                     />
                   </div>
                 </DialogTrigger>
-                <DialogContent className="bg-white/10 backdrop-blur-lg border-white/20 text-white w-[90vw] max-w-md rounded-2xl p-6 flex flex-col">
-                  <DialogHeader>
-                    <DialogTitle className="text-center text-2xl font-bold">Networking no Discord</DialogTitle>
-                    <DialogDescription className="text-center text-white/80 mt-2">
-                      Networking + calls semanais.
+                <DialogContent className="bg-white/10 backdrop-blur-lg border-white/20 text-white w-[90vw] max-w-md rounded-2xl shadow-2xl p-6 flex flex-col">
+                  <DialogHeader className="text-center">
+                    <DialogTitle className="text-2xl font-bold text-white">Networking no Discord (calls semanais)</DialogTitle>
+                    <DialogDescription className="text-white/80 mt-2">
+                      Sala de bate papo, resenha e trabalho.
                     </DialogDescription>
                   </DialogHeader>
-                  <div className="flex flex-col items-center justify-center flex-grow pt-6 gap-4">
+                   <ul className="space-y-2 text-white/90 py-6 text-sm">
+                      <li className="flex items-center gap-3">
+                          <Check className="h-5 w-5 text-green-400 flex-shrink-0" />
+                          <span>Encontros toda semana</span>
+                      </li>
+                      <li className="flex items-center gap-3">
+                          <Check className="h-5 w-5 text-green-400 flex-shrink-0" />
+                          <span>Faça networking com gente de alto nível</span>
+                      </li>
+                      <li className="flex items-center gap-3">
+                          <Check className="h-5 w-5 text-green-400 flex-shrink-0" />
+                          <span>Descubra estratégias avançadas</span>
+                      </li>
+                  </ul>
+                  <div className="flex flex-col items-center gap-3 mt-auto">
                     <Button variant="destructive" className="w-full font-bold" onClick={() => handleNotificationClick('https://discord.gg/N22CvMkpUV', 'Grupo de Networking Discord')}>
-                      Entrar no servidor <ArrowRight className="ml-2 h-4 w-4" />
+                      Entrar no servidor agora <ArrowRight className="ml-2 h-4 w-4" />
                     </Button>
-                     <p className="text-xs text-white/70">
-                      Dono: <span className="font-semibold">@garbiel1</span>
-                    </p>
+                    <Button 
+                        variant="ghost" 
+                        className="w-full text-white/70 hover:text-white"
+                        onClick={() => copyToClipboard('https://discord.gg/N22CvMkpUV')}
+                     >
+                        <Copy className="h-4 w-4 mr-2" />
+                        Copiar o link do servidor
+                    </Button>
+                  </div>
+                   <div className="text-center mt-6">
+                      <p className="text-xs text-white/70">
+                          Dono: <span className="font-semibold">@garbiel1</span>
+                      </p>
                   </div>
                 </DialogContent>
               </Dialog>
@@ -371,4 +395,3 @@ export default function LinkInBioPage() {
   );
 }
 
-    
