@@ -1,8 +1,8 @@
 'use client';
 
 import { getMessaging, getToken, onMessage } from "firebase/messaging";
-import { getFirestore, doc, setDoc } from "firebase/firestore";
-import { app, db } from "./firebase";
+import { app } from "./firebase";
+import { registerAdmin } from "@/ai/flows/registerAdmin";
 
 const vapidKey = "BMA4boknocWY3_LTEvHIP69zsOU7ipULcG_3PcOJahW8qNNfSsI8XjAuyRr40u-B76QRBvm_zdei5NUBugsk2zs";
 
@@ -34,11 +34,14 @@ export async function enableAdminPush(uid: string) {
 
         if (token) {
             console.log("Token do Admin:", token);
-            await setDoc(doc(db, "adminPushTokens", uid), {
-                token,
-                updatedAt: Date.now(),
-            });
-            console.log("Token do admin salvo no Firestore.");
+            // Em vez de escrever no DB pelo cliente, chamamos o fluxo do servidor
+            const result = await registerAdmin({ uid, token });
+
+            if (!result.success) {
+                throw new Error("Falha ao registrar o token no servidor.");
+            }
+
+            console.log("Token do admin salvo via fluxo do servidor.");
 
             // Opcional: ouvir mensagens com a aba aberta
             onMessage(messaging, (payload) => {
