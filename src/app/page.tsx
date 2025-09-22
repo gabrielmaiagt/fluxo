@@ -5,6 +5,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
+import { Check, X } from 'lucide-react';
 
 export default function LinkInBioPage() {
   return (
@@ -52,23 +53,43 @@ export default function LinkInBioPage() {
                     />
                 </div>
               </DialogTrigger>
-              <DialogContent className="bg-white/10 backdrop-blur-lg border-white/20 text-white w-[90vw] max-w-sm rounded-2xl">
-                  <DialogHeader>
-                    <DialogTitle className="text-center text-2xl font-bold">🚀 Lançamento à Vista!</DialogTitle>
-                    <DialogDescription asChild>
-                      <div className="text-center text-white/80 pt-2 space-y-2">
-                        <p>O <span className="font-bold text-white">Método Fluxo de Caixa</span> está chegando. Domine o tráfego direto e as automações de X1 no WhatsApp para nunca mais passar um dia sem vender.</p>
-                        <p>As vagas serão limitadas. Entre no grupo VIP de pré-venda para garantir a sua e receber todas as informações em primeira mão.</p>
-                      </div>
-                    </DialogDescription>
-                  </DialogHeader>
-                  <div className="flex justify-center pt-4">
-                    <Button asChild variant="destructive">
-                      <Link href="https://fluxodeoferta.site/fluxo" target="_blank" rel="noopener noreferrer">
-                        Entrar no Grupo de Pré-venda
-                      </Link>
-                    </Button>
+              <DialogContent className="bg-white/10 backdrop-blur-lg border-white/20 text-white w-[90vw] max-w-md rounded-2xl p-6">
+                <DialogHeader>
+                  <DialogTitle className="text-center text-lg font-bold uppercase tracking-wider text-destructive">PRÉ-VENDA</DialogTitle>
+                  <DialogDescription asChild>
+                    <div className="text-center">
+                      <h3 className="text-2xl font-bold text-white mt-1">MÉTODO · FLUXO DE CAIXA</h3>
+                      <p className="text-white/80 mt-2">Aprenda a validar e escalar oferta de X1 e tráfego direto.</p>
+                    </div>
+                  </DialogDescription>
+                </DialogHeader>
+                <div className="space-y-4 text-left pt-4">
+                  <div>
+                    <h4 className="font-semibold text-white text-md">Pra você que quer aprender:</h4>
+                    <ul className="mt-2 space-y-2 text-white/80 text-sm">
+                      <li className="flex items-start"><Check className="h-4 w-4 mr-2 mt-0.5 text-green-500 flex-shrink-0" /> Espionagem Avançada</li>
+                      <li className="flex items-start"><Check className="h-4 w-4 mr-2 mt-0.5 text-green-500 flex-shrink-0" /> Criativos de Alta Conversão</li>
+                      <li className="flex items-start"><Check className="h-4 w-4 mr-2 mt-0.5 text-green-500 flex-shrink-0" /> Funis Completos</li>
+                      <li className="flex items-start"><Check className="h-4 w-4 mr-2 mt-0.5 text-green-500 flex-shrink-0" /> E muito mais...</li>
+                    </ul>
                   </div>
+                  <div>
+                    <h4 className="font-semibold text-white text-md">Não é para:</h4>
+                    <ul className="mt-2 space-y-2 text-white/80 text-sm">
+                      <li className="flex items-start"><X className="h-4 w-4 mr-2 mt-0.5 text-destructive flex-shrink-0" /> quem busca “atalho” sem executar.</li>
+                    </ul>
+                  </div>
+                </div>
+                <div className="flex flex-col items-center gap-4 pt-4">
+                   <Button asChild variant="destructive" className="w-full font-bold">
+                    <Link href="https://fluxodeoferta.site/fluxo" target="_blank" rel="noopener noreferrer">
+                      Entrar no Grupo
+                    </Link>
+                  </Button>
+                  <p className="text-xs text-center text-white/70 px-4">
+                    Desconto e bônus especiais para as primeiras 50 pessoas.
+                  </p>
+                </div>
               </DialogContent>
             </Dialog>
           </div>
