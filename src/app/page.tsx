@@ -321,8 +321,8 @@ export default function LinkInBioPage() {
                       </li>
                   </ul>
                   <div className="flex flex-col items-center gap-3 mt-auto">
-                    <Button variant="destructive" className="w-full font-bold" onClick={() => handleNotificationClick('https://discord.gg/N22CvMkpUV', 'Grupo de Networking Discord')}>
-                      Entrar no servidor agora <ArrowRight className="ml-2 h-4 w-4" />
+                    <Button variant="destructive" className="w-full font-bold group" onClick={() => handleNotificationClick('https://discord.gg/N22CvMkpUV', 'Grupo de Networking Discord')}>
+                      Entrar no servidor agora <ArrowRight className="ml-2 h-4 w-4 opacity-0 transition-opacity group-hover:opacity-100" />
                     </Button>
                     <Button 
                         variant="ghost" 
@@ -361,8 +361,17 @@ export default function LinkInBioPage() {
                     </DialogDescription>
                   </DialogHeader>
                   <div className="flex flex-col items-center justify-center flex-grow pt-6 gap-4">
-                    <Button variant="destructive" className="w-full font-bold" onClick={() => handleNotificationClick('https://www.instagram.com/gabrielmaiagt/', 'Instagram')}>
-                      Seguir no Instagram <ArrowRight className="ml-2 h-4 w-4" />
+                    <Button variant="destructive" className="w-full font-bold group" onClick={() => handleNotificationClick('https://www.instagram.com/gabrielmaiagt/', 'Instagram')}>
+                      <Instagram className="h-5 w-5 mr-2" />
+                      Seguir no Instagram <ArrowRight className="ml-2 h-4 w-4 opacity-0 transition-opacity group-hover:opacity-100" />
+                    </Button>
+                     <Button 
+                        variant="ghost" 
+                        className="w-full text-white/70 hover:text-white"
+                        onClick={() => copyToClipboard('https://www.instagram.com/gabrielmaiagt/')}
+                     >
+                        <Copy className="h-4 w-4 mr-2" />
+                        Copiar link do Instagram
                     </Button>
                   </div>
                    <div className="flex justify-center pt-4 mt-auto">
@@ -395,3 +404,4 @@ export default function LinkInBioPage() {
   );
 }
 
+    
