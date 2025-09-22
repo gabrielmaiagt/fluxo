@@ -1,7 +1,7 @@
 
 import { redirect } from 'next/navigation';
 import { db } from '@/lib/firebase/server';
-import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
+import { FieldValue } from 'firebase-admin/firestore';
 
 interface TrafficSourcePageProps {
   params: {
@@ -23,9 +23,9 @@ export default async function TrafficSourcePage({ params }: TrafficSourcePagePro
 
   if (source) {
     try {
-      await addDoc(collection(db, 'traffic_sources'), {
+      await db.collection('traffic_sources').add({
         source: source,
-        timestamp: serverTimestamp(),
+        timestamp: FieldValue.serverTimestamp(),
       });
     } catch (error) {
       console.error("Failed to log traffic source:", error);
@@ -36,5 +36,3 @@ export default async function TrafficSourcePage({ params }: TrafficSourcePagePro
   // Redirect to the home page
   redirect('/');
 }
-
-    
