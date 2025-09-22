@@ -4,8 +4,7 @@ import { getMessaging, getToken, onMessage } from "firebase/messaging";
 import { getFirestore, doc, setDoc } from "firebase/firestore";
 import { app, db } from "./firebase";
 
-// TODO: Replace with your actual VAPID key from the Firebase console
-const vapidKey = "YOUR_VAPID_KEY";
+const vapidKey = "BMA4boknocWY3_LTEvHIP69zsOU7ipULcG_3PcOJahW8qNNfSsI8XjAuyRr40u-B76QRBvm_zdei5NUBugsk2zs";
 
 export async function enableAdminPush(uid: string) {
     if (typeof window === 'undefined' || !('serviceWorker' in navigator)) {
