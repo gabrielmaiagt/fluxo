@@ -15,14 +15,15 @@ import { useToast } from '@/hooks/use-toast';
 export default function LinkInBioPage() {
   const { toast } = useToast();
 
-  const handleNotificationClick = async (url: string, label: string) => {
-    try {
-      await notifyOwner({ label });
-    } catch (error) {
+  const handleNotificationClick = (url: string, label: string) => {
+    // Abre a URL imediatamente para evitar bloqueadores de pop-up em navegadores móveis.
+    window.open(url, '_blank', 'noopener,noreferrer');
+    
+    // Envia a notificação em segundo plano, sem aguardar (fire and forget).
+    notifyOwner({ label }).catch(error => {
       console.error("Erro ao enviar notificação:", error);
       // Opcional: exibir um toast de erro para o admin, se útil
-    }
-    window.open(url, '_blank', 'noopener,noreferrer');
+    });
   };
 
   return (
@@ -287,5 +288,7 @@ export default function LinkInBioPage() {
     </div>
   );
 }
+
+    
 
     
