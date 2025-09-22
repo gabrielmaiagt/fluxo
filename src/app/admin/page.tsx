@@ -345,19 +345,16 @@ function ClicksChart() {
     );
 }
 
-// Componente de Ativação de Notificações
 function LiveNotificationsCard() {
   const [permission, setPermission] = useState<NotificationPermission | null>(null);
   const startTimeRef = useRef(new Date());
 
   useEffect(() => {
-    // Define o estado inicial da permissão ao carregar o componente
     if (typeof window !== 'undefined' && 'Notification' in window) {
       setPermission(Notification.permission);
     }
   }, []);
 
-  // Listener para novas notificações do Firestore
   useEffect(() => {
     if (permission !== 'granted') return;
 
@@ -372,17 +369,16 @@ function LiveNotificationsCard() {
       snapshot.docChanges().forEach((change) => {
         if (change.type === "added") {
           const data = change.doc.data();
-          console.log("Nova notificação recebida:", data);
           new Notification("🔔 Novo Clique no Site!", {
             body: `Um usuário clicou em: ${data.label}`,
             icon: 'https://i.postimg.cc/zGxkL1Hp/logo-escura.png',
-            tag: change.doc.id, // Evita notificações duplicadas
+            tag: change.doc.id,
           });
         }
       });
     });
 
-    return () => unsubscribe(); // Limpa o listener ao desmontar o componente
+    return () => unsubscribe();
   }, [permission]);
 
 
@@ -484,12 +480,49 @@ function SiteVisitsCard() {
 }
 
 function TrafficSourceCard() {
-  const trafficData = [
-    { source: 'Instagram', visits: 1234, icon: <Users className="h-4 w-4 text-muted-foreground" /> },
-    { source: 'Google', visits: 876, icon: <Globe className="h-4 w-4 text-muted-foreground" /> },
-    { source: 'Direct', visits: 456, icon: <LinkIcon className="h-4 w-4 text-muted-foreground" /> },
-    { source: 'WhatsApp', visits: 234, icon: <MessageCircle className="h-4 w-4 text-muted-foreground" /> },
-  ];
+  const [trafficData, setTrafficData] = useState<{ source: string; visits: number; icon: JSX.Element }[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+
+  const ICONS: { [key: string]: JSX.Element } = {
+    'Instagram': <Users className="h-4 w-4 text-muted-foreground" />,
+    'TikTok': <Globe className="h-4 w-4 text-muted-foreground" />,
+    'Direct': <LinkIcon className="h-4 w-4 text-muted-foreground" />,
+    'WhatsApp': <MessageCircle className="h-4 w-4 text-muted-foreground" />,
+    'Outro': <Users className="h-4 w-4 text-muted-foreground" />,
+  };
+  
+  const getIcon = (source: string) => ICONS[source] || ICONS['Outro'];
+
+  useEffect(() => {
+    const q = query(collection(db, 'traffic_sources'));
+    
+    const unsubscribe = onSnapshot(q, (snapshot) => {
+      const counts = snapshot.docs.reduce((acc, doc) => {
+        const source = doc.data().source as string;
+        if (source) {
+          acc[source] = (acc[source] || 0) + 1;
+        }
+        return acc;
+      }, {} as { [key: string]: number });
+
+      const data = Object.entries(counts)
+        .map(([source, visits]) => ({
+          source,
+          visits,
+          icon: getIcon(source),
+        }))
+        .sort((a, b) => b.visits - a.visits);
+        
+      setTrafficData(data);
+      setIsLoading(false);
+    }, (error) => {
+      console.error("Erro ao buscar fontes de tráfego:", error);
+      setIsLoading(false);
+    });
+
+    return () => unsubscribe();
+  }, []);
+
 
   return (
     <Card>
@@ -498,18 +531,26 @@ function TrafficSourceCard() {
         <Users className="h-4 w-4 text-muted-foreground" />
       </CardHeader>
       <CardContent>
-        <div className="space-y-4">
-          {trafficData.map((item) => (
-            <div key={item.source} className="flex items-center">
-              {item.icon}
-              <span className="ml-2 text-sm font-medium">{item.source}</span>
-              <span className="ml-auto text-sm font-bold">{item.visits}</span>
-            </div>
-          ))}
-        </div>
-        <p className="text-xs text-muted-foreground pt-4">
-          Simulação de dados de tráfego.
-        </p>
+        {isLoading ? (
+          <div className="flex items-center justify-center h-24">
+            <Loader2 className="h-6 w-6 animate-spin text-muted-foreground" />
+          </div>
+        ) : trafficData.length > 0 ? (
+          <div className="space-y-4">
+            {trafficData.map((item) => (
+              <div key={item.source} className="flex items-center">
+                {item.icon}
+                <span className="ml-2 text-sm font-medium">{item.source}</span>
+                <span className="ml-auto text-sm font-bold">{item.visits}</span>
+              </div>
+            ))}
+          </div>
+        ) : (
+          <div className="text-center h-24 flex flex-col justify-center">
+            <p className="text-sm text-muted-foreground">Nenhuma fonte de tráfego registrada.</p>
+            <p className="text-xs text-muted-foreground">Compartilhe seus links como /insta ou /tiktok.</p>
+          </div>
+        )}
       </CardContent>
     </Card>
   );
@@ -741,4 +782,5 @@ export default function AdminPage() {
   );
 }
 
+    
     
