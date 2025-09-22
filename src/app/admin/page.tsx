@@ -31,11 +31,11 @@ const ALL_TRACKABLE_LINKS = [
 ];
 
 const COLORS = [
-    'hsl(var(--primary))',
-    'hsl(200 100% 50%)',
+    'hsl(var(--chart-1))',
+    'hsl(var(--chart-2))',
     'hsl(var(--chart-3))',
     'hsl(var(--chart-4))',
-    'hsl(30 100% 50%)'
+    'hsl(var(--chart-5))'
 ];
 
 interface ChartData {
