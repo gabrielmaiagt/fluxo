@@ -6,11 +6,25 @@ import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { Check, Phone, User, X, Instagram } from 'lucide-react';
-import { useEffect, useRef } from 'react';
 import { Dashboard } from '@/components/landing/dashboard';
 import { Typewriter } from '@/components/landing/typewriter';
+import { notifyOwner } from '@/ai/flows/notifyOwner';
+import { useToast } from '@/hooks/use-toast';
+
 
 export default function LinkInBioPage() {
+  const { toast } = useToast();
+
+  const handleNotificationClick = async (url: string, label: string) => {
+    try {
+      await notifyOwner({ label });
+    } catch (error) {
+      console.error("Erro ao enviar notificação:", error);
+      // Opcional: exibir um toast de erro para o admin, se útil
+    }
+    window.open(url, '_blank', 'noopener,noreferrer');
+  };
+
   return (
     <div className="relative flex min-h-screen flex-col items-center bg-black text-white font-sans p-4 overflow-x-hidden">
       
@@ -84,10 +98,8 @@ export default function LinkInBioPage() {
                   </div>
                 </div>
                 <div className="flex flex-col items-center gap-4 pt-4">
-                   <Button asChild variant="destructive" className="w-full font-bold animate-breathing">
-                    <Link href="https://fluxodeoferta.site/fluxo" target="_blank" rel="noopener noreferrer">
+                   <Button variant="destructive" className="w-full font-bold animate-breathing" onClick={() => handleNotificationClick('https://fluxodeoferta.site/fluxo', 'Grupo Pré-venda Fluxo de Caixa')}>
                       Entrar no Grupo
-                    </Link>
                   </Button>
                   <p className="text-xs text-center text-white/70 px-4">
                     Desconto e bônus especiais para as primeiras 50 pessoas.
@@ -152,10 +164,8 @@ export default function LinkInBioPage() {
                            <span className="text-2xl font-bold text-white">por R$997</span>
                         </div>
                     </div>
-                  <Button asChild variant="destructive" className="w-full font-bold animate-breathing">
-                    <Link href="https://wa.link/3xmzej" target="_blank" rel="noopener noreferrer">
+                  <Button variant="destructive" className="w-full font-bold animate-breathing" onClick={() => handleNotificationClick('https://wa.link/3xmzej', 'Mentoria 1:1')}>
                       Quero a Mentoria 1:1
-                    </Link>
                   </Button>
                 </div>
               </DialogContent>
@@ -188,10 +198,8 @@ export default function LinkInBioPage() {
                     </DialogDescription>
                   </DialogHeader>
                   <div className="flex flex-col items-center gap-4 pt-4">
-                    <Button asChild variant="destructive" className="w-full font-bold animate-breathing">
-                      <Link href="https://chat.whatsapp.com/Khh4Ulvu9elLgZvHjGWItX" target="_blank" rel="noopener noreferrer">
+                    <Button variant="destructive" className="w-full font-bold animate-breathing" onClick={() => handleNotificationClick('https://chat.whatsapp.com/Khh4Ulvu9elLgZvHjGWItX', 'Grupo de Networking WhatsApp')}>
                         Entrar no grupo
-                      </Link>
                     </Button>
                     <div className="inline-flex items-center gap-2 rounded-full bg-black/30 px-3 py-1 text-xs text-white/60 mt-2">
                       <Phone className="h-3 w-3" />
@@ -220,10 +228,8 @@ export default function LinkInBioPage() {
                     </DialogDescription>
                   </DialogHeader>
                   <div className="flex flex-col items-center gap-4 pt-4">
-                    <Button asChild variant="destructive" className="w-full font-bold animate-breathing">
-                      <Link href="https://discord.gg/N22CvMkpUV" target="_blank" rel="noopener noreferrer">
+                    <Button variant="destructive" className="w-full font-bold animate-breathing" onClick={() => handleNotificationClick('https://discord.gg/N22CvMkpUV', 'Grupo de Networking Discord')}>
                         Entrar no servidor
-                      </Link>
                     </Button>
                      <div className="inline-flex items-center gap-2 rounded-full bg-black/30 px-3 py-1 text-xs text-white/60 mt-2">
                       <User className="h-3 w-3" />
@@ -234,7 +240,7 @@ export default function LinkInBioPage() {
               </Dialog>
               <Dialog>
                 <DialogTrigger asChild>
-                  <div className="block rounded-lg overflow-hidden transition-transform duration-300 hover:scale-105 w-full shadow-red-glow hover:shadow-destructive/80 cursor-pointer">
+                  <div className="block rounded-lg overflow-hidden transition-transform duration-300 hover:scale-1_05 w-full shadow-red-glow hover:shadow-destructive/80 cursor-pointer">
                     <Image
                       src="https://i.postimg.cc/xdY8YRQr/Chat-GPT-Image-22-de-ago-de-2025-01-05-59.png"
                       alt="Perfil no Instagram"
@@ -252,10 +258,8 @@ export default function LinkInBioPage() {
                     </DialogDescription>
                   </DialogHeader>
                   <div className="flex flex-col items-center gap-4 pt-4">
-                    <Button asChild variant="destructive" className="animate-breathing">
-                      <Link href="https://www.instagram.com/gabrielmaiagt/" target="_blank" rel="noopener noreferrer">
+                    <Button variant="destructive" className="animate-breathing" onClick={() => handleNotificationClick('https://www.instagram.com/gabrielmaiagt/', 'Instagram')}>
                         Visitar Perfil
-                      </Link>
                     </Button>
                     <div className="inline-flex items-center gap-2 rounded-full bg-black/30 px-3 py-1 text-xs text-white/60 mt-2">
                       <Instagram className="h-3 w-3" />
@@ -283,3 +287,5 @@ export default function LinkInBioPage() {
     </div>
   );
 }
+
+    
