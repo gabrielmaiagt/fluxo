@@ -55,9 +55,6 @@ export function Dashboard() {
     <Card className="bg-white/5 border-white/20 text-white">
       <CardHeader>
         <CardTitle className="text-white">Fluxo de Caixa</CardTitle>
-        <CardDescription className="text-white/60">
-          Receita recente de campanhas e ofertas.
-        </CardDescription>
       </CardHeader>
       <CardContent>
         <ChartContainer config={chartConfig} className="min-h-[200px] w-full">
