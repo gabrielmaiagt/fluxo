@@ -9,40 +9,13 @@ import { Check, Phone, User, X, Instagram } from 'lucide-react';
 import { useEffect, useRef } from 'react';
 
 export default function LinkInBioPage() {
-  const glow1Ref = useRef<HTMLDivElement>(null);
-  const glow2Ref = useRef<HTMLDivElement>(null);
-  const glow3Ref = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    const handleScroll = () => {
-      // The scrollY value is divided to create a subtle parallax effect.
-      // Adjust the divisor to make the effect more or less pronounced.
-      const scrollY = window.scrollY; 
-      if (glow1Ref.current) {
-        glow1Ref.current.style.transform = `translateY(${scrollY}px)`;
-      }
-      if (glow2Ref.current) {
-        glow2Ref.current.style.transform = `translateY(${scrollY}px)`;
-      }
-      if (glow3Ref.current) {
-        glow3Ref.current.style.transform = `translateY(${scrollY}px)`;
-      }
-    };
-
-    window.addEventListener('scroll', handleScroll);
-
-    return () => {
-      window.removeEventListener('scroll', handleScroll);
-    };
-  }, []);
-
   return (
     <div className="relative flex min-h-screen flex-col items-center bg-black text-white font-sans p-4 overflow-x-hidden">
       
       {/* Background Glows */}
-      <div ref={glow1Ref} className="absolute top-0 left-0 w-96 h-96 bg-purple-500/30 rounded-full filter blur-3xl opacity-50 transition-transform duration-500 ease-out"></div>
-      <div ref={glow2Ref} className="absolute top-0 right-0 w-96 h-96 bg-sky-500/30 rounded-full filter blur-3xl opacity-50 transition-transform duration-500 ease-out"></div>
-      <div ref={glow3Ref} className="absolute bottom-0 left-1/2 w-96 h-96 bg-pink-500/30 rounded-full filter blur-3xl opacity-50 transition-transform duration-500 ease-out"></div>
+      <div className="absolute top-0 left-0 w-96 h-96 bg-purple-500/30 rounded-full filter blur-3xl opacity-50"></div>
+      <div className="absolute top-0 right-0 w-96 h-96 bg-sky-500/30 rounded-full filter blur-3xl opacity-50"></div>
+      <div className="absolute bottom-0 left-1/2 w-96 h-96 bg-pink-500/30 rounded-full filter blur-3xl opacity-50"></div>
 
 
       <div className="w-full max-w-sm mx-auto flex flex-col items-center z-10">
@@ -304,3 +277,5 @@ export default function LinkInBioPage() {
     </div>
   );
 }
+
+    
