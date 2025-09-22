@@ -123,7 +123,7 @@ export default {
         'accordion-down': 'accordion-down 0.2s ease-out',
         'accordion-up': 'accordion-up 0.2s ease-out',
         blob: 'blob 7s infinite',
-        'pulse-shadow': 'pulse-shadow 6s infinite ease-in-out',
+        'pulse-shadow': 'pulse-shadow 12s infinite ease-in-out',
       },
       boxShadow: {
         'red-glow': '0 0 12px 0px hsl(var(--destructive) / 0.6)',
