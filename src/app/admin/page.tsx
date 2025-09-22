@@ -29,7 +29,7 @@ interface ChartData {
 type TimeRange = '7d' | '30d' | 'all';
 
 function ClicksChart() {
-    const [allClicks, setAllClicks] = useState<ClickData[]>([]);
+    const [allClicks, setAllClicks] = useState<ClickData[] | null>(null);
     const [chartData, setChartData] = useState<ChartData[]>([]);
     const [timeRange, setTimeRange] = useState<TimeRange>('7d');
     const [isLoading, setIsLoading] = useState(true);
@@ -306,27 +306,45 @@ function LiveNotificationsCard() {
   );
 }
 
-// Componente para exibir contagem de cliques por botão
+const ALL_TRACKABLE_LINKS = [
+    'Grupo Pré-venda Fluxo de Caixa',
+    'Mentoria 1:1',
+    'Grupo de Networking WhatsApp',
+    'Grupo de Networking Discord',
+    'Instagram'
+];
+
 function ClickCountsList() {
     const [counts, setCounts] = useState<{ id: string; label: string; count: number }[]>([]);
     const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
-        const q = query(collection(db, "clickCounts"), orderBy('count', 'desc'));
+        // Initialize with all links having 0 clicks
+        const initialCounts = ALL_TRACKABLE_LINKS.map(label => ({
+            id: label,
+            label: label,
+            count: 0
+        }));
+
+        const q = query(collection(db, "clickCounts"));
 
         const unsubscribe = onSnapshot(q, (snapshot) => {
-            const clickCounts = snapshot.docs.map(doc => {
+            const countsFromDb = snapshot.docs.reduce((acc, doc) => {
                 const data = doc.data();
-                return {
-                    id: doc.id,
-                    label: data.label || 'Link desconhecido',
-                    count: data.count || 0,
-                };
-            });
-            setCounts(clickCounts);
+                acc[data.label] = data.count || 0;
+                return acc;
+            }, {} as {[key: string]: number});
+            
+            const mergedCounts = initialCounts.map(item => ({
+                ...item,
+                count: countsFromDb[item.label] || 0
+            })).sort((a, b) => b.count - a.count); // Sort by count descending
+
+            setCounts(mergedCounts);
             setIsLoading(false);
         }, (error) => {
             console.error("Erro ao buscar contagem de cliques:", error);
+            setCounts(initialCounts); // Fallback to initial state on error
             setIsLoading(false);
         });
 
@@ -349,9 +367,9 @@ function ClickCountsList() {
                         {counts.map((item) => (
                             <div key={item.id} className="flex items-center justify-between">
                                 <p className="text-sm font-medium">{item.label}</p>
-                                <div className="flex items-center text-sm font-bold text-primary">
-                                    <Pointer className="mr-2 h-4 w-4 text-muted-foreground" />
-                                    {item.count}
+                                <div className="flex items-center gap-2 text-sm font-bold">
+                                    <Pointer className="h-4 w-4 text-muted-foreground" />
+                                    <span className="text-primary w-4 text-right">{item.count}</span>
                                 </div>
                             </div>
                         ))}
@@ -360,6 +378,7 @@ function ClickCountsList() {
                     <div className="flex flex-col items-center justify-center h-40 text-center">
                         <Pointer className="h-10 w-10 text-muted-foreground" />
                         <p className="mt-4 text-sm text-muted-foreground">Nenhum clique contabilizado ainda.</p>
+                         <p className="text-xs text-muted-foreground">Os links rastreáveis aparecerão aqui.</p>
                     </div>
                 )}
             </CardContent>
