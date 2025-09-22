@@ -216,7 +216,7 @@ function LiveNotificationsCard() {
 // Página principal do Admin
 export default function AdminPage() {
   return (
-    <div className="flex min-h-screen flex-col items-center bg-background p-4 sm:p-8">
+    <div className="flex min-h-screen flex-col items-center bg-background p-4 sm:p-6 md:p-8">
       <div className="w-full max-w-2xl space-y-8">
         <LiveNotificationsCard />
         <ClicksDashboard />
