@@ -21,9 +21,26 @@ interface ClickData {
     label: string;
 }
 
+// All trackable links must be defined here
+const ALL_TRACKABLE_LINKS = [
+    'Grupo Pré-venda Fluxo de Caixa',
+    'Mentoria 1:1',
+    'Grupo de Networking WhatsApp',
+    'Grupo de Networking Discord',
+    'Instagram'
+];
+
+const COLORS = [
+    'hsl(var(--primary))',
+    'hsl(200 100% 50%)',
+    'hsl(var(--chart-3))',
+    'hsl(var(--chart-4))',
+    'hsl(30 100% 50%)'
+];
+
 interface ChartData {
     date: string;
-    clicks: number;
+    [key: string]: number | string; // Each key is a button label
 }
 
 type TimeRange = '7d' | '30d' | 'all';
@@ -35,7 +52,6 @@ function ClicksChart() {
     const [isLoading, setIsLoading] = useState(true);
     const { toast } = useToast();
 
-    // 1. Fetch all data once
     useEffect(() => {
         setIsLoading(true);
         const q = query(collection(db, "live_notifications"), orderBy('timestamp', 'asc'));
@@ -57,7 +73,6 @@ function ClicksChart() {
         return () => unsubscribe();
     }, [toast]);
 
-    // 2. Process data when timeRange or allClicks changes
     useEffect(() => {
         if (isLoading || allClicks === null) return;
 
@@ -66,17 +81,15 @@ function ClicksChart() {
             if (range === '7d') return startOfDay(subDays(now, 6));
             if (range === '30d') return startOfDay(subDays(now, 29));
             if (allClicks.length > 0) {
-                // For 'all', find the earliest click date
                 const firstClickDate = allClicks[0].timestamp.toDate();
                 return startOfDay(firstClickDate);
             }
-            return startOfDay(now); // Default if no clicks
+            return startOfDay(now);
         };
         
         const startDate = getStartDate(timeRange);
         const endDate = endOfDay(now);
 
-        // Ensure interval is valid
         if (startDate > endDate) {
              setChartData([]);
              return;
@@ -84,18 +97,26 @@ function ClicksChart() {
 
         const dateInterval = eachDayOfInterval({ start: startDate, end: endDate });
 
-        const clicksByDay = allClicks.reduce((acc, click) => {
+        const clicksByDayAndLabel = allClicks.reduce((acc, click) => {
             const day = format(click.timestamp.toDate(), 'yyyy-MM-dd');
-            acc[day] = (acc[day] || 0) + 1;
+            if (!acc[day]) {
+                acc[day] = {};
+            }
+            acc[day][click.label] = (acc[day][click.label] || 0) + 1;
             return acc;
-        }, {} as { [key: string]: number });
+        }, {} as { [key: string]: { [label: string]: number } });
 
         const dataForChart = dateInterval.map(date => {
             const formattedDay = format(date, 'yyyy-MM-dd');
-            return {
+            const dayData: ChartData = {
                 date: format(date, 'dd/MM'),
-                clicks: clicksByDay[formattedDay] || 0,
             };
+
+            ALL_TRACKABLE_LINKS.forEach(label => {
+                dayData[label] = clicksByDayAndLabel[formattedDay]?.[label] || 0;
+            });
+            
+            return dayData;
         });
 
         setChartData(dataForChart);
@@ -108,7 +129,7 @@ function ClicksChart() {
                 <div className="flex sm:flex-row flex-col sm:items-center justify-between gap-4">
                     <div>
                         <CardTitle>Visão Geral de Cliques</CardTitle>
-                        <CardDescription>Quantidade de cliques por dia.</CardDescription>
+                        <CardDescription>Quantidade de cliques por dia, por botão.</CardDescription>
                     </div>
                      <Tabs value={timeRange} onValueChange={(value) => setTimeRange(value as TimeRange)} className="w-full sm:w-auto">
                         <TabsList className="grid w-full grid-cols-3 h-9">
@@ -127,11 +148,13 @@ function ClicksChart() {
                 ) : chartData.length > 1 ? (
                     <ResponsiveContainer width="100%" height={300}>
                          <RechartsAreaChart data={chartData} margin={{ top: 5, right: 20, left: -20, bottom: 5 }}>
-                             <defs>
-                                <linearGradient id="gradient" x1="0" y1="0" x2="0" y2="1">
-                                <stop offset="5%" stopColor="hsl(var(--primary))" stopOpacity={0.8}/>
-                                <stop offset="95%" stopColor="hsl(var(--primary))" stopOpacity={0.1}/>
-                                </linearGradient>
+                            <defs>
+                                {ALL_TRACKABLE_LINKS.map((label, index) => (
+                                     <linearGradient key={label} id={`gradient-${index}`} x1="0" y1="0" x2="0" y2="1">
+                                         <stop offset="5%" stopColor={COLORS[index % COLORS.length]} stopOpacity={0.8}/>
+                                         <stop offset="95%" stopColor={COLORS[index % COLORS.length]} stopOpacity={0.1}/>
+                                     </linearGradient>
+                                ))}
                             </defs>
                             <XAxis 
                                 dataKey="date" 
@@ -154,25 +177,29 @@ function ClicksChart() {
                             <Tooltip
                                  content={({ active, payload, label }) => {
                                     if (active && payload && payload.length) {
+                                      const total = payload.reduce((sum, item) => sum + (item.value as number), 0);
                                       return (
-                                        <div className="rounded-lg border bg-background p-2 shadow-sm">
+                                        <div className="rounded-lg border bg-background p-2 shadow-sm min-w-[200px]">
                                           <div className="grid grid-cols-1 gap-2">
-                                            <div className="flex flex-col">
-                                              <span className="text-[0.70rem] uppercase text-muted-foreground">
-                                                Data
-                                              </span>
-                                              <span className="font-bold text-foreground">
+                                            <div className="flex flex-col mb-1 border-b pb-1">
+                                              <span className="font-bold text-foreground text-base">
                                                 {label}
                                               </span>
-                                            </div>
-                                            <div className="flex flex-col">
-                                              <span className="text-[0.70rem] uppercase text-muted-foreground">
-                                                Cliques
-                                              </span>
-                                              <span className="font-bold text-foreground">
-                                                {payload[0].value}
+                                              <span className="text-sm text-muted-foreground">
+                                                Total: {total} cliques
                                               </span>
                                             </div>
+                                            {payload.map((item, index) => (
+                                                <div key={index} className="flex items-center justify-between">
+                                                    <div className="flex items-center">
+                                                        <span className="w-2.5 h-2.5 rounded-full mr-2" style={{ backgroundColor: item.color }}></span>
+                                                        <span className="text-sm text-muted-foreground">{item.name}</span>
+                                                    </div>
+                                                    <span className="font-bold text-foreground text-sm">
+                                                        {item.value}
+                                                    </span>
+                                                </div>
+                                            )).reverse()}
                                           </div>
                                         </div>
                                       );
@@ -181,13 +208,18 @@ function ClicksChart() {
                                   }}
                                   cursor={{ fill: 'hsl(var(--accent))' }}
                             />
-                            <Area 
-                                type="natural" 
-                                dataKey="clicks" 
-                                stroke="hsl(var(--primary))" 
-                                fill="url(#gradient)" 
-                                strokeWidth={2}
-                            />
+                             {ALL_TRACKABLE_LINKS.map((label, index) => (
+                                <Area 
+                                    key={label}
+                                    type="natural" 
+                                    dataKey={label}
+                                    name={label}
+                                    stackId="1"
+                                    stroke={COLORS[index % COLORS.length]}
+                                    fill={`url(#gradient-${index})`}
+                                    strokeWidth={2}
+                                />
+                             ))}
                         </RechartsAreaChart>
                     </ResponsiveContainer>
                 ) : (
@@ -305,14 +337,6 @@ function LiveNotificationsCard() {
     </Card>
   );
 }
-
-const ALL_TRACKABLE_LINKS = [
-    'Grupo Pré-venda Fluxo de Caixa',
-    'Mentoria 1:1',
-    'Grupo de Networking WhatsApp',
-    'Grupo de Networking Discord',
-    'Instagram'
-];
 
 function ClickCountsList() {
     const [counts, setCounts] = useState<{ id: string; label: string; count: number }[]>([]);
@@ -466,3 +490,5 @@ export default function AdminPage() {
     </div>
   );
 }
+
+    
