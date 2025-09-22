@@ -57,15 +57,34 @@ export default function LinkInBioPage() {
               Quem não está online… já está FORA DO JOGO.
             </h2>
             <div className="flex flex-col gap-3 mt-4">
-              <Link href="https://chat.whatsapp.com/Khh4Ulvu9elLgZvHjGWItX" target="_blank" rel="noopener noreferrer" className="block rounded-lg overflow-hidden transition-transform duration-300 hover:scale-105 shadow-red-glow hover:shadow-destructive/80">
-                <Image 
-                  src="https://i.postimg.cc/VLCtKv1T/Design-sem-nome-2.png"
-                  alt="Grupo de Networking no Whatsapp"
-                  width={400}
-                  height={100}
-                  className="w-full h-auto object-cover"
-                />
-              </Link>
+              <Dialog>
+                <DialogTrigger asChild>
+                  <div className="block rounded-lg overflow-hidden transition-transform duration-300 hover:scale-105 w-full shadow-red-glow hover:shadow-destructive/80 cursor-pointer">
+                    <Image
+                      src="https://i.postimg.cc/VLCtKv1T/Design-sem-nome-2.png"
+                      alt="Grupo de Networking no Whatsapp"
+                      width={400}
+                      height={100}
+                      className="w-full h-auto object-cover"
+                    />
+                  </div>
+                </DialogTrigger>
+                <DialogContent className="bg-white/10 backdrop-blur-lg border-white/20 text-white w-[90vw] max-w-xs rounded-2xl">
+                  <DialogHeader>
+                    <DialogTitle className="text-center text-2xl font-bold">71 99151-1702</DialogTitle>
+                    <DialogDescription className="text-center text-white/80 pt-2">
+                      Este é o meu número pessoal. O botão abaixo leva para o grupo de networking no WhatsApp.
+                    </DialogDescription>
+                  </DialogHeader>
+                  <div className="flex justify-center pt-4">
+                    <Button asChild variant="destructive">
+                      <Link href="https://chat.whatsapp.com/Khh4Ulvu9elLgZvHjGWItX" target="_blank" rel="noopener noreferrer">
+                        Entrar no Grupo
+                      </Link>
+                    </Button>
+                  </div>
+                </DialogContent>
+              </Dialog>
               <Dialog>
                 <DialogTrigger asChild>
                   <div className="block rounded-lg overflow-hidden transition-transform duration-300 hover:scale-105 w-full shadow-red-glow hover:shadow-destructive/80 cursor-pointer">
