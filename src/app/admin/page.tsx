@@ -417,7 +417,7 @@ function RecentClicksLog() {
                 <p className="text-sm font-medium">{click.label}</p>
                 <div className="flex items-center text-xs text-muted-foreground">
                   <Clock className="mr-1 h-3 w-3" />
-                  {formatDistanceToNow(click.timestamp, { addSuffix: true, locale: ptBR })}
+                  {format(click.timestamp, "HH:mm dd/MM/yyyy", { locale: ptBR })}
                 </div>
               </div>
             ))}
