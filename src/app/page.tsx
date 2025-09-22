@@ -271,15 +271,15 @@ export default function LinkInBioPage() {
         <Dashboard />
 
         {/* Footer */}
-        <footer className="py-8 mt-4">
+        <footer className="py-8 mt-4 text-center">
           <p className="text-xs text-neutral-400">
             © {new Date().getFullYear()} Gabriel Maia — Todos os direitos reservados.
+          </p>
+          <p className="text-xs text-neutral-300 mt-4 px-4">
+            Se você não conseguir acessar algum link clicando nos botões, clique nos 3 pontinhos e clique em "Abrir no navegador".
           </p>
         </footer>
       </div>
     </div>
   );
 }
-
-    
-    
