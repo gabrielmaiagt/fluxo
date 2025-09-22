@@ -17,13 +17,13 @@ export default function LinkInBioPage() {
     const handleScroll = () => {
       const scrollY = window.scrollY;
       if (glow1Ref.current) {
-        glow1Ref.current.style.transform = `translateY(${scrollY * 0.3}px)`;
+        glow1Ref.current.style.transform = `translateY(${scrollY}px)`;
       }
       if (glow2Ref.current) {
-        glow2Ref.current.style.transform = `translateY(${scrollY * 0.5}px)`;
+        glow2Ref.current.style.transform = `translateY(${scrollY}px)`;
       }
       if (glow3Ref.current) {
-        glow3Ref.current.style.transform = `translateY(${scrollY * 0.7}px)`;
+        glow3Ref.current.style.transform = `translateY(${scrollY}px)`;
       }
     };
 
