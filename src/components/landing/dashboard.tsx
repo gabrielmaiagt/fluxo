@@ -138,7 +138,6 @@ export function Dashboard() {
               fill="url(#fillRevenue)"
               fillOpacity={0.4}
               stroke="var(--color-revenue)"
-              stackId="a"
               animationDuration={1500}
             />
             <Area
@@ -147,7 +146,6 @@ export function Dashboard() {
               fill="url(#fillExpense)"
               fillOpacity={0.4}
               stroke="var(--color-expense)"
-              stackId="a"
               animationDuration={1500}
             />
              <ChartLegend content={<ChartLegendContent />} />
