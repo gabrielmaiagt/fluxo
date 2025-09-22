@@ -152,7 +152,7 @@ export function Dashboard() {
                   fill="url(#fillRevenue)"
                   fillOpacity={0.4}
                   stroke="var(--color-revenue)"
-                  animationDuration={2000}
+                  animationDuration={4000}
                 />
                 <ChartLegend content={<ChartLegendContent />} />
               </AreaChart>
