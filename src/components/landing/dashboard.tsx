@@ -39,17 +39,17 @@ const chartData = [
   { date: 'Semana 3', revenue: 3800, expense: 1000 },
   { date: 'Semana 3', revenue: 4200, expense: 1200 },
   { date: 'Semana 3', revenue: 4500, expense: 1300 },
-  { date: 'Semana 3', revenue: 5000, expense: 1500 },
+  { date: 'Semana 3', revenue: 10000, expense: 1500 },
 ];
 
 const chartConfig = {
   revenue: {
     label: 'Receitas',
-    color: 'hsl(var(--chart-2))',
+    color: 'hsl(var(--destructive))',
   },
   expense: {
     label: 'Despesas',
-    color: 'hsl(var(--destructive))',
+    color: 'hsl(var(--destructive) / 0.5)',
   },
 } satisfies ChartConfig;
 
@@ -139,6 +139,7 @@ export function Dashboard() {
               fillOpacity={0.4}
               stroke="var(--color-revenue)"
               stackId="a"
+              animationDuration={1500}
             />
             <Area
               dataKey="expense"
@@ -147,6 +148,7 @@ export function Dashboard() {
               fillOpacity={0.4}
               stroke="var(--color-expense)"
               stackId="a"
+              animationDuration={1500}
             />
              <ChartLegend content={<ChartLegendContent />} />
           </AreaChart>
