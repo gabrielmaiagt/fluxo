@@ -258,7 +258,4 @@ export default function LinkInBioPage() {
       </div>
     </div>
   );
-
-    
-
-    
+}
