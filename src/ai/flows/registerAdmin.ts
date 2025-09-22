@@ -8,17 +8,22 @@
 import { ai } from '@/ai/genkit';
 import { z } from 'zod';
 import * as admin from 'firebase-admin';
+import { firebaseConfig } from '@/lib/firebase'; // Importa a configuração
 
 // Helper to initialize Firebase Admin safely (only once)
 function initializeFirebaseAdmin() {
   if (admin.apps.length === 0) {
     try {
         admin.initializeApp({
-            credential: admin.credential.applicationDefault(),
+            credential: admin.credential.cert({
+              projectId: firebaseConfig.projectId,
+              clientEmail: process.env.FIREBASE_CLIENT_EMAIL,
+              privateKey: process.env.FIREBASE_PRIVATE_KEY?.replace(/\\n/g, '\n'),
+            }),
         });
-        console.log("Firebase Admin SDK initialized successfully.");
+        console.log("Firebase Admin SDK initialized successfully (registerAdmin).");
     } catch(e: any) {
-        console.error("Error initializing Firebase Admin SDK:", e.message);
+        console.error("Error initializing Firebase Admin SDK (registerAdmin):", e.message);
         throw new Error(`Firebase Admin initialization failed: ${e.message}`);
     }
   }
