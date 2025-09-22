@@ -19,37 +19,33 @@ import {
 import type { ChartConfig } from '@/components/ui/chart';
 
 const chartData = [
-  { date: 'Semana 1', revenue: 1000, expense: 200 },
-  { date: 'Semana 1', revenue: 1300, expense: 250 },
-  { date: 'Semana 1', revenue: 1900, expense: 400 },
-  { date: 'Semana 1', revenue: 900, expense: 300 },
-  { date: 'Semana 1', revenue: 1500, expense: 350 },
-  { date: 'Semana 1', revenue: 1700, expense: 450 },
-  { date: 'Semana 1', revenue: 2200, expense: 500 },
-  { date: 'Semana 2', revenue: 2500, expense: 600 },
-  { date: 'Semana 2', revenue: 2300, expense: 550 },
-  { date: 'Semana 2', revenue: 2800, expense: 700 },
-  { date: 'Semana 2', revenue: 2600, expense: 650 },
-  { date: 'Semana 2', revenue: 3100, expense: 800 },
-  { date: 'Semana 2', revenue: 3000, expense: 750 },
-  { date: 'Semana 2', revenue: 3400, expense: 900 },
-  { date: 'Semana 3', revenue: 3200, expense: 850 },
-  { date: 'Semana 3', revenue: 3500, expense: 950 },
-  { date: 'Semana 3', revenue: 4000, expense: 1100 },
-  { date: 'Semana 3', revenue: 3800, expense: 1000 },
-  { date: 'Semana 3', revenue: 4200, expense: 1200 },
-  { date: 'Semana 3', revenue: 4500, expense: 1300 },
-  { date: 'Semana 3', revenue: 10000, expense: 1500 },
+  { date: 'Semana 1', revenue: 1000 },
+  { date: 'Semana 1', revenue: 1300 },
+  { date: 'Semana 1', revenue: 1900 },
+  { date: 'Semana 1', revenue: 900 },
+  { date: 'Semana 1', revenue: 1500 },
+  { date: 'Semana 1', revenue: 1700 },
+  { date: 'Semana 1', revenue: 2200 },
+  { date: 'Semana 2', revenue: 2500 },
+  { date: 'Semana 2', revenue: 2300 },
+  { date: 'Semana 2', revenue: 2800 },
+  { date: 'Semana 2', revenue: 2600 },
+  { date: 'Semana 2', revenue: 3100 },
+  { date: 'Semana 2', revenue: 3000 },
+  { date: 'Semana 2', revenue: 3400 },
+  { date: 'Semana 3', revenue: 3200 },
+  { date: 'Semana 3', revenue: 3500 },
+  { date: 'Semana 3', revenue: 4000 },
+  { date: 'Semana 3', revenue: 3800 },
+  { date: 'Semana 3', revenue: 4200 },
+  { date: 'Semana 3', revenue: 4500 },
+  { date: 'Semana 3', revenue: 10000 },
 ];
 
 const chartConfig = {
   revenue: {
     label: 'Receitas',
     color: 'hsl(var(--destructive))',
-  },
-  expense: {
-    label: 'Despesas',
-    color: 'hsl(var(--destructive) / 0.5)',
   },
 } satisfies ChartConfig;
 
@@ -60,7 +56,7 @@ export function Dashboard() {
       <CardHeader>
         <CardTitle className="text-white">Fluxo de Caixa</CardTitle>
         <CardDescription className="text-white/60">
-          Resultados recentes de campanhas e ofertas.
+          Receita recente de campanhas e ofertas.
         </CardDescription>
       </CardHeader>
       <CardContent>
@@ -119,18 +115,6 @@ export function Dashboard() {
                   stopOpacity={0.1}
                 />
               </linearGradient>
-              <linearGradient id="fillExpense" x1="0" y1="0" x2="0" y2="1">
-                <stop
-                  offset="5%"
-                  stopColor="var(--color-expense)"
-                  stopOpacity={0.8}
-                />
-                <stop
-                  offset="95%"
-                  stopColor="var(--color-expense)"
-                  stopOpacity={0.1}
-                />
-              </linearGradient>
             </defs>
             <Area
               dataKey="revenue"
@@ -138,14 +122,6 @@ export function Dashboard() {
               fill="url(#fillRevenue)"
               fillOpacity={0.4}
               stroke="var(--color-revenue)"
-              animationDuration={1500}
-            />
-            <Area
-              dataKey="expense"
-              type="natural"
-              fill="url(#fillExpense)"
-              fillOpacity={0.4}
-              stroke="var(--color-expense)"
               animationDuration={1500}
             />
              <ChartLegend content={<ChartLegendContent />} />
