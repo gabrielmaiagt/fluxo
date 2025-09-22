@@ -1,9 +1,9 @@
 
 'use server';
 /**
- * @fileOverview Um fluxo para notificar o proprietário do site sobre uma ação do usuário via Push Notification.
+ * @fileOverview Um fluxo para notificar o proprietário do site sobre uma ação do usuário e registrar a contagem de cliques.
  *
- * - notifyOwner - Uma função que dispara uma notificação push para os administradores.
+ * - notifyOwner - Uma função que registra um clique e cria um gatilho de notificação ao vivo no Firestore.
  */
 import { ai } from '@/ai/genkit';
 import { z } from 'zod';
@@ -13,7 +13,7 @@ import * as admin from 'firebase-admin';
 function initializeFirebaseAdmin() {
   if (admin.apps.length === 0) {
     if (!process.env.FIREBASE_PROJECT_ID || !process.env.FIREBASE_CLIENT_EMAIL || !process.env.FIREBASE_PRIVATE_KEY) {
-      console.warn('As variáveis de ambiente do Firebase (para o Admin SDK) não estão definidas. O envio de notificações falhará.');
+      console.warn('As variáveis de ambiente do Firebase (para o Admin SDK) não estão definidas. A notificação e o registro de cliques falharão.');
       return null;
     }
     try {
@@ -54,63 +54,36 @@ const notifyOwnerFlow = ai.defineFlow(
     try {
       const app = initializeFirebaseAdmin();
       if (!app) {
-        console.error("Admin SDK não inicializado, não é possível enviar notificação ou registrar clique.");
+        console.error("Admin SDK não inicializado, não é possível processar a ação.");
         return { success: false };
       }
       
       const firestore = admin.firestore();
-      const messaging = admin.messaging();
 
-      // Tarefa 1: Incrementar o contador de cliques
+      // Tarefa 1: Incrementar o contador de cliques para o dashboard
       const clickDocRef = firestore.collection('clickCounts').doc(input.label);
       try {
         await clickDocRef.set({
           count: admin.firestore.FieldValue.increment(1),
-          label: input.label, // Garante que o rótulo esteja no documento
+          label: input.label,
           lastClicked: admin.firestore.FieldValue.serverTimestamp()
         }, { merge: true });
         console.log(`Clique no botão "${input.label}" registrado com sucesso.`);
       } catch (firestoreError) {
         console.error("Erro ao registrar clique no Firestore:", firestoreError);
-        // Continua para enviar a notificação mesmo se o registro do clique falhar
       }
       
-      // Tarefa 2: Enviar a notificação push
-      const tokensSnapshot = await firestore.collection('adminPushTokens').get();
-      if (tokensSnapshot.empty) {
-        console.log('Nenhum token de administrador encontrado para enviar notificação.');
-        return { success: true }; // Sucesso, pois não havia ninguém para notificar.
-      }
-
-      const tokens = tokensSnapshot.docs.map(doc => doc.data().token);
-
-      const message: admin.messaging.MulticastMessage = {
-        tokens: tokens,
-        notification: {
-          title: '🔔 Novo Clique no Site!',
-          body: `Um usuário clicou em: ${input.label}`,
-        },
-        webpush: {
-          fcmOptions: {
-            link: '/admin', 
-          },
-          notification: {
-             icon: 'https://i.postimg.cc/zGxkL1Hp/logo-escura.png'
-          }
-        },
-      };
-
-      const batchResponse = await messaging.sendEachForMulticast(message);
-      console.log(`${batchResponse.successCount} mensagens enviadas com sucesso.`);
-
-      if (batchResponse.failureCount > 0) {
-        const failedTokens: string[] = [];
-        batchResponse.responses.forEach((resp, idx) => {
-          if (!resp.success) {
-            failedTokens.push(tokens[idx]);
-          }
+      // Tarefa 2: Criar um documento gatilho para a notificação ao vivo na página de admin
+      try {
+        const liveNotificationRef = firestore.collection('live_notifications').doc();
+        await liveNotificationRef.set({
+            label: input.label,
+            timestamp: admin.firestore.FieldValue.serverTimestamp(),
+            read: false
         });
-        console.log('Tokens que falharam:', failedTokens);
+        console.log(`Gatilho de notificação ao vivo criado para "${input.label}".`);
+      } catch (liveNotificationError) {
+         console.error("Erro ao criar gatilho de notificação ao vivo:", liveNotificationError);
       }
 
       return { success: true };

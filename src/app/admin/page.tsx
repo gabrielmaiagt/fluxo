@@ -1,13 +1,15 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { useToast } from '@/hooks/use-toast';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { BarChart, BellRing, Check, Info, Loader2, RefreshCw } from 'lucide-react';
-import { enablePushNotifications } from '@/lib/push';
 import { getClickCounts, type ClickCount } from '@/ai/flows/getClickCounts';
+import { db } from '@/lib/firebase';
+import { collection, onSnapshot, query, where, Timestamp, orderBy, limit } from 'firebase/firestore';
+
 
 import { Bar, XAxis, YAxis, ResponsiveContainer, Tooltip } from 'recharts';
 
@@ -119,86 +121,85 @@ function ClicksDashboard() {
 
 
 // Componente de Ativação de Notificações
-function PushNotificationsCard() {
-  const [isLoading, setIsLoading] = useState(false);
-  const [isSupported, setIsSupported] = useState<boolean | null>(null);
+function LiveNotificationsCard() {
   const [permission, setPermission] = useState<NotificationPermission | null>(null);
-  const { toast } = useToast();
+  const startTimeRef = useRef(new Date());
 
   useEffect(() => {
-    const checkSupport = () => {
-      const isClient = typeof window !== 'undefined';
-      const supported = isClient && 'Notification' in window && 'serviceWorker' in navigator && 'PushManager' in window;
-      setIsSupported(supported);
-      if (supported) {
-        setPermission(Notification.permission);
-      }
-    };
-    checkSupport();
+    // Define o estado inicial da permissão ao carregar o componente
+    if (typeof window !== 'undefined' && 'Notification' in window) {
+      setPermission(Notification.permission);
+    }
   }, []);
 
-  const handleRequestPermission = async () => {
-    if (!isSupported) return;
-    setIsLoading(true);
-    try {
-      await enablePushNotifications();
-      setPermission('granted');
-      toast({
-        title: "Sucesso!",
-        description: "Você agora receberá notificações push sobre as ações dos usuários.",
+  // Listener para novas notificações do Firestore
+  useEffect(() => {
+    if (permission !== 'granted') return;
+
+    const q = query(
+      collection(db, "live_notifications"),
+      where('timestamp', '>', startTimeRef.current),
+      orderBy('timestamp', 'desc'),
+      limit(1)
+    );
+
+    const unsubscribe = onSnapshot(q, (snapshot) => {
+      snapshot.docChanges().forEach((change) => {
+        if (change.type === "added") {
+          const data = change.doc.data();
+          console.log("Nova notificação recebida:", data);
+          new Notification("🔔 Novo Clique no Site!", {
+            body: `Um usuário clicou em: ${data.label}`,
+            icon: 'https://i.postimg.cc/zGxkL1Hp/logo-escura.png',
+            tag: change.doc.id, // Evita notificações duplicadas
+          });
+        }
       });
+    });
+
+    return () => unsubscribe(); // Limpa o listener ao desmontar o componente
+  }, [permission]);
+
+
+  const handleRequestPermission = async () => {
+    if (typeof window === 'undefined' || !('Notification' in window)) {
+      alert('Este navegador não suporta notificações.');
+      return;
+    }
+
+    const currentPermission = await Notification.requestPermission();
+    setPermission(currentPermission);
+
+    if (currentPermission === 'granted') {
       new Notification("Notificações Ativadas", {
-        body: "Tudo pronto para receber alertas em tempo real!",
+        body: "Tudo pronto para receber alertas em tempo real nesta guia!",
         icon: 'https://i.postimg.cc/zGxkL1Hp/logo-escura.png'
       });
-    } catch (error: any) {
-      console.error("Erro ao ativar notificações:", error);
-      toast({
-        title: "Erro ao ativar notificações",
-        description: `${error.code ? `(${error.code})` : ''} ${error.message}`,
-        variant: "destructive",
-        duration: 9000,
-      });
-      if (error.message.includes('negada')) {
-        setPermission('denied');
-      }
-    } finally {
-      setIsLoading(false);
     }
   };
   
   const getButtonText = () => {
-    if (isLoading) return <><Loader2 className="mr-2 h-4 w-4 animate-spin" /> Ativando...</>;
     if (permission === 'granted') return <><Check className="mr-2 h-4 w-4" /> Notificações Ativadas</>;
     if (permission === 'denied') return 'Permissão Negada';
-    return 'Ativar Notificações Push';
+    return 'Ativar Notificações';
   };
 
   return (
     <Card className="w-full bg-card">
       <CardHeader>
         <CardTitle>Painel de Administrador</CardTitle>
-        <CardDescription>Receba notificações push em tempo real sobre a atividade dos usuários.</CardDescription>
+        <CardDescription>Receba notificações em tempo real sobre a atividade dos usuários.</CardDescription>
       </CardHeader>
       <CardContent>
-        {isSupported === false && (
-          <Alert variant="destructive">
-            <BellRing className="h-4 w-4" />
-            <AlertTitle>Navegador não compatível!</AlertTitle>
-            <AlertDescription>Seu navegador atual não suporta a API de Notificações Push.</AlertDescription>
-          </Alert>
-        )}
-
-        {isSupported && (
           <div className="space-y-4">
             <Alert variant="default" className="border-primary/50 text-primary-foreground">
               <Info className="h-4 w-4 !text-primary" />
               <AlertTitle>Como funciona?</AlertTitle>
               <AlertDescription>
-                <p>Clique no botão abaixo para permitir as notificações. Uma vez ativado, você receberá um alerta no seu dispositivo sempre que um usuário clicar em um link importante, mesmo com esta página fechada.</p>
+                <p>Clique no botão para permitir as notificações. Sempre que um usuário clicar em um link, uma notificação aparecerá no seu dispositivo, **desde que esta página de admin esteja aberta em uma guia**.</p>
               </AlertDescription>
             </Alert>
-            <Button onClick={handleRequestPermission} disabled={isLoading || permission === 'granted' || permission === 'denied'} className="w-full">
+            <Button onClick={handleRequestPermission} disabled={permission === 'granted' || permission === 'denied'} className="w-full">
               {getButtonText()}
             </Button>
             {permission === 'denied' && (
@@ -207,7 +208,6 @@ function PushNotificationsCard() {
               </p>
             )}
           </div>
-        )}
       </CardContent>
     </Card>
   );
@@ -218,7 +218,7 @@ export default function AdminPage() {
   return (
     <div className="flex min-h-screen flex-col items-center bg-background p-4 sm:p-8">
       <div className="w-full max-w-2xl space-y-8">
-        <PushNotificationsCard />
+        <LiveNotificationsCard />
         <ClicksDashboard />
       </div>
     </div>
