@@ -332,7 +332,8 @@ function LiveNotificationsCard() {
     return 'Ativar Notificações';
   };
   
-  // Se as notificações já estiverem ativadas, não renderiza nada.
+  const isButtonDisabled = permission === 'granted' || permission === 'denied';
+
   if (permission === 'granted') {
     return null;
   }
@@ -352,7 +353,7 @@ function LiveNotificationsCard() {
                 <p>Clique no botão para permitir as notificações. Sempre que um usuário clicar em um link, uma notificação aparecerá no seu dispositivo, **desde que esta página de admin esteja aberta em uma guia**.</p>
               </AlertDescription>
             </Alert>
-            <Button onClick={handleRequestPermission} disabled={permission === 'granted' || permission === 'denied'} className="w-full">
+            <Button onClick={handleRequestPermission} disabled={isButtonDisabled} className="w-full">
               {getButtonText()}
             </Button>
             {permission === 'denied' && (
