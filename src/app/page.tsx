@@ -10,6 +10,7 @@ import { Dashboard } from '@/components/landing/dashboard';
 import { Typewriter } from '@/components/landing/typewriter';
 import { notifyOwner } from '@/ai/flows/notifyOwner';
 import { useToast } from '@/hooks/use-toast';
+import { AnimatedSection } from '@/components/landing/animated-section';
 
 
 export default function LinkInBioPage() {
@@ -273,7 +274,9 @@ export default function LinkInBioPage() {
           </div>
         </main>
         
-        <Dashboard />
+        <AnimatedSection animation="fade-up" delay={200}>
+            <Dashboard />
+        </AnimatedSection>
 
         {/* Footer */}
         <footer className="py-8 mt-4 text-center">
