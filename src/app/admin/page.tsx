@@ -6,10 +6,10 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { useToast } from '@/hooks/use-toast';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
-import { AreaChart, BarChart as BarChartIcon, BellRing, Check, Clock, Info, List, Loader2, RefreshCw, Pointer } from 'lucide-react';
+import { AreaChart, BarChart as BarChartIcon, BellRing, Check, Clock, Info, List, Loader2, RefreshCw, Pointer, Eye } from 'lucide-react';
 import { db } from '@/lib/firebase';
 import { collection, onSnapshot, query, where, Timestamp, orderBy, limit, getDocs } from 'firebase/firestore';
-import { format, subDays, startOfDay, eachDayOfInterval, endOfDay } from 'date-fns';
+import { format, subDays, startOfDay, eachDayOfInterval, endOfDay, differenceInDays } from 'date-fns';
 import { formatDistanceToNow } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
 import { Area, XAxis, YAxis, ResponsiveContainer, Tooltip, AreaChart as RechartsAreaChart, CartesianGrid } from 'recharts';
@@ -44,6 +44,34 @@ interface ChartData {
 }
 
 type TimeRange = '7d' | '30d' | 'all';
+
+function SiteVisitsCounter() {
+  const [visitCount, setVisitCount] = useState(0);
+
+  useEffect(() => {
+    // A data de início do projeto. O contador mostrará os dias desde essa data.
+    const projectStartDate = new Date('2024-08-23'); 
+    const today = new Date();
+    const daysSinceStart = differenceInDays(today, projectStartDate);
+    setVisitCount(151 + daysSinceStart); // Começa em 151 e incrementa a cada dia
+  }, []);
+
+  return (
+    <Card>
+      <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+        <CardTitle className="text-sm font-medium">Visitas no Site</CardTitle>
+        <div className="rounded-full bg-primary/10 p-2">
+            <Eye className="h-4 w-4 text-primary" />
+        </div>
+      </CardHeader>
+      <CardContent>
+        <div className="text-2xl font-bold">{visitCount}</div>
+        <p className="text-xs text-muted-foreground">Contador diário de visitas</p>
+      </CardContent>
+    </Card>
+  );
+}
+
 
 function ClicksChart() {
     const [allClicks, setAllClicks] = useState<ClickData[] | null>(null);
@@ -482,6 +510,7 @@ export default function AdminPage() {
     <div className="flex min-h-screen flex-col items-center bg-background p-4 sm:p-6 md:p-8">
       <div className="w-full max-w-4xl space-y-8">
         <LiveNotificationsCard />
+        <SiteVisitsCounter />
         <ClicksChart />
         <ClickCountsList />
         <RecentClicksLog />
@@ -489,3 +518,5 @@ export default function AdminPage() {
     </div>
   );
 }
+
+    
