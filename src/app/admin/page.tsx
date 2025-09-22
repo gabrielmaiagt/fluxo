@@ -9,14 +9,14 @@ import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { AreaChart, BellRing, Check, Clock, Info, List, Loader2, RefreshCw, Pointer, Eye, Calendar as CalendarIcon } from 'lucide-react';
 import { db } from '@/lib/firebase';
 import { collection, onSnapshot, query, where, Timestamp, orderBy, limit, getDocs } from 'firebase/firestore';
-import { format, subDays, startOfDay, eachDayOfInterval, endOfDay, addDays } from 'date-fns';
+import { format, subDays, startOfDay, eachDayOfInterval, endOfDay, addDays, startOfMonth, endOfMonth } from 'date-fns';
 import { formatDistanceToNow } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
 import { Area, XAxis, YAxis, ResponsiveContainer, Tooltip, AreaChart as RechartsAreaChart, CartesianGrid } from 'recharts';
-import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { Calendar } from '@/components/ui/calendar';
 import type { DateRange } from 'react-day-picker';
+import { cn } from '@/lib/utils';
 
 
 interface ClickData {
@@ -46,12 +46,12 @@ interface ChartData {
     [key: string]: number | string; // Each key is a button label
 }
 
-type TimeRange = '7d' | '30d' | 'all' | 'custom';
+type TimeRangePreset = 'today' | 'yesterday' | '7d' | '30d' | 'this_month' | 'all' | 'custom';
 
 function ClicksChart() {
     const [allClicks, setAllClicks] = useState<ClickData[] | null>(null);
     const [chartData, setChartData] = useState<ChartData[]>([]);
-    const [timeRange, setTimeRange] = useState<TimeRange>('7d');
+    const [timeRange, setTimeRange] = useState<TimeRangePreset>('7d');
     const [dateRange, setDateRange] = useState<DateRange | undefined>({
       from: subDays(new Date(), 6),
       to: new Date(),
@@ -81,20 +81,44 @@ function ClicksChart() {
     }, [toast]);
     
     useEffect(() => {
-        if (!timeRange || timeRange === 'custom') return;
+        if (timeRange === 'custom') return;
 
         const now = new Date();
-        if (timeRange === '7d') {
-            setDateRange({ from: subDays(now, 6), to: now });
-        } else if (timeRange === '30d') {
-            setDateRange({ from: subDays(now, 29), to: now });
-        } else if (timeRange === 'all') {
-            setDateRange({ from: allClicks?.[0]?.timestamp.toDate() ?? now, to: now });
+        let fromDate: Date | undefined;
+        let toDate: Date | undefined = now;
+
+        switch(timeRange) {
+            case 'today':
+                fromDate = now;
+                break;
+            case 'yesterday':
+                fromDate = subDays(now, 1);
+                toDate = subDays(now, 1);
+                break;
+            case '7d':
+                fromDate = subDays(now, 6);
+                break;
+            case '30d':
+                fromDate = subDays(now, 29);
+                break;
+            case 'this_month':
+                fromDate = startOfMonth(now);
+                break;
+            case 'all':
+                fromDate = allClicks?.[0]?.timestamp.toDate() ?? now;
+                break;
+            default:
+                fromDate = undefined;
+                toDate = undefined;
         }
+        setDateRange({ from: fromDate, to: toDate });
     }, [timeRange, allClicks]);
 
     useEffect(() => {
-        if (isLoading || allClicks === null || !dateRange?.from) return;
+        if (isLoading || allClicks === null || !dateRange?.from) {
+             setChartData([]);
+             return;
+        };
 
         const startDate = startOfDay(dateRange.from);
         const endDate = dateRange.to ? endOfDay(dateRange.to) : endOfDay(dateRange.from);
@@ -136,6 +160,19 @@ function ClicksChart() {
         setTimeRange('custom');
         setDateRange(range);
     }
+
+    const DatePresetButton = ({ label, preset, closePopover }: { label: string; preset: TimeRangePreset, closePopover: () => void }) => (
+        <Button
+            variant="ghost"
+            className={cn("w-full justify-start", timeRange === preset && 'bg-accent text-accent-foreground')}
+            onClick={() => {
+                setTimeRange(preset);
+                closePopover();
+            }}
+        >
+            {label}
+        </Button>
+    );
     
     return (
         <Card className="w-full bg-card">
@@ -146,19 +183,15 @@ function ClicksChart() {
                         <CardDescription>Quantidade de cliques por dia, por botão.</CardDescription>
                     </div>
                      <div className="flex items-center gap-2">
-                         <Tabs value={timeRange} onValueChange={(value) => setTimeRange(value as TimeRange)} className="w-full sm:w-auto">
-                            <TabsList className="grid w-full grid-cols-3 h-9">
-                                <TabsTrigger value="7d" className="text-xs px-2">7 dias</TabsTrigger>
-                                <TabsTrigger value="30d" className="text-xs px-2">30 dias</TabsTrigger>
-                                <TabsTrigger value="all" className="text-xs px-2">Tudo</TabsTrigger>
-                            </TabsList>
-                        </Tabs>
                         <Popover>
                             <PopoverTrigger asChild>
                                 <Button
                                   id="date"
                                   variant={"outline"}
-                                  className={`h-9 w-[180px] justify-start text-left font-normal ${timeRange !== 'custom' && 'text-muted-foreground'}`}
+                                  className={cn(
+                                    "w-[240px] justify-start text-left font-normal",
+                                    !dateRange && "text-muted-foreground"
+                                  )}
                                 >
                                   <CalendarIcon className="mr-2 h-4 w-4" />
                                   {dateRange?.from ? (
@@ -171,11 +204,31 @@ function ClicksChart() {
                                       format(dateRange.from, "dd/MM/yy")
                                     )
                                   ) : (
-                                    <span>Selecione a data</span>
+                                    <span>Selecione um período</span>
                                   )}
                                 </Button>
                             </PopoverTrigger>
-                            <PopoverContent className="w-auto p-0" align="end">
+                            <PopoverContent className="flex w-auto p-0" align="end">
+                                 <div className="flex flex-col space-y-2 border-r p-4">
+                                     <PopoverTrigger asChild>
+                                        <DatePresetButton label="Hoje" preset="today" closePopover={() => {}} />
+                                     </PopoverTrigger>
+                                     <PopoverTrigger asChild>
+                                        <DatePresetButton label="Ontem" preset="yesterday" closePopover={() => {}} />
+                                     </PopoverTrigger>
+                                     <PopoverTrigger asChild>
+                                        <DatePresetButton label="Últimos 7 dias" preset="7d" closePopover={() => {}} />
+                                     </PopoverTrigger>
+                                      <PopoverTrigger asChild>
+                                        <DatePresetButton label="Últimos 30 dias" preset="30d" closePopover={() => {}} />
+                                     </PopoverTrigger>
+                                     <PopoverTrigger asChild>
+                                        <DatePresetButton label="Este mês" preset="this_month" closePopover={() => {}} />
+                                     </PopoverTrigger>
+                                     <PopoverTrigger asChild>
+                                        <DatePresetButton label="Máximo" preset="all" closePopover={() => {}} />
+                                     </PopoverTrigger>
+                                </div>
                                 <Calendar
                                   initialFocus
                                   mode="range"
