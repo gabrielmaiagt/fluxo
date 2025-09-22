@@ -418,8 +418,7 @@ function RecentClicksLog() {
   useEffect(() => {
     const q = query(
       collection(db, "live_notifications"),
-      orderBy('timestamp', 'desc'),
-      limit(10)
+      orderBy('timestamp', 'desc')
     );
 
     const unsubscribe = onSnapshot(q, (snapshot) => {
@@ -445,8 +444,8 @@ function RecentClicksLog() {
   return (
     <Card className="w-full bg-card">
       <CardHeader>
-        <CardTitle>Atividade Recente</CardTitle>
-        <CardDescription>Os 10 últimos cliques registrados.</CardDescription>
+        <CardTitle>Log de Cliques</CardTitle>
+        <CardDescription>Todos os cliques registrados em ordem cronológica.</CardDescription>
       </CardHeader>
       <CardContent>
         {isLoading ? (
@@ -490,5 +489,3 @@ export default function AdminPage() {
     </div>
   );
 }
-
-    
