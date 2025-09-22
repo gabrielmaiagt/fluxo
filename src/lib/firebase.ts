@@ -1,4 +1,5 @@
 
+require('dotenv').config();
 import { initializeApp, getApps, getApp } from "firebase/app";
 import { getFirestore } from "firebase/firestore";
 import { getMessaging } from "firebase/messaging";
