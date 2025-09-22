@@ -70,9 +70,10 @@ export function Dashboard() {
                 accessibilityLayer
                 data={chartData}
                 margin={{
-                  left: -20,
-                  right: 12,
+                  left: 0,
+                  right: 0,
                   top: 10,
+                  bottom: 0,
                 }}
               >
                 <CartesianGrid
