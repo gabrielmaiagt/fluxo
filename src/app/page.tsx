@@ -8,6 +8,7 @@ import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, Di
 import { Check, Phone, User, X, Instagram } from 'lucide-react';
 import { useEffect, useRef } from 'react';
 import { Dashboard } from '@/components/landing/dashboard';
+import { Typewriter } from '@/components/landing/typewriter';
 
 export default function LinkInBioPage() {
   return (
@@ -32,7 +33,7 @@ export default function LinkInBioPage() {
             data-ai-hint="profile picture"
           />
           <h1 className="text-2xl font-bold mt-4">⥁ gabrielmaia'gt</h1>
-          <p className="text-white mt-1">Todo mundo vende alguma coisa. Só alguns sabem LUCRAR TODO DIA.</p>
+          <Typewriter text="Aprenda a lucrar todo dia." className="text-white mt-1 h-6" />
         </header>
 
         {/* Main Content */}
@@ -279,3 +280,5 @@ export default function LinkInBioPage() {
     </div>
   );
 }
+
+    
