@@ -19,21 +19,27 @@ import {
 import type { ChartConfig } from '@/components/ui/chart';
 
 const chartData = [
-  { date: '25/08', revenue: 0, expense: 0 },
-  { date: '27/08', revenue: 0, expense: 0 },
-  { date: '29/08', revenue: 0, expense: 0 },
-  { date: '31/08', revenue: 0, expense: 0 },
-  { date: '02/09', revenue: 0, expense: 0 },
-  { date: '04/09', revenue: 0, expense: 0 },
-  { date: '06/09', revenue: 0, expense: 0 },
-  { date: '08/09', revenue: 0, expense: 0 },
-  { date: '10/09', revenue: 0, expense: 0 },
-  { date: '12/09', revenue: 0, expense: 0 },
-  { date: '14/09', revenue: 0, expense: 0 },
-  { date: '16/09', revenue: 200, expense: 100 },
-  { date: '18/09', revenue: 1500, expense: 300 },
-  { date: '20/09', revenue: 10000, expense: 1200 },
-  { date: '22/09', revenue: 4000, expense: 2000 },
+  { date: 'Semana 1', revenue: 1000, expense: 200 },
+  { date: 'Semana 1', revenue: 1300, expense: 250 },
+  { date: 'Semana 1', revenue: 1900, expense: 400 },
+  { date: 'Semana 1', revenue: 900, expense: 300 },
+  { date: 'Semana 1', revenue: 1500, expense: 350 },
+  { date: 'Semana 1', revenue: 1700, expense: 450 },
+  { date: 'Semana 1', revenue: 2200, expense: 500 },
+  { date: 'Semana 2', revenue: 2500, expense: 600 },
+  { date: 'Semana 2', revenue: 2300, expense: 550 },
+  { date: 'Semana 2', revenue: 2800, expense: 700 },
+  { date: 'Semana 2', revenue: 2600, expense: 650 },
+  { date: 'Semana 2', revenue: 3100, expense: 800 },
+  { date: 'Semana 2', revenue: 3000, expense: 750 },
+  { date: 'Semana 2', revenue: 3400, expense: 900 },
+  { date: 'Semana 3', revenue: 3200, expense: 850 },
+  { date: 'Semana 3', revenue: 3500, expense: 950 },
+  { date: 'Semana 3', revenue: 4000, expense: 1100 },
+  { date: 'Semana 3', revenue: 3800, expense: 1000 },
+  { date: 'Semana 3', revenue: 4200, expense: 1200 },
+  { date: 'Semana 3', revenue: 4500, expense: 1300 },
+  { date: 'Semana 3', revenue: 5000, expense: 1500 },
 ];
 
 const chartConfig = {
@@ -43,7 +49,7 @@ const chartConfig = {
   },
   expense: {
     label: 'Despesas',
-    color: 'hsl(var(--chart-5))',
+    color: 'hsl(var(--destructive))',
   },
 } satisfies ChartConfig;
 
@@ -74,14 +80,14 @@ export function Dashboard() {
               tickLine={false}
               axisLine={false}
               tickMargin={8}
-              tickFormatter={(value) => value.slice(0, 5)}
+              tickFormatter={() => ''}
               className="fill-white/70"
             />
              <YAxis
                 tickLine={false}
                 axisLine={false}
                 tickMargin={8}
-                tickFormatter={(value: number) => `R$${value.toLocaleString('pt-BR')}`}
+                tickFormatter={() => ''}
                 className="fill-white/70"
             />
             <ChartTooltip
