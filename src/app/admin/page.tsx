@@ -81,7 +81,7 @@ function ClicksChart() {
     }, [toast]);
     
     useEffect(() => {
-        if (!timeRange) return;
+        if (!timeRange || timeRange === 'custom') return;
 
         const now = new Date();
         if (timeRange === '7d') {
