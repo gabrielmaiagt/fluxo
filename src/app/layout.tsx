@@ -4,8 +4,11 @@ import { Toaster } from '@/components/ui/toaster';
 import { cn } from '@/lib/utils';
 
 export const metadata: Metadata = {
-  title: 'AdCraft Blueprint',
+  title: 'bio',
   description: 'Duas armas para dominar criativos: uma para começar, outra para escalar com IA.',
+  icons: {
+    icon: 'https://i.postimg.cc/zGxkL1Hp/logo-escura.png',
+  },
 };
 
 export default function RootLayout({
