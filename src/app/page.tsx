@@ -39,7 +39,7 @@ export default function LinkInBioPage() {
             <h2 className="text-xs font-semibold text-white uppercase tracking-wider">
               PRE-VENDA:MÉTODO FLUXO DE CAIXA (APRENDA TRÁFEGO DIRETO E X1 AUTOMÁTICO) MAIS INFORMAÇÕES NO GRUPO
             </h2>
-            <Link href="https://fluxodeoferta.site/fluxo" target="_blank" rel="noopener noreferrer" className="my-4 block overflow-hidden rounded-lg animate-pulse-shadow transition-shadow duration-300 hover:shadow-destructive/80">
+            <Link href="https://fluxodeoferta.site/fluxo" target="_blank" rel="noopener noreferrer" className="my-4 block overflow-hidden rounded-lg shadow-red-glow transition-shadow duration-300 hover:shadow-destructive/80">
               <Image
                 src="https://i.postimg.cc/rp6JLCGX/Chat-GPT-Image-21-de-ago-de-2025-14-56-44.png"
                 alt="Fluxo de Caixa"
@@ -56,7 +56,7 @@ export default function LinkInBioPage() {
               Quem não está online… já está FORA DO JOGO.
             </h2>
             <div className="flex flex-col gap-3 mt-4">
-              <Link href="https://chat.whatsapp.com/Khh4Ulvu9elLgZvHjGWItX" target="_blank" rel="noopener noreferrer" className="block rounded-lg overflow-hidden transition-transform duration-300 hover:scale-105 animate-pulse-shadow hover:shadow-destructive/80">
+              <Link href="https://chat.whatsapp.com/Khh4Ulvu9elLgZvHjGWItX" target="_blank" rel="noopener noreferrer" className="block rounded-lg overflow-hidden transition-transform duration-300 hover:scale-105 shadow-red-glow hover:shadow-destructive/80">
                 <Image 
                   src="https://i.postimg.cc/VLCtKv1T/Design-sem-nome-2.png"
                   alt="Grupo de Networking no Whatsapp"
@@ -65,7 +65,7 @@ export default function LinkInBioPage() {
                   className="w-full h-auto object-cover"
                 />
               </Link>
-              <Link href="https://discord.gg/N22CvMkpUV" target="_blank" rel="noopener noreferrer" className="block rounded-lg overflow-hidden transition-transform duration-300 hover:scale-105 animate-pulse-shadow hover:shadow-destructive/80">
+              <Link href="https://discord.gg/N22CvMkpUV" target="_blank" rel="noopener noreferrer" className="block rounded-lg overflow-hidden transition-transform duration-300 hover:scale-105 shadow-red-glow hover:shadow-destructive/80">
                 <Image 
                   src="https://i.postimg.cc/kXRcBpgR/Chat-GPT-Image-21-de-ago-de-2025-15-20-07.png"
                   alt="Grupo de Networking no Discord"
@@ -74,7 +74,7 @@ export default function LinkInBioPage() {
                   className="w-full h-auto object-cover"
                 />
               </Link>
-              <Link href="https://www.instagram.com/gabrielmaiagt/" target="_blank" rel="noopener noreferrer" className="block rounded-lg overflow-hidden transition-transform duration-300 hover:scale-105 w-full animate-pulse-shadow hover:shadow-destructive/80">
+              <Link href="https://www.instagram.com/gabrielmaiagt/" target="_blank" rel="noopener noreferrer" className="block rounded-lg overflow-hidden transition-transform duration-300 hover:scale-105 w-full shadow-red-glow hover:shadow-destructive/80">
                 <Image 
                   src="https://i.postimg.cc/xdY8YRQr/Chat-GPT-Image-22-de-ago-de-2025-01-05-59.png"
                   alt="Perfil no Instagram"
