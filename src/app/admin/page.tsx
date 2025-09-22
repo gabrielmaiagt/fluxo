@@ -164,11 +164,11 @@ function ClicksChart() {
                                   {dateRange?.from ? (
                                     dateRange.to ? (
                                       <>
-                                        {format(dateRange.from, "LLL dd, y")} -{" "}
-                                        {format(dateRange.to, "LLL dd, y")}
+                                        {format(dateRange.from, "dd/MM/yy")} -{" "}
+                                        {format(dateRange.to, "dd/MM/yy")}
                                       </>
                                     ) : (
-                                      format(dateRange.from, "LLL dd, y")
+                                      format(dateRange.from, "dd/MM/yy")
                                     )
                                   ) : (
                                     <span>Selecione a data</span>
@@ -183,6 +183,7 @@ function ClicksChart() {
                                   selected={dateRange}
                                   onSelect={handleDateRangeChange}
                                   numberOfMonths={2}
+                                  locale={ptBR}
                                 />
                             </PopoverContent>
                         </Popover>
