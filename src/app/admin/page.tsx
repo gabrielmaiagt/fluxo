@@ -6,7 +6,7 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { useToast } from '@/hooks/use-toast';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
-import { AreaChart, BellRing, Check, Clock, Info, List, Loader2, Pointer, Eye, Calendar as CalendarIcon, Trash2 } from 'lucide-react';
+import { AreaChart, BellRing, Check, Clock, Info, List, Loader2, Pointer, Eye, Calendar as CalendarIcon, Trash2, Users, Globe, Link as LinkIcon, MessageCircle } from 'lucide-react';
 import { db } from '@/lib/firebase';
 import { collection, onSnapshot, query, where, Timestamp, orderBy, limit } from 'firebase/firestore';
 import { format, subDays, startOfDay, eachDayOfInterval, endOfDay, startOfMonth } from 'date-fns';
@@ -483,6 +483,39 @@ function SiteVisitsCard() {
     );
 }
 
+function TrafficSourceCard() {
+  const trafficData = [
+    { source: 'Instagram', visits: 1234, icon: <Users className="h-4 w-4 text-muted-foreground" /> },
+    { source: 'Google', visits: 876, icon: <Globe className="h-4 w-4 text-muted-foreground" /> },
+    { source: 'Direct', visits: 456, icon: <LinkIcon className="h-4 w-4 text-muted-foreground" /> },
+    { source: 'WhatsApp', visits: 234, icon: <MessageCircle className="h-4 w-4 text-muted-foreground" /> },
+  ];
+
+  return (
+    <Card>
+      <CardHeader className="flex flex-row items-center justify-between pb-2">
+        <CardTitle className="text-sm font-medium">Fonte de Tráfego</CardTitle>
+        <Users className="h-4 w-4 text-muted-foreground" />
+      </CardHeader>
+      <CardContent>
+        <div className="space-y-4">
+          {trafficData.map((item) => (
+            <div key={item.source} className="flex items-center">
+              {item.icon}
+              <span className="ml-2 text-sm font-medium">{item.source}</span>
+              <span className="ml-auto text-sm font-bold">{item.visits}</span>
+            </div>
+          ))}
+        </div>
+        <p className="text-xs text-muted-foreground pt-4">
+          Simulação de dados de tráfego.
+        </p>
+      </CardContent>
+    </Card>
+  );
+}
+
+
 function ClickCountsList() {
     const [counts, setCounts] = useState<{ id: string; label: string; count: number }[]>([]);
     const [isLoading, setIsLoading] = useState(true);
@@ -697,7 +730,7 @@ export default function AdminPage() {
         <LiveNotificationsCard />
         <div className="grid gap-8 md:grid-cols-2">
             <SiteVisitsCard />
-            {/* Placeholder for another card if needed */}
+            <TrafficSourceCard />
         </div>
         <ClicksChart />
         <ClickCountsList />
@@ -707,3 +740,5 @@ export default function AdminPage() {
     </div>
   );
 }
+
+    
