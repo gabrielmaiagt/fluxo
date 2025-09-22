@@ -106,13 +106,6 @@ export default function LinkInBioPage() {
                       Quero a Mentoria Individual
                     </Link>
                   </Button>
-                  <Image
-                    src="https://i.postimg.cc/15pNwzpK/wa-link-3xmzej.png"
-                    alt="QR Code para WhatsApp"
-                    width={128}
-                    height={128}
-                    className="rounded-md mt-2"
-                  />
                 </div>
               </DialogContent>
             </Dialog>
