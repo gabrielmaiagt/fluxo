@@ -37,7 +37,7 @@ export default function LinkInBioPage() {
           {/* Main Program Card */}
           <div className="bg-white/10 backdrop-blur-md border border-white/20 rounded-xl p-4 w-full flex flex-col">
             <h2 className="text-xs font-semibold text-white uppercase tracking-wider">
-              PROGRAMA PRINCIPAL: MÉTODO FLUXO DE CAIXA
+              PRE-VENDA:MÉTODO FLUXO DE CAIXA (APRENDA TRÁFEGO DIRETO E X1 AUTOMÁTICO) MAIS INFORMAÇÕES NO GRUPO
             </h2>
             <Link href="https://fluxodeoferta.site/fluxo" target="_blank" rel="noopener noreferrer" className="my-4 block overflow-hidden rounded-lg animate-pulse-shadow transition-shadow duration-300 hover:shadow-destructive/80">
               <Image
@@ -91,7 +91,7 @@ export default function LinkInBioPage() {
         {/* Footer */}
         <footer className="py-8 mt-4">
           <p className="text-xs text-neutral-400">
-            © {new Date().getFullYear()} Gabriel Maia — Todos os direitos reservados.
+            © {new Date().getFullYear()} ⥁ gabrielmaia'gt — Todos os direitos reservados.
           </p>
         </footer>
       </div>
