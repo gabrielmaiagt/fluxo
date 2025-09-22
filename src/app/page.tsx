@@ -73,6 +73,51 @@ export default function LinkInBioPage() {
             </Dialog>
           </div>
 
+          {/* Advanced Mentorship Card */}
+          <div className="bg-white/10 backdrop-blur-md border border-white/20 rounded-xl p-4 w-full">
+            <h2 className="text-xs font-semibold text-white uppercase tracking-wider text-center">
+              AVANÇADO
+            </h2>
+            <Dialog>
+              <DialogTrigger asChild>
+                <div className="my-4 block overflow-hidden rounded-lg shadow-red-glow transition-shadow duration-300 hover:shadow-destructive/80 cursor-pointer">
+                  <Image
+                    src="https://i.postimg.cc/cC3tDxP0/Chat-GPT-Image-22-de-set-de-2025-04-56-32.png"
+                    alt="Mentoria Individual Avançada"
+                    width={400}
+                    height={200}
+                    className="w-full h-auto object-cover"
+                  />
+                </div>
+              </DialogTrigger>
+              <DialogContent className="bg-white/10 backdrop-blur-lg border-white/20 text-white w-[90vw] max-w-sm rounded-2xl">
+                <DialogHeader>
+                  <DialogTitle className="text-center text-2xl font-bold">Mentoria Individual</DialogTitle>
+                  <DialogDescription asChild>
+                    <div className="text-center text-white/80 pt-2 space-y-3">
+                      <p>Receba acompanhamento individual e personalizado para acelerar seus resultados. Vamos analisar seu negócio, otimizar suas campanhas e escalar suas vendas juntos.</p>
+                      <p className="text-white font-bold text-lg">Valor: R$997</p>
+                    </div>
+                  </DialogDescription>
+                </DialogHeader>
+                <div className="flex flex-col items-center gap-4 pt-4">
+                  <Button asChild variant="destructive">
+                    <Link href="https://wa.link/3xmzej" target="_blank" rel="noopener noreferrer">
+                      Quero a Mentoria Individual
+                    </Link>
+                  </Button>
+                  <Image
+                    src="https://i.postimg.cc/15pNwzpK/wa-link-3xmzej.png"
+                    alt="QR Code para WhatsApp"
+                    width={128}
+                    height={128}
+                    className="rounded-md mt-2"
+                  />
+                </div>
+              </DialogContent>
+            </Dialog>
+          </div>
+
           {/* Community Card */}
           <div className="bg-white/10 backdrop-blur-md border border-white/20 rounded-xl p-4 w-full">
             <h2 className="text-xs font-semibold text-white uppercase tracking-wider">
@@ -178,5 +223,3 @@ export default function LinkInBioPage() {
     </div>
   );
 }
-
-    
