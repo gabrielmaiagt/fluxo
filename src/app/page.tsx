@@ -82,17 +82,23 @@ export default function LinkInBioPage() {
             <h2 className="text-xs font-semibold text-white uppercase tracking-wider text-center">
               PRÉ-VENDA METODO FLUXO DE CAIXA
             </h2>
-            <Dialog>
+            <div 
+              className="my-4 block overflow-hidden rounded-lg shadow-red-glow transition-shadow duration-300 hover:shadow-destructive/80 cursor-pointer"
+              onClick={() => handleNotificationClick('https://chat.whatsapp.com/HRRGV0rKCVI2h3unF10m9f', 'Grupo Pré-venda Fluxo de Caixa')}
+            >
+                <Image
+                  src="https://i.postimg.cc/rp6JLCGX/Chat-GPT-Image-21-de-ago-de-2025-14-56-44.png"
+                  alt="Fluxo de Caixa"
+                  width={400}
+                  height={200}
+                  className="w-full h-auto object-cover"
+                />
+            </div>
+             <Dialog>
               <DialogTrigger asChild>
-                <div className="my-4 block overflow-hidden rounded-lg shadow-red-glow transition-shadow duration-300 hover:shadow-destructive/80 cursor-pointer">
-                    <Image
-                      src="https://i.postimg.cc/rp6JLCGX/Chat-GPT-Image-21-de-ago-de-2025-14-56-44.png"
-                      alt="Fluxo de Caixa"
-                      width={400}
-                      height={200}
-                      className="w-full h-auto object-cover"
-                    />
-                </div>
+                <Button variant="outline" className="w-full bg-transparent border-white/30 text-white/80 hover:bg-white/20 hover:text-white">
+                  Ver Detalhes
+                </Button>
               </DialogTrigger>
               <DialogContent className="bg-white/10 backdrop-blur-lg border-white/20 text-white w-[90vw] max-w-md rounded-2xl p-6">
                 <DialogHeader>
@@ -138,17 +144,23 @@ export default function LinkInBioPage() {
             <h2 className="text-xs font-semibold text-white uppercase tracking-wider text-center">
               AVANÇADO
             </h2>
+            <div 
+              className="my-4 block overflow-hidden rounded-lg shadow-red-glow transition-shadow duration-300 hover:shadow-destructive/80 cursor-pointer"
+              onClick={() => handleNotificationClick('https://wa.link/3xmzej', 'Mentoria 1:1')}
+            >
+              <Image
+                src="https://i.postimg.cc/cC3tDxP0/Chat-GPT-Image-22-de-set-de-2025-04-56-32.png"
+                alt="Mentoria Individual Avançada"
+                width={400}
+                height={200}
+                className="w-full h-auto object-cover"
+              />
+            </div>
             <Dialog>
               <DialogTrigger asChild>
-                <div className="my-4 block overflow-hidden rounded-lg shadow-red-glow transition-shadow duration-300 hover:shadow-destructive/80 cursor-pointer">
-                  <Image
-                    src="https://i.postimg.cc/cC3tDxP0/Chat-GPT-Image-22-de-set-de-2025-04-56-32.png"
-                    alt="Mentoria Individual Avançada"
-                    width={400}
-                    height={200}
-                    className="w-full h-auto object-cover"
-                  />
-                </div>
+                <Button variant="outline" className="w-full bg-transparent border-white/30 text-white/80 hover:bg-white/20 hover:text-white">
+                  Ver Detalhes
+                </Button>
               </DialogTrigger>
               <DialogContent className="bg-white/10 backdrop-blur-lg border-white/20 text-white w-[90vw] max-w-md rounded-2xl p-6">
                 <DialogHeader>
@@ -259,3 +271,5 @@ export default function LinkInBioPage() {
     </div>
   );
 }
+
+    

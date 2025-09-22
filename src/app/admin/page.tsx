@@ -6,17 +6,50 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { useToast } from '@/hooks/use-toast';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
-import { AreaChart, BellRing, Check, Clock, Info, List, Loader2, RefreshCw, Pointer, Eye, Calendar as CalendarIcon } from 'lucide-react';
+import { AreaChart, BellRing, Check, Clock, Info, List, Loader2, RefreshCw, Pointer, Eye, Calendar as CalendarIcon, Trash2 } from 'lucide-react';
 import { db } from '@/lib/firebase';
-import { collection, onSnapshot, query, where, Timestamp, orderBy, limit, getDocs } from 'firebase/firestore';
+import { collection, onSnapshot, query, where, Timestamp, orderBy, limit, getDocs, writeBatch } from 'firebase/firestore';
 import { format, subDays, startOfDay, eachDayOfInterval, endOfDay, addDays, startOfMonth, endOfMonth } from 'date-fns';
-import { formatDistanceToNow } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
 import { Area, XAxis, YAxis, ResponsiveContainer, Tooltip, AreaChart as RechartsAreaChart, CartesianGrid } from 'recharts';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { Calendar } from '@/components/ui/calendar';
 import type { DateRange } from 'react-day-picker';
 import { cn } from '@/lib/utils';
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog"
+
+async function clearAllAnalytics(): Promise<{ success: boolean; error?: string }> {
+  'use server';
+  try {
+    const batch = writeBatch(db);
+
+    const collectionsToClear = ['visits', 'live_notifications', 'clickCounts'];
+
+    for (const collectionName of collectionsToClear) {
+      const collectionRef = collection(db, collectionName);
+      const snapshot = await getDocs(collectionRef);
+      snapshot.docs.forEach(doc => {
+        batch.delete(doc.ref);
+      });
+    }
+
+    await batch.commit();
+    return { success: true };
+  } catch (error: any) {
+    console.error("Erro ao limpar dados de análise:", error);
+    return { success: false, error: error.message };
+  }
+}
 
 
 interface ClickData {
@@ -58,6 +91,8 @@ function ClicksChart() {
     });
     const [isLoading, setIsLoading] = useState(true);
     const { toast } = useToast();
+    const [isPopoverOpen, setPopoverOpen] = useState(false);
+
 
     useEffect(() => {
         setIsLoading(true);
@@ -105,7 +140,8 @@ function ClicksChart() {
                 fromDate = startOfMonth(now);
                 break;
             case 'all':
-                fromDate = allClicks?.[0]?.timestamp.toDate() ?? now;
+                fromDate = allClicks?.[0]?.timestamp.toDate() ?? startOfDay(subDays(now, 3650));
+                toDate = endOfDay(now);
                 break;
             default:
                 fromDate = undefined;
@@ -121,7 +157,7 @@ function ClicksChart() {
         };
 
         const startDate = startOfDay(dateRange.from);
-        const endDate = dateRange.to ? endOfDay(dateRange.to) : endOfDay(dateRange.from);
+        const endDate = dateRange.to ? endOfDay(dateRange.to) : endOfDay(new Date());
 
         if (startDate > endDate) {
              setChartData([]);
@@ -160,20 +196,20 @@ function ClicksChart() {
         setTimeRange('custom');
         setDateRange(range);
     }
-
-    const DatePresetButton = ({ label, preset, closePopover }: { label: string; preset: TimeRangePreset, closePopover: () => void }) => (
+    
+    const DatePresetButton = ({ label, preset }: { label: string; preset: TimeRangePreset }) => (
         <Button
             variant="ghost"
             className={cn("w-full justify-start", timeRange === preset && 'bg-accent text-accent-foreground')}
             onClick={() => {
                 setTimeRange(preset);
-                closePopover();
+                setPopoverOpen(false);
             }}
         >
             {label}
         </Button>
     );
-    
+
     return (
         <Card className="w-full bg-card">
             <CardHeader>
@@ -183,7 +219,7 @@ function ClicksChart() {
                         <CardDescription>Quantidade de cliques por dia, por botão.</CardDescription>
                     </div>
                      <div className="flex items-center gap-2">
-                        <Popover>
+                        <Popover open={isPopoverOpen} onOpenChange={setPopoverOpen}>
                             <PopoverTrigger asChild>
                                 <Button
                                   id="date"
@@ -195,13 +231,13 @@ function ClicksChart() {
                                 >
                                   <CalendarIcon className="mr-2 h-4 w-4" />
                                   {dateRange?.from ? (
-                                    dateRange.to ? (
+                                    dateRange.to && dateRange.to !== dateRange.from ? (
                                       <>
-                                        {format(dateRange.from, "dd/MM/yy")} -{" "}
-                                        {format(dateRange.to, "dd/MM/yy")}
+                                        {format(dateRange.from, "dd/MM/yy", {locale: ptBR})} -{" "}
+                                        {format(dateRange.to, "dd/MM/yy", {locale: ptBR})}
                                       </>
                                     ) : (
-                                      format(dateRange.from, "dd/MM/yy")
+                                      format(dateRange.from, "dd/MM/yy", {locale: ptBR})
                                     )
                                   ) : (
                                     <span>Selecione um período</span>
@@ -210,24 +246,12 @@ function ClicksChart() {
                             </PopoverTrigger>
                             <PopoverContent className="flex w-auto p-0" align="end">
                                  <div className="flex flex-col space-y-2 border-r p-4">
-                                     <PopoverTrigger asChild>
-                                        <DatePresetButton label="Hoje" preset="today" closePopover={() => {}} />
-                                     </PopoverTrigger>
-                                     <PopoverTrigger asChild>
-                                        <DatePresetButton label="Ontem" preset="yesterday" closePopover={() => {}} />
-                                     </PopoverTrigger>
-                                     <PopoverTrigger asChild>
-                                        <DatePresetButton label="Últimos 7 dias" preset="7d" closePopover={() => {}} />
-                                     </PopoverTrigger>
-                                      <PopoverTrigger asChild>
-                                        <DatePresetButton label="Últimos 30 dias" preset="30d" closePopover={() => {}} />
-                                     </PopoverTrigger>
-                                     <PopoverTrigger asChild>
-                                        <DatePresetButton label="Este mês" preset="this_month" closePopover={() => {}} />
-                                     </PopoverTrigger>
-                                     <PopoverTrigger asChild>
-                                        <DatePresetButton label="Máximo" preset="all" closePopover={() => {}} />
-                                     </PopoverTrigger>
+                                     <DatePresetButton label="Hoje" preset="today" />
+                                     <DatePresetButton label="Ontem" preset="yesterday" />
+                                     <DatePresetButton label="Últimos 7 dias" preset="7d" />
+                                     <DatePresetButton label="Últimos 30 dias" preset="30d" />
+                                     <DatePresetButton label="Este mês" preset="this_month" />
+                                     <DatePresetButton label="Máximo" preset="all" />
                                 </div>
                                 <Calendar
                                   initialFocus
@@ -619,6 +643,74 @@ function RecentClicksLog() {
   );
 }
 
+function DangerZone() {
+  const { toast } = useToast();
+  const [isClearing, setIsClearing] = useState(false);
+
+  const handleClearData = async () => {
+    setIsClearing(true);
+    const result = await clearAllAnalytics();
+    if (result.success) {
+      toast({
+        title: "Sucesso!",
+        description: "Todos os dados de visitas e cliques foram apagados.",
+        variant: "default",
+      });
+    } else {
+      toast({
+        title: "Erro",
+        description: "Não foi possível apagar os dados. Tente novamente.",
+        variant: "destructive",
+      });
+    }
+    setIsClearing(false);
+  };
+
+  return (
+    <Card className="w-full bg-card border-destructive">
+      <CardHeader>
+        <CardTitle>Ações Perigosas</CardTitle>
+        <CardDescription>
+          Essas ações são irreversíveis. Use com cuidado.
+        </CardDescription>
+      </CardHeader>
+      <CardContent>
+        <AlertDialog>
+          <AlertDialogTrigger asChild>
+            <Button variant="destructive" className="w-full">
+              <Trash2 className="mr-2 h-4 w-4" />
+              Limpar Todos os Dados
+            </Button>
+          </AlertDialogTrigger>
+          <AlertDialogContent>
+            <AlertDialogHeader>
+              <AlertDialogTitle>Você tem certeza absoluta?</AlertDialogTitle>
+              <AlertDialogDescription>
+                Esta ação não pode ser desfeita. Isso irá apagar permanentemente
+                todos os registros de visitas, cliques e notificações.
+              </AlertDialogDescription>
+            </AlertDialogHeader>
+            <AlertDialogFooter>
+              <AlertDialogCancel disabled={isClearing}>Cancelar</AlertDialogCancel>
+              <AlertDialogAction
+                onClick={handleClearData}
+                disabled={isClearing}
+                className="bg-destructive hover:bg-destructive/90"
+              >
+                {isClearing && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+                {isClearing ? 'Limpando...' : 'Sim, limpar tudo'}
+              </AlertDialogAction>
+            </AlertDialogFooter>
+          </AlertDialogContent>
+        </AlertDialog>
+        <p className="text-xs text-muted-foreground mt-4 text-center">
+          Esta operação removerá todos os dados das coleções `visits`, `live_notifications`, e `clickCounts`.
+        </p>
+      </CardContent>
+    </Card>
+  );
+}
+
 
 // Página principal do Admin
 export default function AdminPage() {
@@ -633,7 +725,10 @@ export default function AdminPage() {
         <ClicksChart />
         <ClickCountsList />
         <RecentClicksLog />
+        <DangerZone />
       </div>
     </div>
   );
 }
+
+    
