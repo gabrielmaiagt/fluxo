@@ -6,20 +6,22 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { enableAdminPush } from '@/lib/push';
 import { useToast } from '@/hooks/use-toast';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
-import { BellRing, Terminal } from 'lucide-react';
+import { BellRing, Info } from 'lucide-react';
 
 export default function AdminPage() {
   const [isLoading, setIsLoading] = useState(false);
   const [isSupported, setIsSupported] = useState<boolean | null>(null);
+  const [isIOS, setIsIOS] = useState(false);
   const { toast } = useToast();
 
   useEffect(() => {
-    // Verifica o suporte apenas no lado do cliente
-    setIsSupported(
-      typeof window !== 'undefined' &&
-        'serviceWorker' in navigator &&
-        'Notification' in window
-    );
+    const isClient = typeof window !== 'undefined';
+    const isSupportedNow = isClient && 'serviceWorker' in navigator && 'Notification' in window;
+    setIsSupported(isSupportedNow);
+    if (isClient) {
+      // Basic check for iOS devices
+      setIsIOS(/iPad|iPhone|iPod/.test(navigator.userAgent) && !(window as any).MSStream);
+    }
   }, []);
 
   const handleEnablePush = async () => {
@@ -68,13 +70,28 @@ export default function AdminPage() {
                 <BellRing className="h-4 w-4" />
                 <AlertTitle>Navegador não compatível!</AlertTitle>
                 <AlertDescription>
-                    Seu navegador atual não suporta notificações push. Por favor, tente com outro navegador como Chrome ou Firefox em um desktop.
+                    Seu navegador atual não suporta notificações push. Por favor, tente com outro navegador como Chrome ou Firefox em um desktop, ou siga as instruções para iOS se aplicável.
                 </AlertDescription>
             </Alert>
           )}
 
           {isSupported && (
             <div className="space-y-4">
+              {isIOS && (
+                <Alert variant="default" className="border-primary text-primary-foreground">
+                  <Info className="h-4 w-4 !text-primary" />
+                  <AlertTitle>Instruções para iOS (iPhone/iPad)</AlertTitle>
+                  <AlertDescription className="space-y-2">
+                    <p>Para ativar notificações no iOS, você precisa primeiro adicionar este site à sua Tela de Início:</p>
+                    <ol className="list-decimal pl-5 text-sm">
+                      <li>Toque no ícone de <strong>Compartilhar</strong> no Safari.</li>
+                      <li>Selecione <strong>"Adicionar à Tela de Início"</strong>.</li>
+                      <li>Feche o navegador e abra o site pelo novo ícone na sua tela.</li>
+                      <li>Clique no botão abaixo dentro do "aplicativo" da tela de início.</li>
+                    </ol>
+                  </AlertDescription>
+                </Alert>
+              )}
               <p className="text-sm text-muted-foreground">
                 Clique no botão abaixo para permitir que este navegador receba notificações
                 push quando os usuários realizarem ações importantes no site.
