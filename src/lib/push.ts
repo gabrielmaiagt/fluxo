@@ -1,8 +1,8 @@
 'use client';
 
 import { getMessaging, getToken, onMessage } from "firebase/messaging";
-import { app } from "./firebase";
-import { registerAdmin } from "@/ai/flows/registerAdmin";
+import { app, db } from "./firebase";
+import { doc, setDoc } from "firebase/firestore";
 
 const vapidKey = "BMA4boknocWY3_LTEvHIP69zsOU7ipULcG_3PcOJahW8qNNfSsI8XjAuyRr40u-B76QRBvm_zdei5NUBugsk2zs";
 
@@ -19,6 +19,7 @@ export async function enableAdminPush(uid: string) {
     const messaging = getMessaging(app);
 
     try {
+        // This file is in /public
         await navigator.serviceWorker.register("/firebase-messaging-sw.js");
 
         const perm = await window.Notification.requestPermission();
@@ -34,16 +35,15 @@ export async function enableAdminPush(uid: string) {
 
         if (token) {
             console.log("Token do Admin:", token);
-            // Em vez de escrever no DB pelo cliente, chamamos o fluxo do servidor
-            const result = await registerAdmin({ uid, token });
+            
+            // Writing directly to Firestore from the client for debugging
+            await setDoc(doc(db, "adminPushTokens", uid), {
+                token,
+                updatedAt: Date.now(),
+            });
 
-            if (!result.success) {
-                throw new Error("Falha ao registrar o token no servidor.");
-            }
+            console.log("Token do admin salvo diretamente no Firestore.");
 
-            console.log("Token do admin salvo via fluxo do servidor.");
-
-            // Opcional: ouvir mensagens com a aba aberta
             onMessage(messaging, (payload) => {
                 console.log("Mensagem recebida em foreground: ", payload);
                 const { title, body } = payload.notification || {};
@@ -54,8 +54,9 @@ export async function enableAdminPush(uid: string) {
         } else {
             throw new Error("Não foi possível obter o token de notificação.");
         }
-    } catch (error) {
-        console.error("Erro ao habilitar notificações push:", error);
-        throw error;
+    } catch (error: any) {
+        console.error("Erro detalhado ao habilitar notificações push:", error.code, error.message);
+        // Re-throw a more generic error for the UI to handle, but the detailed log is in the console.
+        throw new Error(`Falha ao registrar o token no servidor. Code: ${error.code}`);
     }
 }

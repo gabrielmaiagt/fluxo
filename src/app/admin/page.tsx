@@ -38,7 +38,7 @@ export default function AdminPage() {
       });
 
     } catch (error: any) {
-      console.error(error);
+      console.error("Erro final no handleEnablePush:", error);
       let description = error.message || "Verifique o console para mais detalhes.";
       if (error.message.includes('negada')) {
         description = "A permissão foi negada. Verifique as configurações de notificação do seu navegador (no ícone de cadeado 🔒 na barra de endereço) e tente novamente."
@@ -46,7 +46,7 @@ export default function AdminPage() {
       
       toast({
         title: "Erro ao ativar notificações",
-        description: description,
+        description: `Detalhes: ${description}`,
         variant: "destructive",
         duration: 9000,
       });
