@@ -186,6 +186,11 @@ function LiveNotificationsCard() {
     if (permission === 'denied') return 'Permissão Negada';
     return 'Ativar Notificações';
   };
+  
+  // Se as notificações já estiverem ativadas, não renderiza nada.
+  if (permission === 'granted') {
+    return null;
+  }
 
   return (
     <Card className="w-full bg-card">
@@ -295,5 +300,3 @@ export default function AdminPage() {
     </div>
   );
 }
-
-    
