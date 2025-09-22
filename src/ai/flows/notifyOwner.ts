@@ -15,7 +15,7 @@ const NotifyOwnerInputSchema = z.object({
   label: z.string().describe('Um rótulo para a ação que acionou a notificação.'),
 });
 
-type NotifyOwnerInput = z.infer<typeof NotifyOwnerInputSchema>;
+export type NotifyOwnerInput = z.infer<typeof NotifyOwnerInputSchema>;
 
 export async function notifyOwner(input: NotifyOwnerInput): Promise<{ success: boolean; }> {
   return notifyOwnerFlow(input);
