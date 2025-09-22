@@ -5,7 +5,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
-import { Check, Phone, X } from 'lucide-react';
+import { Check, Phone, User, X } from 'lucide-react';
 import { useEffect, useRef } from 'react';
 
 export default function LinkInBioPage() {
@@ -17,7 +17,7 @@ export default function LinkInBioPage() {
     const handleScroll = () => {
       // The scrollY value is divided to create a subtle parallax effect.
       // Adjust the divisor to make the effect more or less pronounced.
-      const scrollY = window.scrollY / 1.5; 
+      const scrollY = window.scrollY; 
       if (glow1Ref.current) {
         glow1Ref.current.style.transform = `translateY(${scrollY}px)`;
       }
@@ -218,9 +218,9 @@ export default function LinkInBioPage() {
                         Entrar no grupo
                       </Link>
                     </Button>
-                    <div className="inline-flex items-center gap-2 rounded-full bg-black/30 px-3 py-1 text-xs text-white/60">
+                    <div className="inline-flex items-center gap-2 rounded-full bg-black/30 px-3 py-1 text-xs text-white/60 mt-2">
                       <Phone className="h-3 w-3" />
-                      <span>+55 71 99151-1702</span>
+                      <span>Contato oficial: +55 71 99151-1702</span>
                     </div>
                   </div>
                 </DialogContent>
@@ -237,19 +237,23 @@ export default function LinkInBioPage() {
                     />
                   </div>
                 </DialogTrigger>
-                <DialogContent className="bg-white/10 backdrop-blur-lg border-white/20 text-white w-[90vw] max-w-xs rounded-2xl">
-                  <DialogHeader>
-                    <DialogTitle className="text-center text-2xl font-bold">Discord: garbiel1</DialogTitle>
+                <DialogContent className="bg-white/10 backdrop-blur-lg border-white/20 text-white w-[90vw] max-w-xs rounded-2xl p-6">
+                  <DialogHeader className="items-center">
+                    <DialogTitle className="text-center text-2xl font-bold">Networking no Discord</DialogTitle>
                     <DialogDescription className="text-center text-white/80 pt-2">
-                      Você será redirecionado para o grupo de networking no Discord.
+                      Networking + calls semanais.
                     </DialogDescription>
                   </DialogHeader>
-                  <div className="flex justify-center pt-4">
-                    <Button asChild variant="destructive">
+                  <div className="flex flex-col items-center gap-4 pt-4">
+                    <Button asChild variant="destructive" className="w-full font-bold">
                       <Link href="https://discord.gg/N22CvMkpUV" target="_blank" rel="noopener noreferrer">
-                        Entrar no Grupo
+                        Entrar no servidor
                       </Link>
                     </Button>
+                     <div className="inline-flex items-center gap-2 rounded-full bg-black/30 px-3 py-1 text-xs text-white/60 mt-2">
+                      <User className="h-3 w-3" />
+                      <span>User do Dono: garbiel1</span>
+                    </div>
                   </div>
                 </DialogContent>
               </Dialog>
@@ -296,3 +300,5 @@ export default function LinkInBioPage() {
     </div>
   );
 }
+
+    
