@@ -48,16 +48,18 @@ export default function LinkInBioPage() {
                       alt="Fluxo de Caixa"
                       width={400}
                       height={200}
-                      className="w-full h-auto object-cover transition-transform duration-300 hover:scale-105"
+                      className="w-full h-auto object-cover"
                     />
                 </div>
               </DialogTrigger>
               <DialogContent className="bg-white/10 backdrop-blur-lg border-white/20 text-white w-[90vw] max-w-sm rounded-2xl">
                   <DialogHeader>
                     <DialogTitle className="text-center text-2xl font-bold">🚀 Lançamento à Vista!</DialogTitle>
-                    <DialogDescription className="text-center text-white/80 pt-2 space-y-2">
-                      <p>O <span className="font-bold text-white">Método Fluxo de Caixa</span> está chegando. Domine o tráfego direto e as automações de X1 no WhatsApp para nunca mais passar um dia sem vender.</p>
-                      <p>As vagas serão limitadas. Entre no grupo VIP de pré-venda para garantir a sua e receber todas as informações em primeira mão.</p>
+                    <DialogDescription asChild>
+                      <div className="text-center text-white/80 pt-2 space-y-2">
+                        <p>O <span className="font-bold text-white">Método Fluxo de Caixa</span> está chegando. Domine o tráfego direto e as automações de X1 no WhatsApp para nunca mais passar um dia sem vender.</p>
+                        <p>As vagas serão limitadas. Entre no grupo VIP de pré-venda para garantir a sua e receber todas as informações em primeira mão.</p>
+                      </div>
                     </DialogDescription>
                   </DialogHeader>
                   <div className="flex justify-center pt-4">
@@ -176,3 +178,5 @@ export default function LinkInBioPage() {
     </div>
   );
 }
+
+    
