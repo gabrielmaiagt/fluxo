@@ -7,6 +7,7 @@ import { Button } from '@/components/ui/button';
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { Check, Phone, User, X, Instagram } from 'lucide-react';
 import { useEffect, useRef } from 'react';
+import { Dashboard } from '@/components/landing/dashboard';
 
 export default function LinkInBioPage() {
   return (
@@ -264,8 +265,9 @@ export default function LinkInBioPage() {
               </Dialog>
             </div>
           </div>
-
         </main>
+        
+        <Dashboard />
 
         {/* Footer */}
         <footer className="py-8 mt-4">
@@ -277,5 +279,3 @@ export default function LinkInBioPage() {
     </div>
   );
 }
-
-    
