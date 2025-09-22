@@ -5,7 +5,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
-import { Check, Phone, User, X } from 'lucide-react';
+import { Check, Phone, User, X, Instagram } from 'lucide-react';
 import { useEffect, useRef } from 'react';
 
 export default function LinkInBioPage() {
@@ -260,7 +260,7 @@ export default function LinkInBioPage() {
               <Dialog>
                 <DialogTrigger asChild>
                   <div className="block rounded-lg overflow-hidden transition-transform duration-300 hover:scale-105 w-full shadow-red-glow hover:shadow-destructive/80 cursor-pointer">
-                    <Image 
+                    <Image
                       src="https://i.postimg.cc/xdY8YRQr/Chat-GPT-Image-22-de-ago-de-2025-01-05-59.png"
                       alt="Perfil no Instagram"
                       width={400}
@@ -269,19 +269,23 @@ export default function LinkInBioPage() {
                     />
                   </div>
                 </DialogTrigger>
-                <DialogContent className="bg-white/10 backdrop-blur-lg border-white/20 text-white w-[90vw] max-w-xs rounded-2xl">
-                  <DialogHeader>
-                    <DialogTitle className="text-center text-2xl font-bold">@gabrielmaiagt</DialogTitle>
+                <DialogContent className="bg-white/10 backdrop-blur-lg border-white/20 text-white w-[90vw] max-w-xs rounded-2xl p-6">
+                  <DialogHeader className="items-center">
+                    <DialogTitle className="text-center text-2xl font-bold">Siga no Instagram</DialogTitle>
                     <DialogDescription className="text-center text-white/80 pt-2">
-                      Você será redirecionado para o Instagram.
+                      Bastidores, provas e insights diários.
                     </DialogDescription>
                   </DialogHeader>
-                  <div className="flex justify-center pt-4">
+                  <div className="flex flex-col items-center gap-4 pt-4">
                     <Button asChild variant="destructive">
                       <Link href="https://www.instagram.com/gabrielmaiagt/" target="_blank" rel="noopener noreferrer">
                         Visitar Perfil
                       </Link>
                     </Button>
+                    <div className="inline-flex items-center gap-2 rounded-full bg-black/30 px-3 py-1 text-xs text-white/60 mt-2">
+                      <Instagram className="h-3 w-3" />
+                      <span>@gabrielmaiagt</span>
+                    </div>
                   </div>
                 </DialogContent>
               </Dialog>
@@ -300,5 +304,3 @@ export default function LinkInBioPage() {
     </div>
   );
 }
-
-    
