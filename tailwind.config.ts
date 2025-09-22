@@ -108,12 +108,17 @@ export default {
           '0%, 100%': { opacity: '1' },
           '50%': { opacity: '0' },
         },
+        breathing: {
+          '0%, 100%': { transform: 'scale(1)' },
+          '50%': { transform: 'scale(1.03)' },
+        },
       },
       animation: {
         'accordion-down': 'accordion-down 0.2s ease-out',
         'accordion-up': 'accordion-up 0.2s ease-out',
         'pulse-shadow': 'pulse-shadow 12s infinite ease-in-out',
         'blink': 'blink 0.7s infinite',
+        'breathing': 'breathing 2s ease-in-out infinite',
       },
       boxShadow: {
         'red-glow': '0 0 12px 0px hsl(var(--destructive) / 0.6)',
@@ -123,5 +128,3 @@ export default {
   },
   plugins: [require('tailwindcss-animate')],
 } satisfies Config;
-
-    

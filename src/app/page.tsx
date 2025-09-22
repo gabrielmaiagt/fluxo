@@ -40,7 +40,7 @@ export default function LinkInBioPage() {
         <main className="w-full flex flex-col gap-4">
           
           {/* Main Program Card */}
-          <div className="bg-white/10 backdrop-blur-md border border-white/20 rounded-xl p-4 w-full flex flex-col">
+          <div className="bg-white/10 backdrop-blur-md border border-white/20 rounded-xl p-4 w-full">
             <h2 className="text-xs font-semibold text-white uppercase tracking-wider text-center">
               PRÉ-VENDA METODO FLUXO DE CAIXA
             </h2>
@@ -84,7 +84,7 @@ export default function LinkInBioPage() {
                   </div>
                 </div>
                 <div className="flex flex-col items-center gap-4 pt-4">
-                   <Button asChild variant="destructive" className="w-full font-bold">
+                   <Button asChild variant="destructive" className="w-full font-bold animate-breathing">
                     <Link href="https://fluxodeoferta.site/fluxo" target="_blank" rel="noopener noreferrer">
                       Entrar no Grupo
                     </Link>
@@ -152,7 +152,7 @@ export default function LinkInBioPage() {
                            <span className="text-2xl font-bold text-white">por R$997</span>
                         </div>
                     </div>
-                  <Button asChild variant="destructive" className="w-full font-bold">
+                  <Button asChild variant="destructive" className="w-full font-bold animate-breathing">
                     <Link href="https://wa.link/3xmzej" target="_blank" rel="noopener noreferrer">
                       Quero a Mentoria 1:1
                     </Link>
@@ -188,7 +188,7 @@ export default function LinkInBioPage() {
                     </DialogDescription>
                   </DialogHeader>
                   <div className="flex flex-col items-center gap-4 pt-4">
-                    <Button asChild variant="destructive" className="w-full font-bold">
+                    <Button asChild variant="destructive" className="w-full font-bold animate-breathing">
                       <Link href="https://chat.whatsapp.com/Khh4Ulvu9elLgZvHjGWItX" target="_blank" rel="noopener noreferrer">
                         Entrar no grupo
                       </Link>
@@ -220,7 +220,7 @@ export default function LinkInBioPage() {
                     </DialogDescription>
                   </DialogHeader>
                   <div className="flex flex-col items-center gap-4 pt-4">
-                    <Button asChild variant="destructive" className="w-full font-bold">
+                    <Button asChild variant="destructive" className="w-full font-bold animate-breathing">
                       <Link href="https://discord.gg/N22CvMkpUV" target="_blank" rel="noopener noreferrer">
                         Entrar no servidor
                       </Link>
@@ -252,7 +252,7 @@ export default function LinkInBioPage() {
                     </DialogDescription>
                   </DialogHeader>
                   <div className="flex flex-col items-center gap-4 pt-4">
-                    <Button asChild variant="destructive">
+                    <Button asChild variant="destructive" className="animate-breathing">
                       <Link href="https://www.instagram.com/gabrielmaiagt/" target="_blank" rel="noopener noreferrer">
                         Visitar Perfil
                       </Link>
