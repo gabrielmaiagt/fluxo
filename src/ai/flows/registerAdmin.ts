@@ -13,6 +13,7 @@ import * as admin from 'firebase-admin';
 function initializeFirebaseAdmin() {
     if (admin.apps.length === 0) {
       if (!process.env.FIREBASE_PROJECT_ID || !process.env.FIREBASE_CLIENT_EMAIL || !process.env.FIREBASE_PRIVATE_KEY) {
+        console.error('As variáveis de ambiente do Firebase não estão definidas. Verifique seu arquivo .env');
         throw new Error('As variáveis de ambiente do Firebase não estão definidas. Verifique seu arquivo .env');
       }
       try {
