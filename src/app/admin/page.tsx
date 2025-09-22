@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useEffect, useState, useRef } from 'react';
@@ -5,10 +6,12 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { useToast } from '@/hooks/use-toast';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
-import { BarChart, BellRing, Check, Info, Loader2, RefreshCw } from 'lucide-react';
+import { BarChart, BellRing, Check, Clock, Info, List, Loader2, RefreshCw } from 'lucide-react';
 import { getClickCounts, type ClickCount } from '@/ai/flows/getClickCounts';
 import { db } from '@/lib/firebase';
 import { collection, onSnapshot, query, where, Timestamp, orderBy, limit } from 'firebase/firestore';
+import { formatDistanceToNow } from 'date-fns';
+import { ptBR } from 'date-fns/locale';
 
 
 import { Bar, XAxis, YAxis, ResponsiveContainer, Tooltip } from 'recharts';
@@ -42,7 +45,7 @@ function ClicksDashboard() {
   }, []);
 
   return (
-    <Card className="w-full bg-card mt-8">
+    <Card className="w-full bg-card">
       <CardHeader className="flex flex-row items-center justify-between space-y-0">
         <div className="grid gap-2">
             <CardTitle>Dashboard de Cliques</CardTitle>
@@ -213,14 +216,84 @@ function LiveNotificationsCard() {
   );
 }
 
+// Componente de Log de Cliques Recentes
+function RecentClicksLog() {
+  const [clicks, setClicks] = useState<{ id: string; label: string; timestamp: Date }[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    const q = query(
+      collection(db, "live_notifications"),
+      orderBy('timestamp', 'desc'),
+      limit(10)
+    );
+
+    const unsubscribe = onSnapshot(q, (snapshot) => {
+      const recentClicks = snapshot.docs.map(doc => {
+        const data = doc.data();
+        return {
+          id: doc.id,
+          label: data.label,
+          // Converte o Timestamp do Firestore para um objeto Date do JS
+          timestamp: (data.timestamp as Timestamp).toDate(), 
+        };
+      });
+      setClicks(recentClicks);
+      setIsLoading(false);
+    }, (error) => {
+      console.error("Erro ao buscar log de cliques:", error);
+      setIsLoading(false);
+    });
+
+    return () => unsubscribe();
+  }, []);
+
+  return (
+    <Card className="w-full bg-card">
+      <CardHeader>
+        <CardTitle>Atividade Recente</CardTitle>
+        <CardDescription>Os 10 últimos cliques registrados.</CardDescription>
+      </CardHeader>
+      <CardContent>
+        {isLoading ? (
+          <div className="flex items-center justify-center h-40">
+            <Loader2 className="h-8 w-8 animate-spin text-muted-foreground" />
+          </div>
+        ) : clicks.length > 0 ? (
+          <div className="space-y-4">
+            {clicks.map((click) => (
+              <div key={click.id} className="flex items-center justify-between">
+                <p className="text-sm font-medium">{click.label}</p>
+                <div className="flex items-center text-xs text-muted-foreground">
+                  <Clock className="mr-1 h-3 w-3" />
+                  {formatDistanceToNow(click.timestamp, { addSuffix: true, locale: ptBR })}
+                </div>
+              </div>
+            ))}
+          </div>
+        ) : (
+          <div className="flex flex-col items-center justify-center h-40 text-center">
+            <List className="h-10 w-10 text-muted-foreground" />
+            <p className="mt-4 text-sm text-muted-foreground">Nenhuma atividade registrada ainda.</p>
+          </div>
+        )}
+      </CardContent>
+    </Card>
+  );
+}
+
+
 // Página principal do Admin
 export default function AdminPage() {
   return (
     <div className="flex min-h-screen flex-col items-center bg-background p-4 sm:p-6 md:p-8">
       <div className="w-full max-w-2xl space-y-8">
         <LiveNotificationsCard />
+        <RecentClicksLog />
         <ClicksDashboard />
       </div>
     </div>
   );
 }
+
+    
