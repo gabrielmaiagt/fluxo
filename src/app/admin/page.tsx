@@ -59,18 +59,15 @@ function ClicksChart() {
 
     // 2. Process data when timeRange or allClicks changes
     useEffect(() => {
-        if (isLoading) return;
+        if (isLoading || allClicks === null) return;
 
         const now = new Date();
         const getStartDate = (range: TimeRange) => {
-            if (range === '7d') return subDays(now, 6); // inclusive today
-            if (range === '30d') return subDays(now, 29); // inclusive today
+            if (range === '7d') return startOfDay(subDays(now, 6));
+            if (range === '30d') return startOfDay(subDays(now, 29));
             if (allClicks.length > 0) {
                 // For 'all', find the earliest click date
-                const firstClickDate = allClicks.reduce((earliest, click) => {
-                    const clickDate = click.timestamp.toDate();
-                    return clickDate < earliest ? clickDate : earliest;
-                }, now);
+                const firstClickDate = allClicks[0].timestamp.toDate();
                 return startOfDay(firstClickDate);
             }
             return startOfDay(now); // Default if no clicks
@@ -78,6 +75,12 @@ function ClicksChart() {
         
         const startDate = getStartDate(timeRange);
         const endDate = endOfDay(now);
+
+        // Ensure interval is valid
+        if (startDate > endDate) {
+             setChartData([]);
+             return;
+        }
 
         const dateInterval = eachDayOfInterval({ start: startDate, end: endDate });
 
@@ -118,10 +121,10 @@ function ClicksChart() {
             </CardHeader>
             <CardContent>
                 {isLoading ? (
-                    <div className="flex items-center justify-center h-48">
+                    <div className="flex items-center justify-center h-72">
                         <Loader2 className="h-8 w-8 animate-spin text-muted-foreground" />
                     </div>
-                ) : chartData.length > 1 ? ( // Show chart if more than 1 day
+                ) : chartData.length > 1 ? (
                     <ResponsiveContainer width="100%" height={300}>
                          <RechartsAreaChart data={chartData} margin={{ top: 5, right: 20, left: -20, bottom: 5 }}>
                              <defs>
@@ -188,10 +191,16 @@ function ClicksChart() {
                         </RechartsAreaChart>
                     </ResponsiveContainer>
                 ) : (
-                    <div className="flex flex-col items-center justify-center h-48 text-center">
+                    <div className="flex flex-col items-center justify-center h-72 text-center">
                         <AreaChart className="h-10 w-10 text-muted-foreground" />
-                        <p className="mt-4 text-sm text-muted-foreground">Nenhum dado de clique encontrado ainda.</p>
-                        <p className="text-xs text-muted-foreground">Compartilhe sua página para começar a coletar dados.</p>
+                         {allClicks && allClicks.length > 0 ? (
+                            <p className="mt-4 text-sm text-muted-foreground">Dados insuficientes para exibir o gráfico. É necessário pelo menos 2 dias de atividade.</p>
+                        ) : (
+                            <>
+                                <p className="mt-4 text-sm text-muted-foreground">Nenhum dado de clique encontrado ainda.</p>
+                                <p className="text-xs text-muted-foreground">Compartilhe sua página para começar a coletar dados.</p>
+                            </>
+                        )}
                     </div>
                 )}
             </CardContent>
