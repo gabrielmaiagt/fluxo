@@ -4,12 +4,12 @@ import { getFirestore } from "firebase/firestore";
 import { getMessaging } from "firebase/messaging";
 
 const firebaseConfig = {
-  "projectId": "adcraft-blueprint",
-  "appId": "1:1071558588370:web:b225fd25847301b03bfa0b",
-  "apiKey": "AIzaSyCKtS_ZSgzfcfo-l571JhsaOffkphcXFx0",
-  "authDomain": "adcraft-blueprint.firebaseapp.com",
-  "measurementId": "",
-  "messagingSenderId": "1071558588370"
+  apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
+  authDomain: process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN,
+  projectId: process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID,
+  storageBucket: process.env.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: process.env.NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID,
+  appId: process.env.NEXT_PUBLIC_FIREBASE_APP_ID,
 };
 
 // Initialize Firebase
