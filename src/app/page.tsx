@@ -5,7 +5,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
-import { Check, X } from 'lucide-react';
+import { Check, X, ArrowRight } from 'lucide-react';
 import { Dashboard } from '@/components/landing/dashboard';
 import { Typewriter } from '@/components/landing/typewriter';
 import { useToast } from '@/hooks/use-toast';
@@ -200,46 +200,90 @@ export default function LinkInBioPage() {
 
           {/* Community Card */}
           <div className="bg-white/10 backdrop-blur-md border border-white/20 rounded-xl p-4 w-full">
-            <h2 className="text-xs font-semibold text-white uppercase tracking-wider">
+            <h2 className="text-xs font-semibold text-white uppercase tracking-wider text-center">
               Quem não está online… já está FORA DO JOGO.
             </h2>
             <div className="flex flex-col gap-3 mt-4">
-              <div 
-                className="block rounded-lg overflow-hidden transition-transform duration-300 hover:scale-105 w-full shadow-red-glow hover:shadow-destructive/80 cursor-pointer"
-                onClick={() => handleNotificationClick('https://chat.whatsapp.com/Khh4Ulvu9elLgZvHjGWItX', 'Grupo de Networking WhatsApp')}
-              >
-                <Image
-                  src="https://i.postimg.cc/VLCtKv1T/Design-sem-nome-2.png"
-                  alt="Grupo de Networking no Whatsapp"
-                  width={400}
-                  height={100}
-                  className="w-full h-auto object-cover"
-                />
-              </div>
-              <div 
-                className="block rounded-lg overflow-hidden transition-transform duration-300 hover:scale-105 w-full shadow-red-glow hover:shadow-destructive/80 cursor-pointer"
-                onClick={() => handleNotificationClick('https://discord.gg/N22CvMkpUV', 'Grupo de Networking Discord')}
-              >
-                <Image
-                  src="https://i.postimg.cc/kXRcBpgR/Chat-GPT-Image-21-de-ago-de-2025-15-20-07.png"
-                  alt="Grupo de Networking no Discord"
-                  width={400}
-                  height={100}
-                  className="w-full h-auto object-cover"
-                />
-              </div>
-              <div 
-                className="block rounded-lg overflow-hidden transition-transform duration-300 hover:scale-105 w-full shadow-red-glow hover:shadow-destructive/80 cursor-pointer"
-                onClick={() => handleNotificationClick('https://www.instagram.com/gabrielmaiagt/', 'Instagram')}
-              >
-                <Image
-                  src="https://i.postimg.cc/xdY8YRQr/Chat-GPT-Image-22-de-ago-de-2025-01-05-59.png"
-                  alt="Perfil no Instagram"
-                  width={400}
-                  height={100}
-                  className="w-full h-auto object-cover"
-                />
-              </div>
+              <Dialog>
+                <DialogTrigger asChild>
+                  <div className="block rounded-lg overflow-hidden transition-transform duration-300 hover:scale-105 w-full shadow-red-glow hover:shadow-destructive/80 cursor-pointer">
+                    <Image
+                      src="https://i.postimg.cc/VLCtKv1T/Design-sem-nome-2.png"
+                      alt="Grupo de Networking no Whatsapp"
+                      width={400}
+                      height={100}
+                      className="w-full h-auto object-cover"
+                    />
+                  </div>
+                </DialogTrigger>
+                <DialogContent className="bg-white/10 backdrop-blur-lg border-white/20 text-white w-[90vw] max-w-md rounded-2xl p-6">
+                  <DialogHeader>
+                    <DialogTitle className="text-center text-2xl font-bold">Comunidade WhatsApp</DialogTitle>
+                    <DialogDescription className="text-center text-white/80 mt-2">
+                      Conecte-se com outros gestores, compartilhe estratégias e tire dúvidas em tempo real.
+                    </DialogDescription>
+                  </DialogHeader>
+                  <div className="flex justify-center pt-6">
+                    <Button variant="destructive" className="w-full font-bold" onClick={() => handleNotificationClick('https://chat.whatsapp.com/Khh4Ulvu9elLgZvHjGWItX', 'Grupo de Networking WhatsApp')}>
+                      Entrar no Grupo <ArrowRight className="ml-2 h-4 w-4" />
+                    </Button>
+                  </div>
+                </DialogContent>
+              </Dialog>
+
+              <Dialog>
+                <DialogTrigger asChild>
+                  <div className="block rounded-lg overflow-hidden transition-transform duration-300 hover:scale-105 w-full shadow-red-glow hover:shadow-destructive/80 cursor-pointer">
+                    <Image
+                      src="https://i.postimg.cc/kXRcBpgR/Chat-GPT-Image-21-de-ago-de-2025-15-20-07.png"
+                      alt="Grupo de Networking no Discord"
+                      width={400}
+                      height={100}
+                      className="w-full h-auto object-cover"
+                    />
+                  </div>
+                </DialogTrigger>
+                <DialogContent className="bg-white/10 backdrop-blur-lg border-white/20 text-white w-[90vw] max-w-md rounded-2xl p-6">
+                  <DialogHeader>
+                    <DialogTitle className="text-center text-2xl font-bold">Servidor no Discord</DialogTitle>
+                    <DialogDescription className="text-center text-white/80 mt-2">
+                      Um espaço organizado para discussões aprofundadas, canais temáticos e recursos exclusivos.
+                    </DialogDescription>
+                  </DialogHeader>
+                  <div className="flex justify-center pt-6">
+                    <Button variant="destructive" className="w-full font-bold" onClick={() => handleNotificationClick('https://discord.gg/N22CvMkpUV', 'Grupo de Networking Discord')}>
+                      Acessar o Discord <ArrowRight className="ml-2 h-4 w-4" />
+                    </Button>
+                  </div>
+                </DialogContent>
+              </Dialog>
+              
+              <Dialog>
+                <DialogTrigger asChild>
+                  <div className="block rounded-lg overflow-hidden transition-transform duration-300 hover:scale-105 w-full shadow-red-glow hover:shadow-destructive/80 cursor-pointer">
+                    <Image
+                      src="https://i.postimg.cc/xdY8YRQr/Chat-GPT-Image-22-de-ago-de-2025-01-05-59.png"
+                      alt="Perfil no Instagram"
+                      width={400}
+                      height={100}
+                      className="w-full h-auto object-cover"
+                    />
+                  </div>
+                </DialogTrigger>
+                <DialogContent className="bg-white/10 backdrop-blur-lg border-white/20 text-white w-[90vw] max-w-md rounded-2xl p-6">
+                  <DialogHeader>
+                    <DialogTitle className="text-center text-2xl font-bold">Meu Instagram</DialogTitle>
+                    <DialogDescription className="text-center text-white/80 mt-2">
+                      Acompanhe os bastidores, dicas diárias e conteúdo exclusivo sobre tráfego e marketing digital.
+                    </DialogDescription>
+                  </DialogHeader>
+                  <div className="flex justify-center pt-6">
+                    <Button variant="destructive" className="w-full font-bold" onClick={() => handleNotificationClick('https://www.instagram.com/gabrielmaiagt/', 'Instagram')}>
+                      Seguir no Instagram <ArrowRight className="ml-2 h-4 w-4" />
+                    </Button>
+                  </div>
+                </DialogContent>
+              </Dialog>
             </div>
           </div>
         </main>
@@ -261,3 +305,5 @@ export default function LinkInBioPage() {
     </div>
   );
 }
+
+    
