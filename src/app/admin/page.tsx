@@ -410,7 +410,6 @@ function LiveNotificationsCard() {
   const isButtonDisabled = permission === 'denied';
 
   const getButtonText = () => {
-    if (permission === 'granted') return <><Check className="mr-2 h-4 w-4" /> Notificações Ativadas</>;
     if (permission === 'denied') return 'Permissão Negada';
     return 'Ativar Notificações';
   };
