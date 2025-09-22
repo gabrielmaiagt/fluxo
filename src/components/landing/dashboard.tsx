@@ -119,7 +119,7 @@ export function Dashboard() {
               fill="url(#fillRevenue)"
               fillOpacity={0.4}
               stroke="var(--color-revenue)"
-              animationDuration={1500}
+              animationDuration={5000}
             />
              <ChartLegend content={<ChartLegendContent />} />
           </AreaChart>
