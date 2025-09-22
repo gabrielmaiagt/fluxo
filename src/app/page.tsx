@@ -66,15 +66,34 @@ export default function LinkInBioPage() {
                   className="w-full h-auto object-cover"
                 />
               </Link>
-              <Link href="https://discord.gg/N22CvMkpUV" target="_blank" rel="noopener noreferrer" className="block rounded-lg overflow-hidden transition-transform duration-300 hover:scale-105 shadow-red-glow hover:shadow-destructive/80">
-                <Image 
-                  src="https://i.postimg.cc/kXRcBpgR/Chat-GPT-Image-21-de-ago-de-2025-15-20-07.png"
-                  alt="Grupo de Networking no Discord"
-                  width={400}
-                  height={100}
-                  className="w-full h-auto object-cover"
-                />
-              </Link>
+              <Dialog>
+                <DialogTrigger asChild>
+                  <div className="block rounded-lg overflow-hidden transition-transform duration-300 hover:scale-105 w-full shadow-red-glow hover:shadow-destructive/80 cursor-pointer">
+                    <Image
+                      src="https://i.postimg.cc/kXRcBpgR/Chat-GPT-Image-21-de-ago-de-2025-15-20-07.png"
+                      alt="Grupo de Networking no Discord"
+                      width={400}
+                      height={100}
+                      className="w-full h-auto object-cover"
+                    />
+                  </div>
+                </DialogTrigger>
+                <DialogContent className="bg-white/10 backdrop-blur-lg border-white/20 text-white w-[90vw] max-w-xs rounded-2xl">
+                  <DialogHeader>
+                    <DialogTitle className="text-center text-2xl font-bold">Discord: garbiel1</DialogTitle>
+                    <DialogDescription className="text-center text-white/80 pt-2">
+                      Você será redirecionado para o grupo de networking no Discord.
+                    </DialogDescription>
+                  </DialogHeader>
+                  <div className="flex justify-center pt-4">
+                    <Button asChild variant="destructive">
+                      <Link href="https://discord.gg/N22CvMkpUV" target="_blank" rel="noopener noreferrer">
+                        Entrar no Grupo
+                      </Link>
+                    </Button>
+                  </div>
+                </DialogContent>
+              </Dialog>
               <Dialog>
                 <DialogTrigger asChild>
                   <div className="block rounded-lg overflow-hidden transition-transform duration-300 hover:scale-105 w-full shadow-red-glow hover:shadow-destructive/80 cursor-pointer">
