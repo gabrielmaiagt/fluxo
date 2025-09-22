@@ -242,7 +242,7 @@ export default function LinkInBioPage() {
               </Dialog>
               <Dialog>
                 <DialogTrigger asChild>
-                  <div className="block rounded-lg overflow-hidden transition-transform duration-300 hover:scale-1_05 w-full shadow-red-glow hover:shadow-destructive/80 cursor-pointer">
+                  <div className="block rounded-lg overflow-hidden transition-transform duration-300 hover:scale-105 w-full shadow-red-glow hover:shadow-destructive/80 cursor-pointer">
                     <Image
                       src="https://i.postimg.cc/xdY8YRQr/Chat-GPT-Image-22-de-ago-de-2025-01-05-59.png"
                       alt="Perfil no Instagram"
@@ -291,9 +291,3 @@ export default function LinkInBioPage() {
     </div>
   );
 }
-
-    
-
-    
-
-    
