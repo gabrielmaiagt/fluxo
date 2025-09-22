@@ -5,7 +5,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
-import { Check, X, ArrowRight } from 'lucide-react';
+import { Check, X, ArrowRight, Instagram, Phone, User } from 'lucide-react';
 import { Dashboard } from '@/components/landing/dashboard';
 import { Typewriter } from '@/components/landing/typewriter';
 import { useToast } from '@/hooks/use-toast';
@@ -216,17 +216,21 @@ export default function LinkInBioPage() {
                     />
                   </div>
                 </DialogTrigger>
-                <DialogContent className="bg-white/10 backdrop-blur-lg border-white/20 text-white w-[90vw] max-w-md rounded-2xl p-6">
+                <DialogContent className="bg-white/10 backdrop-blur-lg border-white/20 text-white w-[90vw] max-w-md rounded-2xl p-6 flex flex-col">
                   <DialogHeader>
-                    <DialogTitle className="text-center text-2xl font-bold">Comunidade WhatsApp</DialogTitle>
+                    <DialogTitle className="text-center text-2xl font-bold">Networking no WhatsApp (GRÁTIS)</DialogTitle>
                     <DialogDescription className="text-center text-white/80 mt-2">
-                      Conecte-se com outros gestores, compartilhe estratégias e tire dúvidas em tempo real.
+                      Networking diário, dicas e resenha.
                     </DialogDescription>
                   </DialogHeader>
-                  <div className="flex justify-center pt-6">
+                  <div className="flex flex-col items-center justify-center flex-grow pt-6 gap-4">
                     <Button variant="destructive" className="w-full font-bold" onClick={() => handleNotificationClick('https://chat.whatsapp.com/Khh4Ulvu9elLgZvHjGWItX', 'Grupo de Networking WhatsApp')}>
                       Entrar no Grupo <ArrowRight className="ml-2 h-4 w-4" />
                     </Button>
+                    <div className="inline-flex items-center justify-center text-xs bg-white/10 text-white/70 px-3 py-1 rounded-full">
+                      <Phone className="h-3 w-3 mr-2" />
+                      Contato oficial: +55 71 99151-1702
+                    </div>
                   </div>
                 </DialogContent>
               </Dialog>
@@ -243,17 +247,20 @@ export default function LinkInBioPage() {
                     />
                   </div>
                 </DialogTrigger>
-                <DialogContent className="bg-white/10 backdrop-blur-lg border-white/20 text-white w-[90vw] max-w-md rounded-2xl p-6">
+                <DialogContent className="bg-white/10 backdrop-blur-lg border-white/20 text-white w-[90vw] max-w-md rounded-2xl p-6 flex flex-col">
                   <DialogHeader>
-                    <DialogTitle className="text-center text-2xl font-bold">Servidor no Discord</DialogTitle>
+                    <DialogTitle className="text-center text-2xl font-bold">Networking no Discord</DialogTitle>
                     <DialogDescription className="text-center text-white/80 mt-2">
-                      Um espaço organizado para discussões aprofundadas, canais temáticos e recursos exclusivos.
+                      Networking + calls semanais.
                     </DialogDescription>
                   </DialogHeader>
-                  <div className="flex justify-center pt-6">
+                  <div className="flex flex-col items-center justify-center flex-grow pt-6 gap-4">
                     <Button variant="destructive" className="w-full font-bold" onClick={() => handleNotificationClick('https://discord.gg/N22CvMkpUV', 'Grupo de Networking Discord')}>
-                      Acessar o Discord <ArrowRight className="ml-2 h-4 w-4" />
+                      Entrar no servidor <ArrowRight className="ml-2 h-4 w-4" />
                     </Button>
+                     <p className="text-xs text-white/70">
+                      Dono: <span className="font-semibold">@garbiel1</span>
+                    </p>
                   </div>
                 </DialogContent>
               </Dialog>
@@ -270,17 +277,23 @@ export default function LinkInBioPage() {
                     />
                   </div>
                 </DialogTrigger>
-                <DialogContent className="bg-white/10 backdrop-blur-lg border-white/20 text-white w-[90vw] max-w-md rounded-2xl p-6">
+                <DialogContent className="bg-white/10 backdrop-blur-lg border-white/20 text-white w-[90vw] max-w-md rounded-2xl p-6 flex flex-col">
                   <DialogHeader>
-                    <DialogTitle className="text-center text-2xl font-bold">Meu Instagram</DialogTitle>
+                    <DialogTitle className="text-center text-2xl font-bold">Siga no Instagram</DialogTitle>
                     <DialogDescription className="text-center text-white/80 mt-2">
-                      Acompanhe os bastidores, dicas diárias e conteúdo exclusivo sobre tráfego e marketing digital.
+                      Bastidores, provas e insights diários.
                     </DialogDescription>
                   </DialogHeader>
-                  <div className="flex justify-center pt-6">
+                  <div className="flex flex-col items-center justify-center flex-grow pt-6 gap-4">
                     <Button variant="destructive" className="w-full font-bold" onClick={() => handleNotificationClick('https://www.instagram.com/gabrielmaiagt/', 'Instagram')}>
                       Seguir no Instagram <ArrowRight className="ml-2 h-4 w-4" />
                     </Button>
+                  </div>
+                   <div className="flex justify-center pt-4">
+                    <div className="inline-flex items-center justify-center text-xs bg-white/10 text-white/70 px-3 py-1 rounded-full">
+                      <Instagram className="h-3 w-3 mr-2" />
+                      @gabrielmaiagt
+                    </div>
                   </div>
                 </DialogContent>
               </Dialog>
